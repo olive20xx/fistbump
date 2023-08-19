@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb-container
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+
+  client:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: yarn dev
+    container_name: client-container
+    ports:
+      - 3000:3000
+    volumes:
+      - apps:/client
+      - apps:/node_modules
+      - apps:/.next
+
+volumes:
+  mongodb-data:
+  apps:
