@@ -6,6 +6,7 @@ import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import User from './lib/mongoose/models/User'
+import { Input } from './lib/types/User'
 
 const app = express()
 app.use(express.json())
@@ -26,6 +27,23 @@ type Query {
   hello: String
   getUsers: [User]
 }
+
+input UserInput {
+  email: String!
+  fullName: String!
+  hashedPw: String!
+  title: String
+  isOlga: Boolean
+  photo: String
+  teamName: String
+  companyName: String
+}
+
+type Mutation {
+  createUser(input: UserInput): User
+}
+
+
 
 type User {
   email: String,
@@ -48,6 +66,15 @@ const rootValue = {
       return users
     } catch (error) {
       throw new Error('Error fetching users from the database')
+    }
+  },
+  createUser: async ({ input }: { input: Input }) => {
+    try {
+      const newUser = new User(input)
+      const savedUser = await newUser.save()
+      return savedUser
+    } catch (error) {
+      throw new Error('Error creating a new user and saving it to the database')
     }
   },
 }
