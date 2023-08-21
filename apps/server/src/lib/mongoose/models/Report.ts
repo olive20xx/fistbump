@@ -1,39 +1,37 @@
-import { Schema, model, Date, ObjectId } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
-export type Grade = {
+export type IGrade = {
   metric: string
   rating: number
   maxRating: number
   comment: string
 }
 
-export type Review = {
-  reviewer: ObjectId
-  createdAt: Date
-  updatedAt: Date
+export type IReview = {
+  reviewer: mongoose.Types.ObjectId
   isDeclined: boolean
   submitted: boolean
-  grades: Grade[]
+  grades: IGrade[]
 }
 
-export type Report = {
-  _id: { target: ObjectId; cycle: ObjectId }
+export type IReport = {
+  _id: { target: mongoose.Types.ObjectId; cycle: mongoose.Types.ObjectId }
   remarks: string
   status: string
   reviews: {
-    peer: Review[]
-    self: Review
+    peer: IReview[]
+    self: IReview
   }
 }
 
-const GradeSchema = new Schema({
+const GradeSchema = new Schema<IGrade>({
   metric: String,
   rating: Number,
   maxRating: Number,
   comment: String,
 })
 
-const ReviewSchema = new Schema(
+const ReviewSchema = new Schema<IReview>(
   {
     // I have no idea why this has to spell out 'Schema.Types.ObjectId'
     // but in a type declaration, I can just use 'ObjectId'
@@ -45,7 +43,7 @@ const ReviewSchema = new Schema(
   { timestamps: true }
 )
 
-const ReportSchema = new Schema(
+const ReportSchema = new Schema<IReport>(
   {
     _id: { target: Schema.Types.ObjectId, cycle: Schema.Types.ObjectId },
     remarks: String,
@@ -59,6 +57,6 @@ const ReportSchema = new Schema(
   { timestamps: true }
 )
 
-const Report = model<Report>('Report', ReportSchema)
+const Report = model<IReport>('Report', ReportSchema)
 
 export default Report

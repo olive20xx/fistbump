@@ -1,7 +1,7 @@
-import Faker from '@faker-js/faker/locale/en_GB'
+import { faker as iFaker } from '@faker-js/faker/locale/en_GB'
 
 const SEED = 1
-const faker = Faker.faker
+const faker = iFaker
 faker.seed(SEED)
 
 export default faker

@@ -2,7 +2,8 @@ import faker from './faker'
 import User from '../models/User'
 
 function generateUsers(count: number) {
-  const users = []
+  const users: User[] = []
+
   for (let i = 0; i < count; i++) {
     const user = {
       email: faker.internet.email(),
@@ -10,8 +11,8 @@ function generateUsers(count: number) {
       hashedPw: faker.string.hexadecimal(),
       title: faker.person.jobTitle(),
       isOlga: faker.datatype.boolean(),
-      photo: '#',
-      teamName: faker.person.jobArea(),
+      photo: faker.internet.avatar(),
+      teamName: faker.helpers.arrayElement(['Staff, Students, Instructors']),
       companyName: 'Arol.Dev',
     }
     users.push(user)
@@ -19,12 +20,4 @@ function generateUsers(count: number) {
   return users
 }
 
-async function seedUsers(count: number) {
-  const users = generateUsers(count)
-  const docs = await User.insertMany(users)
-  if (!docs) throw new Error('User.insertMany() failed')
-  console.log(`${docs.length} users have been added to the database`)
-  return docs
-}
-
-export default seedUsers
+export default generateUsers
