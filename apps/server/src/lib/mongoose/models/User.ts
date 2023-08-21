@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 
-export interface IUser {
+type User = {
   email: string
   fullName: string
   hashedPw: string
@@ -11,9 +11,7 @@ export interface IUser {
   companyName: string
 }
 
-type UserSchema = IUser & mongoose.Document
-
-const userSchema = new mongoose.Schema<UserSchema>({
+const userSchema = new Schema<User>({
   email: String,
   fullName: String,
   hashedPw: String,
@@ -24,6 +22,6 @@ const userSchema = new mongoose.Schema<UserSchema>({
   companyName: String,
 })
 
-const User = mongoose.model<UserSchema>('User', userSchema)
+const User = model<User>('User', userSchema)
 
 export default User
