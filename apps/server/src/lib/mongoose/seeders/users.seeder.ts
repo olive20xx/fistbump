@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker/locale/en_US'
-import User from '../models/User'
-
+ 
 const SEED = 1
 
 faker.seed(SEED)
@@ -23,12 +22,4 @@ function generateUsers(count: number) {
   return users
 }
 
-async function seedUsers(count: number) {
-  const users = generateUsers(count)
-  const docs = await User.insertMany(users)
-  if (!docs) throw new Error('User.insertMany() failed')
-  console.log(`${docs.length} users have been added to the database`)
-  return docs
-}
-
-export default seedUsers
+export default generateUsers
