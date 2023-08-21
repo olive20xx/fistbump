@@ -30,8 +30,8 @@ type Query {
 
 input UserInput {
   email: String!
-  fullName: String!
-  hashedPw: String!
+  fullName: String
+  hashedPw: String
   title: String
   isOlga: Boolean
   photo: String
@@ -41,9 +41,8 @@ input UserInput {
 
 type Mutation {
   createUser(input: UserInput): User
+  changeUser(input: UserInput): User
 }
-
-
 
 type User {
   email: String,
@@ -75,6 +74,18 @@ const rootValue = {
       return savedUser
     } catch (error) {
       throw new Error('Error creating a new user and saving it to the database')
+    }
+  },
+  changeUser: async ({ input }: { input: Input }) => {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { email: input.email },
+        input,
+        { new: true }
+      )
+      return updatedUser
+    } catch (error) {
+      throw new Error('Error updating a user in the database')
     }
   },
 }
