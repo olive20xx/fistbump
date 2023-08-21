@@ -8,6 +8,7 @@
     "seed": "ts-node src/seed.ts"
   },
   "dependencies": {
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
     "cors": "^2.8.5",
