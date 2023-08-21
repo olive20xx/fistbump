@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const UsersSeeder = require('./seeders/users.seeder')
+const Users = require('./seeders/users.seeder.js')
 
 const mongoURL =
   process.env.MONGO_URL || 'mongodb://localhost:27017/mongodb-container'
@@ -10,7 +10,7 @@ const mongoURL =
  * @type {Object}
  */
 const seedersList = {
-  UsersSeeder,
+  Users
 }
 /**
  * Connect to mongodb implementation

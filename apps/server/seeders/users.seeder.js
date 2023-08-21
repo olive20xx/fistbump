@@ -24,7 +24,7 @@ const data = [
   },
 ]
 
-class UsersSeeder extends Seeder {
+class Users extends Seeder {
   async shouldRun() {
     return User.countDocuments()
       .exec()
@@ -36,4 +36,4 @@ class UsersSeeder extends Seeder {
   }
 }
 
-module.exports = { UsersSeeder }
+module.exports = Users 
