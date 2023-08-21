@@ -36,4 +36,4 @@ class Users extends Seeder {
   }
 }
 
-module.exports = Users 
+module.exports = Users

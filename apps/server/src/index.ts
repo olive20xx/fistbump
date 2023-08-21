@@ -12,7 +12,10 @@ app.use(router)
 
 app.listen(8080, () => {
   console.log('connectig to db...', MONGODB_URL)
-  mongoose.connect(MONGODB_URL).then(() => console.log('connected to db!')).catch((error) => console.log(error)) 
-  
+  mongoose
+    .connect(MONGODB_URL)
+    .then(() => console.log('connected to db!'))
+    .catch((error) => console.log(error))
+
   console.log('360 review server is listening on port 8080! 🤜🏼🤛🏼')
 })
