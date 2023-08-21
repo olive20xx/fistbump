@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["apps/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts",
