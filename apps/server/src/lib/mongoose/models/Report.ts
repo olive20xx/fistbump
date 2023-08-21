@@ -1,14 +1,13 @@
-import { Schema, model, Date, ObjectId, now } from 'mongoose'
-import User from './User'
+import { Schema, model, Date, ObjectId } from 'mongoose'
 
-type Grade = {
+export type Grade = {
   metric: string
   rating: number
   maxRating: number
   comment: string
 }
 
-type Review = {
+export type Review = {
   reviewer: ObjectId
   createdAt: Date
   updatedAt: Date
@@ -17,7 +16,7 @@ type Review = {
   grades: Grade[]
 }
 
-type Report = {
+export type Report = {
   _id: { target: ObjectId; cycle: ObjectId }
   remarks: string
   status: string

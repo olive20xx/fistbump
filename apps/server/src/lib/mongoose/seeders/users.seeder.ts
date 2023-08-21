@@ -1,9 +1,5 @@
-import { faker } from '@faker-js/faker/locale/en_US'
+import faker from './faker'
 import User from '../models/User'
-
-const SEED = 1
-
-faker.seed(SEED)
 
 function generateUsers(count: number) {
   const users = []
