@@ -1,10 +1,10 @@
-import { Button, Header } from "ui";
+
+import './global.css'
 
 export default function Page() {
   return (
-    <>
-      <Header text="Web" />
-      <Button />
-    </>
+    <div>
+      <h2 className='text-3xl font-bold bg-pink-400 text-center'>WELCOME TO 360 REVIEW </h2>
+    </div>
   );
 }
