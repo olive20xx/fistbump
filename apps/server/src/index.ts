@@ -45,6 +45,7 @@ type Mutation {
 }
 
 type User {
+  _id: String,
   email: String,
   fullName: String,
   hashedPw: String,
