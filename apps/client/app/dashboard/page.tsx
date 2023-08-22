@@ -2,16 +2,15 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 
 function UserItem({ user }) {
-  const router = useRouter()
 
   return (
     <div className="grid grid-cols-3 gap-4 border-b p-2">
       <p className="font-semibold"  >{user.title}</p>
-      <p onClick={()=> { router.push(`/employee/${user._id}/newReview`)}}>{user.fullName}</p>
+      <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
     </div>
     
