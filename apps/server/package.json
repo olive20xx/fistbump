@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon index.ts",
     "seed": "ts-node src/seed.ts"
   },
   "dependencies": {
