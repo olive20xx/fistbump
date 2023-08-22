@@ -26,7 +26,7 @@ const schema = buildSchema(`
 type Query {
   hello: String
   getUsers: [User]
-  getReport: [Report]
+  getReport(targetId: String!, cycleId: String!): Report
 
   
 }
@@ -58,13 +58,6 @@ type User {
   companyName: String
 }
 
- 
-
-type Reviews {
-  peer: [Review]
-  self: Review
-}
-
 
 type ReportID {
   targetId: String
@@ -78,6 +71,10 @@ type Report {
   reviews: Reviews
 }
 
+type Reviews {
+  self : Review
+  peer : [Review]
+}
 type Review {
   reviewer: String
   isDeclined: Boolean
@@ -129,14 +126,15 @@ const rootValue = {
     targetId,
     cycleId,
   }: {
-    targetId: mongoose.Types.ObjectId
-    cycleId: mongoose.Types.ObjectId
+    targetId: String
+    cycleId: String
   }) => {
     try {
       const report = await Report.findOne({
-        target: targetId,
-        cycle: cycleId,
+        '_id.target': targetId,
+        '_id.cycle': cycleId,
       })
+      console.log('report found', report)
       return report
     } catch (error) {
       throw new Error('Error fetching report from the database')
