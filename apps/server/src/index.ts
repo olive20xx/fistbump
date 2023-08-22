@@ -48,6 +48,7 @@ type Mutation {
 }
 
 type User {
+  _id: String,
   email: String
   fullName: String
   hashedPw: String
@@ -87,6 +88,7 @@ type Grade {
   rating: Int
   maxRating: Int
   comment: String
+ 
 }`)
 
 const rootValue = {
