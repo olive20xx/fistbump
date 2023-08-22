@@ -7,6 +7,7 @@ import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import User from './lib/mongoose/models/User'
 import { Input } from './lib/types/User'
+import Report from './lib/mongoose/models/Report'
 
 const app = express()
 app.use(express.json())
@@ -21,11 +22,13 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 db.once('open', () => {
   console.log('Connected to MongoDB!')
 })
-
 const schema = buildSchema(`
 type Query {
   hello: String
   getUsers: [User]
+  getReport: [Report]
+
+  
 }
 
 input UserInput {
@@ -45,14 +48,48 @@ type Mutation {
 }
 
 type User {
-  email: String,
-  fullName: String,
-  hashedPw: String,
-  title: String,
-  isOlga: Boolean,
-  photo: String,
-  teamName: String,
-  companyName: String,
+  email: String
+  fullName: String
+  hashedPw: String
+  title: String
+  isOlga: Boolean
+  photo: String
+  teamName: String
+  companyName: String
+}
+
+ 
+
+type Reviews {
+  peer: [Review]
+  self: Review
+}
+
+
+type ReportID {
+  targetId: String
+  cycleId: String
+}
+
+type Report {
+  _id: ReportID
+  remarks: String
+  status: String
+  reviews: Reviews
+}
+
+type Review {
+  reviewer: String
+  isDeclined: Boolean
+  submitted: Boolean
+  grades: [Grade]
+}
+
+type Grade {
+  metric: String
+  rating: Int
+  maxRating: Int
+  comment: String
 }`)
 
 const rootValue = {
@@ -86,6 +123,23 @@ const rootValue = {
       return updatedUser
     } catch (error) {
       throw new Error('Error updating a user in the database')
+    }
+  },
+  getReport: async ({
+    targetId,
+    cycleId,
+  }: {
+    targetId: mongoose.Types.ObjectId
+    cycleId: mongoose.Types.ObjectId
+  }) => {
+    try {
+      const report = await Report.findOne({
+        target: targetId,
+        cycle: cycleId,
+      })
+      return report
+    } catch (error) {
+      throw new Error('Error fetching report from the database')
     }
   },
 }
