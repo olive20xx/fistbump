@@ -5,9 +5,11 @@ import User from '../models/User'
 import generateReport from './generate-reports'
 import Report, { IReport } from '../models/Report'
 
-const NUMBER_OF_PEER_REVIEWS = 3
+const NUMBER_OF_PEER_REVIEWS = 1
 const NUMBER_OF_METRICS = 3
 const MAX_RATING = 5
+
+const mongoURL = process.env.MONGODB_URL
 
 type UserDoc = mongoose.MergeType<
   mongoose.Document<unknown, {}, User> &
@@ -17,7 +19,6 @@ type UserDoc = mongoose.MergeType<
   Omit<User, '_id'>
 >
 
-const mongoURL = process.env.MONGODB_URL
 // Connect to mongodb implementation
 async function seedDb() {
   try {
@@ -67,7 +68,7 @@ async function seedData(count: number) {
     const reports = await Report.insertMany(reportInput)
     if (!reports) throw new Error('Report.insertMany() failed')
     console.log(`${reports.length} reports have been added to the database`)
-    console.log(reports[0])
+    console.log(reports)
   } catch (error: any) {
     console.log(error.message)
   }

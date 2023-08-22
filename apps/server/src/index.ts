@@ -102,5 +102,5 @@ app.use(
 app.listen(8080, () => {
   console.log('connectig to db...', MONGODB_URL)
 
-  console.log('360 review server is listening on port 8080! 🤜🏼🤛🏼')
+  console.log('360 review server is listening on port 8080! 🤜🤛')
 })
