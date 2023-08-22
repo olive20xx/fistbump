@@ -1,11 +1,9 @@
-import { faker } from '@faker-js/faker/locale/en_US'
- 
-const SEED = 1
-
-faker.seed(SEED)
+import faker from './faker'
+import User from '../models/User'
 
 function generateUsers(count: number) {
-  const users = []
+  const users: User[] = []
+
   for (let i = 0; i < count; i++) {
     const user = {
       email: faker.internet.email(),
@@ -13,8 +11,8 @@ function generateUsers(count: number) {
       hashedPw: faker.string.hexadecimal(),
       title: faker.person.jobTitle(),
       isOlga: faker.datatype.boolean(),
-      photo: '#',
-      teamName: faker.person.jobArea(),
+      photo: faker.internet.avatar(),
+      teamName: faker.helpers.arrayElement(['Staff, Students, Instructors']),
       companyName: 'Arol.Dev',
     }
     users.push(user)
