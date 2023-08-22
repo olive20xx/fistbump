@@ -56,15 +56,18 @@ function generateReport(
   cycle: ObjectId,
   reviewers: ObjectId[],
   metricCount: number,
-  maxRating: number
+  maxRating: number,
+  areReviewsEmpty: boolean
 ) {
   const peerReviews: IReview[] = []
   for (let i = 0; i < reviewers.length; i++) {
     const reviewerId = reviewers[i]
-
-    //! ~half the reports will have empty reviews
-    const isGraded = i < reviewers.length / 2
-    const review = generateReview(reviewerId, metricCount, maxRating, isGraded)
+    const review = generateReview(
+      reviewerId,
+      metricCount,
+      maxRating,
+      areReviewsEmpty
+    )
     peerReviews.push(review)
   }
 

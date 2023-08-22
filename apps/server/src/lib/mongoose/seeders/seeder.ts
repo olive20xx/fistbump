@@ -5,6 +5,7 @@ import User from '../models/User'
 import generateReport from './generate-reports'
 import Report, { IReport } from '../models/Report'
 
+const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
 const NUMBER_OF_METRICS = 3
 const MAX_RATING = 5
@@ -28,7 +29,7 @@ async function seedDb() {
     await mongoose.connection.db.dropDatabase()
     console.log('🧑🏻‍💻👍🏻 Connected to DB')
 
-    await seedData(5)
+    await seedData(NUMBER_OF_USERS)
 
     mongoose.connection.close()
   } catch (error: any) {
@@ -47,19 +48,22 @@ async function seedData(count: number) {
     const fakeCycle = new mongoose.Types.ObjectId()
     const reportInput: IReport[] = []
 
-    users.forEach((user) => {
+    users.forEach((user, index) => {
       const reviewers = pickRandomReviewers(
         user._id,
         users,
         NUMBER_OF_PEER_REVIEWS
       )
+      //! ~half the reports will have empty reviews
+      const areReviewsEmpty = index < users.length / 2
 
       const report = generateReport(
         user._id,
         fakeCycle,
         reviewers,
         NUMBER_OF_METRICS,
-        MAX_RATING
+        MAX_RATING,
+        areReviewsEmpty
       )
 
       reportInput.push(report)
@@ -68,7 +72,7 @@ async function seedData(count: number) {
     const reports = await Report.insertMany(reportInput)
     if (!reports) throw new Error('Report.insertMany() failed')
     console.log(`${reports.length} reports have been added to the database`)
-    console.log(reports)
+    console.log(reports[8].reviews.peer[0])
   } catch (error: any) {
     console.log(error.message)
   }
