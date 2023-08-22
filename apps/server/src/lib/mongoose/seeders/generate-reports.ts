@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 
 type ObjectId = mongoose.Types.ObjectId
 
-function generateGrades(count: number, maxRating: number) {
+function generateGrades(count: number, maxRating: number, isFilled: boolean) {
   const grades: IGrade[] = []
   const metrics = faker.helpers.arrayElements(
     [
@@ -25,9 +25,9 @@ function generateGrades(count: number, maxRating: number) {
   for (let i = 0; i < count; i++) {
     const grade: IGrade = {
       metric: metrics[i],
-      rating: faker.number.int({ min: 1, max: maxRating }),
+      rating: isFilled ? faker.number.int({ min: 1, max: maxRating }) : 0,
       maxRating: maxRating,
-      comment: faker.lorem.lines({ min: 1, max: 3 }),
+      comment: isFilled ? faker.lorem.lines({ min: 1, max: 3 }) : '',
     }
 
     grades.push(grade)
@@ -39,13 +39,14 @@ function generateGrades(count: number, maxRating: number) {
 function generateReview(
   reviewer: ObjectId,
   metricCount: number,
-  maxRating: number
+  maxRating: number,
+  isGraded: boolean = false
 ) {
   const review: IReview = {
     reviewer: reviewer,
     isDeclined: false,
-    submitted: faker.datatype.boolean(),
-    grades: generateGrades(metricCount, maxRating),
+    submitted: isGraded,
+    grades: generateGrades(metricCount, maxRating, isGraded),
   }
   return review
 }
@@ -55,12 +56,18 @@ function generateReport(
   cycle: ObjectId,
   reviewers: ObjectId[],
   metricCount: number,
-  maxRating: number
+  maxRating: number,
+  areReviewsEmpty: boolean
 ) {
   const peerReviews: IReview[] = []
   for (let i = 0; i < reviewers.length; i++) {
     const reviewerId = reviewers[i]
-    const review = generateReview(reviewerId, metricCount, maxRating)
+    const review = generateReview(
+      reviewerId,
+      metricCount,
+      maxRating,
+      areReviewsEmpty
+    )
     peerReviews.push(review)
   }
 

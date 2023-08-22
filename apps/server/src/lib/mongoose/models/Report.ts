@@ -26,6 +26,7 @@ export type IReport = {
 
 const GradeSchema = new Schema<IGrade>({
   metric: String,
+  // rating === 0 when not graded
   rating: Number,
   maxRating: Number,
   comment: String,
