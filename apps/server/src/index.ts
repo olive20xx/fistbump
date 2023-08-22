@@ -60,8 +60,8 @@ type User {
 
 
 type ReportID {
-  targetId: String
-  cycleId: String
+  target: String
+  cycle: String
 }
 
 type Report {
