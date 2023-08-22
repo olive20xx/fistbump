@@ -2,14 +2,19 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
+import { useRouter } from 'next/navigation';
+
 
 function UserItem({ user }) {
+  const router = useRouter()
+
   return (
     <div className="grid grid-cols-3 gap-4 border-b p-2">
-      <p className="font-semibold">{user.title}</p>
-      <p>{user.fullName}</p>
+      <p className="font-semibold"  >{user.title}</p>
+      <p onClick={()=> { router.push(`/employee/${user._id}/newReview`)}}>{user.fullName}</p>
       <p>{user.teamName}</p>
     </div>
+    
   );
 }
 
@@ -18,6 +23,7 @@ export default function Dashboard() {
 
   const getUsersQuery = `{
     getUsers {
+      _id
       fullName
       title
       teamName
