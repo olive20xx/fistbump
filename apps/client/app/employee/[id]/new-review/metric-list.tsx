@@ -1,13 +1,17 @@
-"use client"
+'use client'
 
 import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
-import { ReviewData } from '@/types/models'
+import { GradeData } from '@/types/models'
 
 export default function MetricList({
-  reviewData,
+  submitted,
+  gradeData,
+  target,
 }: {
-  reviewData: ReviewData[]
+  submitted: boolean
+  gradeData: GradeData[]
+  target: string
 }) {
   const handleClick = (n: number) => {
     console.log('number from handleclick', n)
@@ -27,14 +31,14 @@ export default function MetricList({
 
   return (
     <div className={`w-1/2 border-2 p-4`}>
-      {reviewData.map((datum) => {
+      {gradeData.map((datum) => {
         return (
           <Metric
-            key={datum.id}
-            question={datum.question}
-            name={datum.id}
-            value={''}
-            maxRating={datum.maxrating}
+            key={datum.metric}
+            question={`How did ${target} do on ${datum.metric}?`}
+            name={datum.metric}
+            value={datum.comment}
+            maxRating={datum.maxRating}
             onChange={handleChange}
             onClick={handleClick}
           />

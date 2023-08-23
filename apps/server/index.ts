@@ -6,7 +6,7 @@ import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import User from './src/lib/mongoose/models/User'
-import { Input } from './src/lib/types/User'
+import { UserInput } from './src/lib/types/User'
 import Report from './src/lib/mongoose/models/Report'
 
 const app = express()
@@ -111,7 +111,7 @@ const rootValue = {
       throw new Error('Error fetching users from the database')
     }
   },
-  createUser: async ({ input }: { input: Input }) => {
+  createUser: async ({ input }: { input: UserInput }) => {
     try {
       const newUser = new User(input)
       const savedUser = await newUser.save()
@@ -120,7 +120,7 @@ const rootValue = {
       throw new Error('Error creating a new user and saving it to the database')
     }
   },
-  changeUser: async ({ input }: { input: Input }) => {
+  updateUser: async ({ input }: { input: UserInput }) => {
     try {
       const updatedUser = await User.findOneAndUpdate(
         { email: input.email },
@@ -148,6 +148,28 @@ const rootValue = {
       return report
     } catch (error) {
       throw new Error('Error fetching report from the database')
+    }
+  },
+  // TODO WORK IN PROGRESS
+  // how does this work
+  updateReport: async ({
+    targetId,
+    cycleId,
+    input,
+  }: {
+    targetId: String
+    cycleId: String
+    input: UserInput
+  }) => {
+    try {
+      const updatedReport = await Report.findOneAndUpdate(
+        { '_id.target': targetId, '_id.cycle': cycleId },
+        input,
+        { new: true }
+      )
+      return updatedReport
+    } catch (error) {
+      throw new Error('Error updating a report in the database')
     }
   },
 }
