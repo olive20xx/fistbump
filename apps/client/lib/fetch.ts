@@ -26,3 +26,15 @@ export async function getReport(query, variables) {
     console.error(error)
   }
 }
+
+export async function updateReport(query, variables) {
+  try {
+    const response = await axios.post(url, {
+      query,
+      variables,
+    })
+    return response.data.data.getReport
+  } catch (error) {
+    console.error(error)
+  }
+}
