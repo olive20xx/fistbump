@@ -16,9 +16,11 @@ async function getReport(query, variables) {
 
 async function Report() {
 
-    const targetId = '64e5c381429c4fdf374cec4c'
-    const cycleId = '64e5c381429c4fdf374cec57'
-    const query = `
+  console.log('minor change')
+
+  const targetId = '64e5c381429c4fdf374cec4c'
+  const cycleId = '64e5c381429c4fdf374cec57'
+  const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
           _id {
@@ -30,16 +32,16 @@ async function Report() {
         }
       }`
 
-    const variables = { targetId, cycleId }
+  const variables = { targetId, cycleId }
 
-    const report = await getReport(query, variables)
+  const report = await getReport(query, variables)
 
 
   return <div>
     <h2>Your Report (student/employee name)</h2>
     <div>
       <p>Remarks:</p>
-      
+
       <p>
         {report.remarks}
       </p>
