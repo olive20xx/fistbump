@@ -24,8 +24,8 @@ export default function newReview() {
   }
 
   return (
-    <div className="flex mx-auto justify-between max-w-6xl  h-screen bg-slate-500">
-      <div className="">
+    <div className="flex mx-auto max-w-6xl h-screen ">
+      <div className="w-1/4 border-2">
         <h2 className="">Subject of review</h2>
         <div className='flex gap-2'>
           <div>
@@ -38,14 +38,14 @@ export default function newReview() {
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="w-1/2 border-2">
         {MOCK_DATA.map(datum => <Metric key={datum.id} question={datum.question} name="name" value="" onChange={() => handleChange} onClick={handleClick} />)}
-        <div className='flex justify-between '>
-          <Button onClick={handleSubmit} size="sm" style={{ background: "blue", color: "black" }}>Save Draft</Button>
-          <Button onClick={handleSaveDraft} size="sm" style={{ background: "green", color: "black" }}>Submit</Button>
+        <div className='flex justify-around'>
+          <Button onClick={handleSubmit} size="sm">Save Draft</Button>
+          <Button onClick={handleSaveDraft} size="sm">Submit</Button>
         </div>
       </div>
-      <div className="">
+      <div className="w-1/4 border-2">
         <h1>PROFILE PICTURE</h1>
         <Photo width={90} height={100} photo={IndianScout} alt='Motorcycle' />
       </div>
