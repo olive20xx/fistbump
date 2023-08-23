@@ -27,7 +27,7 @@ type Query {
   hello: String
   getUsers: [User]
   getReport(targetId: String!, cycleId: String!): Report
-
+  getUser(id: String): User
   
 }
 
@@ -99,6 +99,14 @@ const rootValue = {
     try {
       const users = await User.find()
       return users
+    } catch (error) {
+      throw new Error('Error fetching users from the database')
+    }
+  },
+  getUser: async ({ id }: { id: String }) => {
+    try {
+      const user = await User.findById(id)
+      return user
     } catch (error) {
       throw new Error('Error fetching users from the database')
     }

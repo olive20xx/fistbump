@@ -15,7 +15,7 @@ export type IReview = {
 }
 
 export type IReport = {
-  _id: { target: mongoose.Types.ObjectId; cycle: mongoose.Types.ObjectId }
+  _id: { target: mongoose.Types.ObjectId; cycle: string }
   remarks: string
   status: string
   reviews: {
@@ -46,7 +46,7 @@ const ReviewSchema = new Schema<IReview>(
 
 const ReportSchema = new Schema<IReport>(
   {
-    _id: { target: Schema.Types.ObjectId, cycle: Schema.Types.ObjectId },
+    _id: { target: Schema.Types.ObjectId, cycle: String },
     remarks: String,
     status: String,
     reviews: {
