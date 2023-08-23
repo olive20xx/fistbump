@@ -2,10 +2,11 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Button } from './button'
 import { Input } from './input'
+import { Textarea } from './textarea'
 
 interface IMetricProps {
   question: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   onClick: (n: number) => void
   name: string
   value: string
@@ -20,9 +21,10 @@ const Metric: FunctionComponent<IMetricProps> = ({
   name,
   value,
   maxRating,
-  placeholder = 'Comments'
+  placeholder = 'Comments',
 }) => {
   const [selectedKey, setSelectedKey] = useState<number>(0)
+
   return (
     <div className="flex flex-col gap-6 mb-4 justify-center items-center">
       <h4 className="flex gap-2 justify-center items-center">{question}</h4>
@@ -42,13 +44,12 @@ const Metric: FunctionComponent<IMetricProps> = ({
         ))}
       </div>
       <div>
-        <Input
-          className="w-64 h-20"
+        <Textarea
+          className="text-start w-96 h-28"
           placeholder={placeholder}
           name={name}
           value={value}
-          onChange={(event) => onChange(event)}
-
+          onChange={onChange}
         />
       </div>
     </div>

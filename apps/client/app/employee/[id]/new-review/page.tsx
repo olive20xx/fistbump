@@ -1,4 +1,3 @@
-'use client'
 import Photo from '@/components/ui/photo'
 import '../../../../app/global.css'
 import Metric from '@/components/ui/metric'
@@ -7,24 +6,67 @@ import IndianScout from '../../../../../assets_to_test/scout-rogue.jpeg'
 import { Button } from '@/components/ui/button'
 import UserCard from '@/components/ui/user-card'
 import { Header2 } from '@/components/typography/header2'
+import { FunctionComponent, useEffect, useState } from 'react'
 
+// PLACEHOLDERS
 const firstName = 'Moto'
 const lastName = 'Guy'
 const metric1 = 'Cooking'
 const metric2 = 'Skating'
 const MOCK_DATA = [
-  { id: 1, question: `How did ${firstName} do on ${metric1}?`, maxrating: 5 },
-  { id: 2, question: `How did ${firstName} do on ${metric2}`, maxrating: 5 },
+  {
+    id: metric1,
+    question: `How did ${firstName} do on ${metric1}?`,
+    maxrating: 5,
+  },
+  {
+    id: metric2,
+    question: `How did ${firstName} do on ${metric2}`,
+    maxrating: 5,
+  },
 ]
-const panelPadding = "p-4"
 
-export default function newReview() {
+// regular variables
+const panelPadding = 'p-4'
+type MetricData = {
+  id: string
+  rating: number
+  comment: string
+}
+
+type GradeData = {
+  metric: string
+  rating: number
+  maxRating: number
+  comment: string
+}
+
+type ReviewData = {
+  submitted: boolean
+  reviewer: string
+  grades: GradeData[]
+}
+
+type UserId = string
+
+export default function Review({
+  reviewData,
+  params,
+}: {
+  reviewData: ReviewData
+  params: any
+}) {
+  console.log(params.id)
+  // const [state, setState] = useState<MetricData[]>()
 
   const handleClick = (n: number) => {
     console.log('number from handleclick', n)
   }
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event)
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event.target.value)
+    console.log(event.target.name)
+    // const updatedState = { ...state }
+    // updatedState
   }
   const handleSubmit = () => {
     console.log('handle submit button')
@@ -45,22 +87,24 @@ export default function newReview() {
         />
       </div>
       <div className={`w-1/2 border-2 ${panelPadding}`}>
-        {MOCK_DATA.map((datum) => (
-          <Metric
-            key={datum.id}
-            question={datum.question}
-            name="name"
-            value=""
-            maxRating={datum.maxrating}
-            onChange={() => handleChange}
-            onClick={handleClick}
-          />
-        ))}
-        <div className="flex justify-around">
-          <Button onClick={handleSubmit} size="sm">
+        {MOCK_DATA.map((datum) => {
+          return (
+            <Metric
+              key={datum.id}
+              question={datum.question}
+              name={datum.id}
+              value={''}
+              maxRating={datum.maxrating}
+              onChange={handleChange}
+              onClick={handleClick}
+            />
+          )
+        })}
+        <div className="gap-6 flex justify-center">
+          <Button className="w-36" onClick={handleSubmit} size="lg">
             Save Draft
           </Button>
-          <Button onClick={handleSaveDraft} size="sm">
+          <Button className="w-36" onClick={handleSaveDraft} size="lg">
             Submit
           </Button>
         </div>
