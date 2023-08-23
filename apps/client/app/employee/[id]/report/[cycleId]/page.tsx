@@ -14,9 +14,9 @@ import { getReport, getUser } from '@/lib/fetch'
 import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
-async function getFullReport(variables) {
-  console.log('variables console', variables)
 
+
+async function getFullReport(variables) {
   const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
@@ -24,15 +24,31 @@ async function getFullReport(variables) {
             target
             cycle
           }
-
           remarks
           status
-           reviews {
+          reviews {
             peer {
+              reviewer
+              isDeclined
+              submitted
               grades {
-                metric 
+                metric
+                rating
+                maxRating
+                comment
               }
             }
+            self {
+              reviewer
+              isDeclined
+              submitted
+              grades {
+                metric
+                rating
+                maxRating
+                comment
+              }
+            }         
            }
         }
       }`
@@ -61,6 +77,25 @@ async function Report({ params }) {
   const user = await getUser(userQuery, params)
   const report = await getReport(reportQuery, variables)
   const fullReport = await getReport(getFullReportQuery, variables)
+
+
+
+  const peerGrades = fullReport.reviews.peer.map(peerItem => {
+
+    const grades = peerItem.grades.map(metric => {
+      return metric.metric + ' : ' + metric.rating + ' / ' + metric.comment
+    });
+
+    return {
+      reviewer: peerItem.reviewer,
+      submitted: peerItem.submitted,
+      grades: grades
+
+    };
+  });
+
+
+
 
 
 
