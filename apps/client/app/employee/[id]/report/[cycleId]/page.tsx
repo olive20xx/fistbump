@@ -20,15 +20,20 @@ async function getFullReport(variables) {
   const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id {
+          _id{ 
             target
             cycle
           }
+
           remarks
-          reviews{
-            peer
-            self
-          }
+          status
+           reviews {
+            peer {
+              grades {
+                metric 
+              }
+            }
+           }
         }
       }`
 
