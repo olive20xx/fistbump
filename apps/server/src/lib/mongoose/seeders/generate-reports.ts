@@ -53,7 +53,7 @@ function generateReview(
 
 function generateReport(
   target: ObjectId,
-  cycle: ObjectId,
+  cycle: string,
   reviewers: ObjectId[],
   metricCount: number,
   maxRating: number,
