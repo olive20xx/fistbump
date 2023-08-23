@@ -2,24 +2,22 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
-import Link from "next/link";
-import { Button } from '@/components/ui/button';
-
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 function UserItem({ user }) {
-
-  const cycleId = "64e46166c1903f7622ec9852"
-
+  const cycleId = '64e46166c1903f7622ec9852'
 
   return (
     <div className="grid grid-cols-4 gap-4 border-b p-2">
-      <p className="font-semibold"  >{user.title}</p>
-      <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
+      <p className="font-semibold">{user.title}</p>
+      <Link href={`/employee/${user._id}/new-review`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/report/${cycleId}`}><Button>Take me to Report Page</Button></Link>
+      <Link href={`/employee/${user._id}/report/${cycleId}`}>
+        <Button>Take me to Report Page</Button>
+      </Link>
     </div>
-
-  );
+  )
 }
 
 export default function Dashboard() {
@@ -38,17 +36,16 @@ export default function Dashboard() {
       try {
         const response = await axios.post('http://localhost:8080/graphql', {
           query: getUsersQuery,
-        });
+        })
 
         setUsers(response.data.data.getUsers)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
 
-    getUsers();
+    getUsers()
   }, [getUsersQuery])
-
 
   return (
     <div>
