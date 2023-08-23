@@ -8,14 +8,17 @@ import { Button } from '@/components/ui/button';
 
 function UserItem({ user }) {
 
+  const cycleId = "64e46166c1903f7622ec9852"
+
+
   return (
     <div className="grid grid-cols-4 gap-4 border-b p-2">
       <p className="font-semibold"  >{user.title}</p>
       <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/report/1`}><Button>Take me to Report Page</Button></Link>
+      <Link href={`/employee/${user._id}/report/${cycleId}`}><Button>Take me to Report Page</Button></Link>
     </div>
-    
+
   );
 }
 

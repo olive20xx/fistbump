@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 async function getReport(query, variables) {
+
   try {
     const response = await axios.post('http://localhost:8080/graphql', {
       query,
@@ -13,13 +14,10 @@ async function getReport(query, variables) {
   }
 }
 
+async function Report({ params }) {
 
-async function Report() {
-
-  console.log('minor change')
-
-  const targetId = '64e5c381429c4fdf374cec4c'
-  const cycleId = '64e5c381429c4fdf374cec57'
+  const targetId = params.id
+  const cycleId = params.cycleId
   const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
@@ -40,8 +38,8 @@ async function Report() {
   return <div>
     <h2>Your Report (student/employee name)</h2>
     <div>
-      <p>Remarks:</p>
 
+      <p>Remarks:</p>
       <p>
         {report.remarks}
       </p>
