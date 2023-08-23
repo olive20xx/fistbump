@@ -39,7 +39,7 @@ export default function newReview() {
         </div>
       </div>
       <div className="">
-        {MOCK_DATA.map(datum => <Metric key={datum.id} question={datum.question} name="name" value="" onChange={handleChange} onClick={handleClick} />)}
+        {MOCK_DATA.map(datum => <Metric key={datum.id} question={datum.question} name="name" value="" onChange={() => handleChange} onClick={handleClick} />)}
         <div className='flex justify-between '>
           <Button onClick={handleSubmit} size="sm" style={{ background: "blue", color: "black" }}>Save Draft</Button>
           <Button onClick={handleSaveDraft} size="sm" style={{ background: "green", color: "black" }}>Submit</Button>
