@@ -1,6 +1,49 @@
 import axios from 'axios'
 import '../../../../global.css'
 
+
+
+// interface Grade {
+//   metric: string;
+//   rating: number;
+//   maxRating: number;
+//   comment: string;
+// }
+
+// interface Review {
+//   reviewer: string;
+//   isDeclined: boolean | null;
+//   submitted: boolean;
+//   grades: Grade[];
+// }
+
+// interface ReportData {
+//   data: {
+//     getReport: {
+//       _id: {
+//         target: string;
+//         cycle: string;
+//       };
+//       remarks: string;
+//       reviews: {
+//         peer: Review[];
+//         self: Review;
+//       };
+//     };
+//   };
+// }
+
+
+
+
+
+
+
+
+
+
+
+
 async function getReport(variables) {
   const query = `
   query GetReport($targetId: String!, $cycleId: String!) {
@@ -109,64 +152,49 @@ async function Report({ params }) {
 
 
 
-  const peerGrades = fullReport.reviews.peer.map(peerItem => {
-
-    const grades = peerItem.grades.map(metric => {
-      return metric.metric + ' : ' + metric.rating + ' / ' + metric.comment
-    });
-
-    return {
-      reviewer: peerItem.reviewer,
-      submitted: peerItem.submitted,
-      grades: grades
-
-    };
-  });
-
-
-
-
-
-
   return (
     <div>
       {manager ?
         <div>
           <div>Manager</div>
           <div>{fullReport.remarks}</div>
-          <h2>SELF REVIEW</h2>
-          <p>
-            {fullReport.reviews.self.grades[0].metric} :   {fullReport.reviews.self.grades[0].rating}
-          </p>
-          <p>
-            {fullReport.reviews.self.grades[1].metric} :   {fullReport.reviews.self.grades[1].rating}
-          </p>
-          <p>
-            {fullReport.reviews.self.grades[2].metric} :   {fullReport.reviews.self.grades[2].rating}
-          </p>
 
-          <h2>PEER REVIEW 1</h2>
 
-          {peerGrades.map((item, index) => (
 
-            <div className='grid grid-cols-2' key={index}>
-              <p>
-                {item.reviewer} : {item.grades[0]}
-              </p>
-              <p>
-                {item.reviewer} : {item.grades[1]}
-              </p>
-              <p>
-                {item.reviewer} : {item.grades[2]}
-              </p>
+          <h2>Peer Reviews</h2>
+          {fullReport.reviews.peer.map((peerReview, index) => (
+            <div key={index}>
+              <div>
+                <strong>Reviewer:</strong> {peerReview.reviewer}
+              </div>
+              {peerReview.grades.map((grade, gradeIndex) => (
+                <div className='grid grid-cols-2 py-4 divide-y-2' key={gradeIndex}>
+                  <p>
+                    <strong>{grade.metric}:</strong> {grade.rating} / {grade.maxRating}
+                  </p>
+                  <p>{grade.comment}</p>
+                </div>
+              ))}
             </div>
-          )
-          )}
+          ))}
 
+
+          <h2>Self Review</h2>
+          <div>
+            <strong>Reviewer:</strong> {fullReport.reviews.self.reviewer}
+          </div>
+          {fullReport.reviews.self.grades.map((grade, gradeIndex) => (
+            <div key={gradeIndex}>
+              <p>
+                <strong>{grade.metric}:</strong> {grade.rating} / {grade.maxRating}
+              </p>
+              <p>{grade.comment}</p>
+            </div>
+          ))}
         </div>
 
-
-        : <div></div>}
+        : <div></div>
+      }
       {/* // (!status ?{' '} */}
       {/* <p>come back later </p> : */}
       {/* <div className="p-12">
@@ -177,7 +205,7 @@ async function Report({ params }) {
         </div>
       </div> */}
       {/* // ) */}
-    </div>
+    </div >
   )
 }
 
