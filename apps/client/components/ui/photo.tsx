@@ -1,15 +1,19 @@
-import Image, { StaticImageData } from "next/image"
-import React, { FunctionComponent } from 'react';
-
+import Image, { StaticImageData } from 'next/image'
+import React, { FunctionComponent } from 'react'
 
 interface IPhoto {
-  width: number
-  height: number
   photo: StaticImageData
   alt: string
+  width?: number
+  height?: number
 }
 
-const Photo: FunctionComponent<IPhoto> = ({ width = 90, height = 100, photo, alt }) => {
+const Photo: FunctionComponent<IPhoto> = ({
+  photo,
+  alt,
+  width = 90,
+  height = 100,
+}) => {
   return (
     <Image
       width={width}
@@ -18,8 +22,7 @@ const Photo: FunctionComponent<IPhoto> = ({ width = 90, height = 100, photo, alt
       alt={alt}
       style={{ borderRadius: '80px', border: '0.5px solid blue' }}
     />
-  );
+  )
 }
-
 
 export default Photo
