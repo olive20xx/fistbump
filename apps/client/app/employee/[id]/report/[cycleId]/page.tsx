@@ -44,9 +44,9 @@ async function getUser(params) {
   }
 }
 
-async function getFullReport(variables) {
-  console.log('variables console', variables)
 
+
+async function getFullReport(variables) {
   const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
@@ -54,15 +54,31 @@ async function getFullReport(variables) {
             target
             cycle
           }
-
           remarks
           status
-           reviews {
+          reviews {
             peer {
+              reviewer
+              isDeclined
+              submitted
               grades {
-                metric 
+                metric
+                rating
+                maxRating
+                comment
               }
             }
+            self {
+              reviewer
+              isDeclined
+              submitted
+              grades {
+                metric
+                rating
+                maxRating
+                comment
+              }
+            }         
            }
         }
       }`
@@ -91,12 +107,66 @@ async function Report({ params }) {
   const report = await getReport(variables)
   const fullReport = await getFullReport(variables)
 
-  console.log('full report console', fullReport)
-  console.log('paramsss console ------>', params)
+
+
+  const peerGrades = fullReport.reviews.peer.map(peerItem => {
+
+    const grades = peerItem.grades.map(metric => {
+      return metric.metric + ' : ' + metric.rating + ' / ' + metric.comment
+    });
+
+    return {
+      reviewer: peerItem.reviewer,
+      submitted: peerItem.submitted,
+      grades: grades
+
+    };
+  });
+
+
+
+
+
 
   return (
     <div>
-      {manager ? <div>Manager</div> : <div></div>}
+      {manager ?
+        <div>
+          <div>Manager</div>
+          <div>{fullReport.remarks}</div>
+          <h2>SELF REVIEW</h2>
+          <p>
+            {fullReport.reviews.self.grades[0].metric} :   {fullReport.reviews.self.grades[0].rating}
+          </p>
+          <p>
+            {fullReport.reviews.self.grades[1].metric} :   {fullReport.reviews.self.grades[1].rating}
+          </p>
+          <p>
+            {fullReport.reviews.self.grades[2].metric} :   {fullReport.reviews.self.grades[2].rating}
+          </p>
+
+          <h2>PEER REVIEW 1</h2>
+
+          {peerGrades.map((item, index) => (
+
+            <div className='grid grid-cols-2' key={index}>
+              <p>
+                {item.reviewer} : {item.grades[0]}
+              </p>
+              <p>
+                {item.reviewer} : {item.grades[1]}
+              </p>
+              <p>
+                {item.reviewer} : {item.grades[2]}
+              </p>
+            </div>
+          )
+          )}
+
+        </div>
+
+
+        : <div></div>}
       {/* // (!status ?{' '} */}
       {/* <p>come back later </p> : */}
       {/* <div className="p-12">
