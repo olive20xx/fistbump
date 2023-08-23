@@ -80,25 +80,6 @@ async function Report({ params }) {
 
 
 
-  const peerGrades = fullReport.reviews.peer.map(peerItem => {
-
-    const grades = peerItem.grades.map(metric => {
-      return metric.metric + ' : ' + metric.rating + ' / ' + metric.comment
-    });
-
-    return {
-      reviewer: peerItem.reviewer,
-      submitted: peerItem.submitted,
-      grades: grades
-
-    };
-  });
-
-
-
-
-
-
   return (
     <div className='p-4'>
       {manager ?
