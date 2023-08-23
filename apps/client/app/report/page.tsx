@@ -39,6 +39,7 @@ async function Report() {
     <h2>Your Report (student/employee name)</h2>
     <div>
       <p>Remarks:</p>
+      
       <p>
         {report.remarks}
       </p>
