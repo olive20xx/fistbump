@@ -14,6 +14,35 @@ import { getReport, getUser } from '@/lib/fetch'
 import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
+async function getFullReport(variables) {
+  console.log('variables console', variables)
+
+  const query = `
+      query GetReport($targetId: String!, $cycleId: String!) {
+        getReport(targetId: $targetId, cycleId: $cycleId) {
+          _id {
+            target
+            cycle
+          }
+          remarks
+          reviews{
+            peer
+            self
+          }
+        }
+      }`
+
+  try {
+    const response = await axios.post('http://localhost:8080/graphql', {
+      query,
+      variables,
+    })
+    return response.data.data.getReport
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 async function Report({ params }) {
   const manager = true
 
