@@ -2,7 +2,7 @@ import Image, { StaticImageData } from 'next/image'
 import React, { FunctionComponent } from 'react'
 
 interface IPhoto {
-  photo: string
+  photo: string | StaticImageData
   alt: string
   width?: number
   height?: number

@@ -180,6 +180,8 @@ const rootValue = {
       throw new Error('Error fetching report from the database')
     }
   },
+  // TODO WORK IN PROGRESS
+  // how does this work
   updateReport: async ({
     targetId,
     cycleId,
