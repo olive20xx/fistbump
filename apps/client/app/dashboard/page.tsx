@@ -13,7 +13,7 @@ function UserItem({ user }) {
       <p className="font-semibold">{user.title}</p>
       <Link href={`/employee/${user._id}/new-review`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/report/${cycleId}`}>
+      <Link href={`/employee/${user._id}/report/131313`}>
         <Button>Take me to Report Page</Button>
       </Link>
     </div>
