@@ -1,5 +1,15 @@
 import axios from 'axios'
 import '../../../../global.css'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 
 
@@ -153,44 +163,49 @@ async function Report({ params }) {
 
 
   return (
-    <div>
+    <div className='p-4'>
       {manager ?
         <div>
-          <div>Manager</div>
-          <div>{fullReport.remarks}</div>
+          <h1 className='text-2xl'>Manager</h1>
 
+          <h2>Report remarks: {fullReport.remarks}</h2>
 
-
-          <h2>Peer Reviews</h2>
-          {fullReport.reviews.peer.map((peerReview, index) => (
-            <div key={index}>
-              <div>
-                <strong>Reviewer:</strong> {peerReview.reviewer}
-              </div>
-              {peerReview.grades.map((grade, gradeIndex) => (
-                <div className='grid grid-cols-2 py-4 divide-y-2' key={gradeIndex}>
-                  <p>
-                    <strong>{grade.metric}:</strong> {grade.rating} / {grade.maxRating}
-                  </p>
-                  <p>{grade.comment}</p>
+          <Table className='pt-4' >
+            <TableCaption>All the metrics and reting from reviews</TableCaption>
+            <h2 className='font-bold' >Peer Reviews</h2>
+            <TableBody>
+              {fullReport.reviews.peer.map((peerReview, index) => (
+                <div key={index}>
+                  <TableRow>
+                    <TableCell className="font-medium">{peerReview.reviewer}</TableCell>
+                  </TableRow>
+                  {peerReview.grades.map((grade, gradeIndex) => (
+                    <div className='grid grid-cols-5' key={gradeIndex}>
+                      <TableCell>{grade.metric}</TableCell>
+                      <TableCell>{grade.rating}/{grade.maxRating}</TableCell>
+                      <TableCell className='grid col-span-3' >{grade.comment}</TableCell>
+                    </div>
+                  ))}
                 </div>
               ))}
-            </div>
-          ))}
-
-
-          <h2>Self Review</h2>
-          <div>
-            <strong>Reviewer:</strong> {fullReport.reviews.self.reviewer}
-          </div>
-          {fullReport.reviews.self.grades.map((grade, gradeIndex) => (
-            <div key={gradeIndex}>
-              <p>
-                <strong>{grade.metric}:</strong> {grade.rating} / {grade.maxRating}
-              </p>
-              <p>{grade.comment}</p>
-            </div>
-          ))}
+            </TableBody>
+          </Table>
+          <h2 className='font-bold'>Self Review</h2>
+          <Table >
+            <TableCaption>All the metrics and reting from reviews</TableCaption>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium">{fullReport.reviews.self.reviewer}</TableCell>
+              </TableRow>
+              {fullReport.reviews.self.grades.map((grade, gradeIndex) => (
+                <div className='grid grid-cols-5' key={gradeIndex}>
+                  <TableCell>{grade.metric}</TableCell>
+                  <TableCell>{grade.rating}/{grade.maxRating}</TableCell>
+                  <TableCell className='grid col-span-3' >{grade.comment}</TableCell>
+                </div>
+              ))}
+            </TableBody>
+          </Table>
         </div>
 
         : <div></div>
