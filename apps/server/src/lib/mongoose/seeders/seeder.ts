@@ -45,7 +45,7 @@ async function seedData(count: number) {
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
 
-    const fakeCycle = 'cycle'
+    const fakeCycle = '890428'
     console.log(`💜 CYCLE ID: '${fakeCycle}' 💜`)
     const reportInput: IReport[] = []
 
