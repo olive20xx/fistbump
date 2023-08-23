@@ -45,7 +45,8 @@ async function seedData(count: number) {
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
 
-    const fakeCycle = new mongoose.Types.ObjectId()
+    const fakeCycle = 'cycle'
+    console.log(`💜 CYCLE ID: '${fakeCycle}' 💜`)
     const reportInput: IReport[] = []
 
     users.forEach((user, index) => {
