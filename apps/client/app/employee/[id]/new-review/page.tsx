@@ -1,3 +1,5 @@
+'use client'
+import { useParams } from 'next/navigation'
 import Photo from '@/components/ui/photo'
 import '../../../../app/global.css'
 import Metric from '@/components/ui/metric'
@@ -49,14 +51,8 @@ type ReviewData = {
 
 type UserId = string
 
-export default function Review({
-  reviewData,
-  params,
-}: {
-  reviewData: ReviewData
-  params: any
-}) {
-  console.log(params.id)
+export default function Review({ reviewData }: { reviewData: ReviewData }) {
+  const params = useParams()
   // const [state, setState] = useState<MetricData[]>()
 
   const handleClick = (n: number) => {
