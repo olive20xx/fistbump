@@ -1,7 +1,17 @@
 import axios from 'axios'
 import '../../../../global.css'
 
-async function getReport(query, variables) {
+async function getReport(variables) {
+  const query = `
+  query GetReport($targetId: String!, $cycleId: String!) {
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id {
+        target
+        cycle
+      }
+      remarks
+    }
+  }`
   try {
     const response = await axios.post('http://localhost:8080/graphql', {
       query,
@@ -40,15 +50,20 @@ async function getFullReport(variables) {
   const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id {
+          _id{ 
             target
             cycle
           }
+
           remarks
-          reviews{
-            peer
-            self
-          }
+          status
+           reviews {
+            peer {
+              grades {
+                metric 
+              }
+            }
+           }
         }
       }`
 
@@ -68,27 +83,16 @@ async function Report({ params }) {
 
   const targetId = params.id
   const cycleId = params.cycleId
-  const query = `
-      query GetReport($targetId: String!, $cycleId: String!) {
-        getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id {
-            target
-            cycle
-          }
-          remarks
-        }
-      }`
 
   // const status = undefined
   const variables = { targetId, cycleId }
 
   const user = await getUser(params)
-  const report = await getReport(query, variables)
+  const report = await getReport(variables)
   const fullReport = await getFullReport(variables)
 
-
-  console.log('full report console',fullReport)
-  console.log('paramsss console ------>',params)
+  console.log('full report console', fullReport)
+  console.log('paramsss console ------>', params)
 
   return (
     <div>

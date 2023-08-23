@@ -144,7 +144,6 @@ const rootValue = {
         '_id.target': targetId,
         '_id.cycle': cycleId,
       })
-      console.log('report found', report)
       return report
     } catch (error) {
       throw new Error('Error fetching report from the database')
