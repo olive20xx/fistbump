@@ -1,7 +1,7 @@
 import axios from 'axios'
+import '../../../../global.css'
 
 async function getReport(query, variables) {
-
   try {
     const response = await axios.post('http://localhost:8080/graphql', {
       query,
@@ -14,7 +14,6 @@ async function getReport(query, variables) {
 }
 
 async function getUser(params) {
-
   const query = `
   query getUser($id: String) {
     getUser(id:$id) {
@@ -25,7 +24,6 @@ async function getUser(params) {
   const variables = { id: params.id }
 
   try {
-
     const response = await axios.post('http://localhost:8080/graphql', {
       query,
       variables,
@@ -36,9 +34,7 @@ async function getUser(params) {
   }
 }
 
-
 async function Report({ params }) {
-
   const targetId = params.id
   const cycleId = params.cycleId
   const query = `
@@ -49,28 +45,27 @@ async function Report({ params }) {
             cycle
           }
           remarks
-          status  
         }
       }`
 
+
+  // const status = undefined
   const variables = { targetId, cycleId }
 
   const report = await getReport(query, variables)
   const user = await getUser(params)
 
-  console.log('our USER', user)
-  return <div>
-    <h2>Your Report {user}</h2>
-    <div>
-
-      <p>Remarks:</p>
-      <p>
-        {report.remarks}
-      </p>
-      <p>Status:</p>
-      <p>{report.status}</p>
+  return (
+    // (!status ? <p>come back later </p> :
+    <div className='p-12'>
+      <h1 className='text-2xl'>Your Report {user}</h1>
+      <div>
+        <p>Remarks:</p>
+        <p>{report.remarks}</p>
+      </div>
     </div>
-  </div>
+    // )
+  )
 }
 
 export default Report
