@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
 import { ReviewData } from '@/types/models'

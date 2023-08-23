@@ -1,4 +1,4 @@
-'use client'
+
 import { useParams } from 'next/navigation'
 import Photo from '@/components/ui/photo'
 import '../../../../app/global.css'
@@ -11,6 +11,17 @@ import { Header2 } from '@/components/typography/header2'
 import { FunctionComponent, useEffect, useState } from 'react'
 import MetricList from './metric-list'
 import { ReviewData } from '@/types/models'
+import { getUser } from '@/lib/fetch'
+
+const userQuery = `
+query getUser($id: String) {
+  getUser(id:$id) {
+    fullName
+    title
+    teamName
+    photo
+}
+}`
 
 // PLACEHOLDERS
 const firstName = 'Moto'
@@ -33,16 +44,17 @@ const MOCK_DATA = [
 // regular variables
 const panelPadding = 'p-4'
 
-export default function Review({ reviewData }: { reviewData: ReviewData }) {
+export default async function Review({ reviewData, params }: { reviewData: ReviewData, params: any }) {
+  const user = await getUser(params.id, userQuery)
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">
       <div className={`w-1/4 border-2 ${panelPadding}`}>
         <Header2>Subject of review</Header2>
         <UserCard
-          photo={IndianScout}
-          fullName={`${firstName} ${lastName}`}
-          title={'Pro Rider'}
-          team={'Riders'}
+          photo={user.photo}
+          fullName={`${user.fullName}`}
+          title={user.title}
+          team={user.teamName}
         />
       </div>
 
@@ -50,7 +62,7 @@ export default function Review({ reviewData }: { reviewData: ReviewData }) {
 
       <div className={`w-1/4 border-2 ${panelPadding}`}>
         <h1>PROFILE PICTURE</h1>
-        <Photo photo={IndianScout} alt="Motorcycle" />M
+        <Photo photo={IndianScout} alt="Motorcycle" />
       </div>
     </div>
   )
