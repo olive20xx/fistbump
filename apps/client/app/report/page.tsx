@@ -1,11 +1,23 @@
-'use client'
 import axios from 'axios'
-import { useEffect } from 'react'
 
-function Report({ report }) {
-  useEffect(() => {
-    const targetId = '64e4f97db7850fd01d65a39b'
-    const cycleId = '64e4f97db7850fd01d65a3a6'
+async function getReport(query, variables) {
+  try {
+    const response = await axios.post('http://localhost:8080/graphql', {
+      query,
+      variables,
+    })
+    return response.data.data.getReport
+    console.log('response', response.data.data.getReport)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
+async function Report() {
+
+    const targetId = '64e5c381429c4fdf374cec4c'
+    const cycleId = '64e5c381429c4fdf374cec57'
     const query = `
       query GetReport($targetId: String!, $cycleId: String!) {
         getReport(targetId: $targetId, cycleId: $cycleId) {
@@ -20,21 +32,20 @@ function Report({ report }) {
 
     const variables = { targetId, cycleId }
 
-    async function getReport() {
-      try {
-        const response = await axios.post('http://localhost:8080/graphql', {
-          query,
-          variables,
-        })
-        console.log('response', response)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    getReport()
-  }, [])
+    const report = await getReport(query, variables)
 
-  return <div>View report</div>
+
+  return <div>
+    <h2>Your Report (student/employee name)</h2>
+    <div>
+      <p>Remarks:</p>
+      <p>
+        {report.remarks}
+      </p>
+      <p>Status:</p>
+      <p>{report.status}</p>
+    </div>
+  </div>
 }
 
 export default Report

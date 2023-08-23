@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
 import Link from "next/link";
+import { Button } from '@/components/ui/button';
 
 
 function UserItem({ user }) {
 
   return (
-    <div className="grid grid-cols-3 gap-4 border-b p-2">
+    <div className="grid grid-cols-4 gap-4 border-b p-2">
       <p className="font-semibold"  >{user.title}</p>
       <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
+      <Link href={`/employee/${user._id}/report/1`}><Button>Take me to Report Page</Button></Link>
     </div>
     
   );
@@ -51,7 +53,7 @@ export default function Dashboard() {
         List of the users
       </h2>
       <div className="border-2 rounded-xl">
-        <div className="grid grid-cols-3 gap-4 font-bold border-b p-2 bg-slate-400">
+        <div className="grid grid-cols-4 gap-4 font-bold border-b p-2 bg-slate-400">
           <p>Title</p>
           <p>Full Name</p>
           <p>Team Name</p>
