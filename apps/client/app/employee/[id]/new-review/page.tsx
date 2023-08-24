@@ -24,9 +24,14 @@ query getUser($id: String) {
 const reportQuery = `
   query GetReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id { 
+        target
+        cycle 
+      }
       reviews {
         peer {
           submitted
+          reviewer
           grades {
             metric
             rating
@@ -47,7 +52,8 @@ export default async function Review({ params }: { params: any }) {
 
   const reportVariables = { targetId: params.id, cycleId: '131313' }
   const report = await getReport(reportQuery, reportVariables)
-  const grades = report.reviews.peer[0].grades
+
+
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">
       <div className={`w-1/4 border-2 ${panelPadding}`}>
@@ -60,7 +66,7 @@ export default async function Review({ params }: { params: any }) {
         />
       </div>
 
-      <MetricList gradeData={grades} target={firstName} />
+      <MetricList report={report} target={firstName} />
 
       <div className={`w-1/4 border-2 ${panelPadding}`}>
         <h1>PROFILE PICTURE</h1>

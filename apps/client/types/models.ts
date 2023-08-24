@@ -19,4 +19,14 @@ type ReviewData = {
 
 type UserId = string
 
-export type { MetricData, GradeData, ReviewData, UserId }
+type ReportData = {
+  _id: { target: string, cycle: string }
+  remarks: string
+  status: string
+  reviews: {
+    peer: ReviewData[]
+    self: ReviewData
+  }
+}
+
+export type { MetricData, GradeData, ReviewData, UserId, ReportData }

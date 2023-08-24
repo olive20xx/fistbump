@@ -2,36 +2,83 @@
 
 import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
-import { GradeData } from '@/types/models'
+import { updateReport } from '@/lib/fetch'
+import { GradeData, ReportData } from '@/types/models'
+import { useState } from 'react'
+
+
+const mutation = `mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+  updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
+    remarks
+    reviews {
+      peer {
+        submitted
+        reviewer
+        grades {
+          metric
+          rating
+          maxRating
+          comment
+        }
+      }
+    }
+  }
+}
+
+`
+
 
 export default function MetricList({
-  submitted,
-  gradeData,
-  target,
+  report,
+  target
 }: {
-  submitted: boolean
-  gradeData: GradeData[]
+  report: ReportData,
   target: string
 }) {
-  const handleClick = (n: number) => {
-    console.log('number from handleclick', n)
+  const targetId = report._id.target
+  const review = report.reviews.peer[0]
+  const { submitted, grades: gradeData, reviewer } = review
+  const [state, setState] = useState(gradeData)
+  const [isSubmitted, setIsSubmitted] = useState(submitted)
+
+  const mutationVars = {
+    targetId: targetId,
+    cycleId: '131313',
+    input: report
   }
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.value)
-    console.log(event.target.name)
-    // const updatedState = { ...state }
-    // updatedState
+
+  const handleRatingClick = (n: number, name: string) => {
+    console.log('number from handleclick', n, name)
+    const updatedState = [...state]
+    const gradeIndex = updatedState.findIndex(obj => obj.metric === name)
+    const grade = updatedState[gradeIndex]
+    grade.rating = n
+    setState(updatedState)
+
+  }
+  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const updatedState = [...state]
+    const gradeIndex = updatedState.findIndex(obj => obj.metric === event.target.name)
+    const grade = updatedState[gradeIndex]
+    grade.comment = event.target.value
+    setState(updatedState)
+
   }
   const handleSubmit = () => {
-    console.log('handle submit button')
+    mutationVars.input.reviews.peer[0].grades = state
+    mutationVars.input.reviews.peer[0].submitted = true
+    updateReport(mutation, mutationVars)
+    setIsSubmitted(true)
   }
+
   const handleSaveDraft = () => {
-    console.log('handle save draft button')
+    mutationVars.input.reviews.peer[0].grades = state
+    updateReport(mutation, mutationVars)
   }
 
   return (
     <div className={`w-1/2 border-2 p-4`}>
-      {gradeData.map((datum) => {
+      {state.map((datum) => {
         return (
           <Metric
             key={datum.metric}
@@ -39,16 +86,16 @@ export default function MetricList({
             name={datum.metric}
             value={datum.comment}
             maxRating={datum.maxRating}
-            onChange={handleChange}
-            onClick={handleClick}
+            onChange={handleCommentChange}
+            onClick={handleRatingClick}
           />
         )
       })}
       <div className="gap-6 flex justify-center">
-        <Button className="w-36" onClick={handleSubmit} size="lg">
+        <Button disabled={isSubmitted} className="w-36" onClick={handleSaveDraft} size="lg">
           Save Draft
         </Button>
-        <Button className="w-36" onClick={handleSaveDraft} size="lg">
+        <Button className="w-36" onClick={handleSubmit} size="lg">
           Submit
         </Button>
       </div>
