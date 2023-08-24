@@ -11,63 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getReport, getUser, getFullReport } from '@/lib/fetch'
-
-
-const getFullReportQuery = `
-query GetReport($targetId: String!, $cycleId: String!) {
-  getReport(targetId: $targetId, cycleId: $cycleId) {
-    _id{ 
-      target
-      cycle
-    }
-    remarks
-    status
-    reviews {
-      peer {
-        reviewer
-        isDeclined
-        submitted
-        grades {
-          metric
-          rating
-          maxRating
-          comment
-        }
-      }
-      self {
-        reviewer
-        isDeclined
-        submitted
-        grades {
-          metric
-          rating
-          maxRating
-          comment
-        }
-      }         
-     }
-  }
-}`
-
-
-const userQuery = `
-query getUser($id: String) {
-  getUser(id:$id) {
-    fullName
- 
-}
-}`
-
-const reportQuery = `
-query GetReport($targetId: String!, $cycleId: String!) {
-  getReport(targetId: $targetId, cycleId: $cycleId) {
-    _id {
-      target
-      cycle
-    }
-    remarks
-  }
-}`
+import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
 async function Report({ params }) {
