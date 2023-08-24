@@ -29,6 +29,7 @@ type Query {
   getUsers: [User]
   getUser(id: String): User
   getReport(targetId: String!, cycleId: String!): Report
+  getUserByEmail(email:String, password:String): User
 }
 
 type Mutation {
@@ -137,6 +138,23 @@ const rootValue = {
   getUser: async ({ id }: { id: String }) => {
     try {
       const user = await User.findById(id)
+      return user
+    } catch (error) {
+      throw new Error('Error fetching users from the database')
+    }
+  },
+  getUserByEmail: async ({
+    email,
+    password,
+  }: {
+    email: String
+    password: String
+  }) => {
+    try {
+      const user = await User.findOne({
+        email,
+        password,
+      })
       return user
     } catch (error) {
       throw new Error('Error fetching users from the database')

@@ -12,7 +12,11 @@ function generateUsers(count: number) {
       title: faker.person.jobTitle(),
       isOlga: faker.datatype.boolean(),
       photo: faker.internet.avatar(),
-      teamName: faker.helpers.arrayElement(['Staff, Students, Instructors']),
+      teamName: faker.helpers.arrayElement([
+        'Staff',
+        'Students',
+        'Instructors',
+      ]),
       companyName: 'Arol.Dev',
     }
     users.push(user)
