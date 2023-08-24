@@ -38,3 +38,15 @@ export async function updateReport(query, variables) {
     console.error(error)
   }
 }
+
+export async function getUserByEmail(query, variables) {
+  try {
+    const response = await axios.post(url, {
+      query,
+      variables,
+    })
+    return response.data.data.getUserByEmail
+  } catch (error) {
+    console.log(error)
+  }
+}
