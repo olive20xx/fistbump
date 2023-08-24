@@ -1,5 +1,6 @@
 import axios from 'axios'
 import '../../../../global.css'
+ 
 import {
   Table,
   TableBody,
@@ -9,51 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-async function getReport(variables) {
-  const query = `
-  query GetReport($targetId: String!, $cycleId: String!) {
-    getReport(targetId: $targetId, cycleId: $cycleId) {
-      _id {
-        target
-        cycle
-      }
-      remarks
-    }
-  }`
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function getUser(params) {
-  const query = `
-  query getUser($id: String) {
-    getUser(id:$id) {
-      fullName
-  }
-}`
-
-  const variables = { id: params.id }
-
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getUser.fullName
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-
+import { getReport, getUser } from '@/lib/fetch'
+ 
 
 async function getFullReport(variables) {
   const query = `
@@ -103,6 +61,27 @@ async function getFullReport(variables) {
   }
 }
 
+
+const userQuery = `
+query getUser($id: String) {
+  getUser(id:$id) {
+    fullName
+ 
+}
+}`
+
+const reportQuery = `
+query GetReport($targetId: String!, $cycleId: String!) {
+  getReport(targetId: $targetId, cycleId: $cycleId) {
+    _id {
+      target
+      cycle
+    }
+    remarks
+  }
+}`
+
+ 
 async function Report({ params }) {
   const manager = true
 
@@ -112,6 +91,7 @@ async function Report({ params }) {
   // const status = undefined
   const variables = { targetId, cycleId }
 
+ 
   const user = await getUser(params)
   const report = await getReport(variables)
   const fullReport = await getFullReport(variables)
@@ -177,6 +157,7 @@ async function Report({ params }) {
       </div> */}
       {/* // ) */}
     </div >
+ 
   )
 }
 

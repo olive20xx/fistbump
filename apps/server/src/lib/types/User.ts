@@ -1,4 +1,4 @@
-export type Input = {
+export type UserInput = {
   email: string
   fullName?: string
   hashedPw?: string

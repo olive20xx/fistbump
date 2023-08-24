@@ -6,8 +6,9 @@ import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import User from './src/lib/mongoose/models/User'
-import { Input } from './src/lib/types/User'
+import { UserInput } from './src/lib/types/User'
 import Report from './src/lib/mongoose/models/Report'
+import { ReportInput } from './src/lib/types/Report'
 
 const app = express()
 app.use(express.json())
@@ -26,9 +27,14 @@ const schema = buildSchema(`
 type Query {
   hello: String
   getUsers: [User]
-  getReport(targetId: String!, cycleId: String!): Report
   getUser(id: String): User
-  
+  getReport(targetId: String!, cycleId: String!): Report
+}
+
+type Mutation {
+  createUser(input: UserInput): User
+  changeUser(input: UserInput): User
+  updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
 }
 
 input UserInput {
@@ -42,9 +48,35 @@ input UserInput {
   companyName: String
 }
 
-type Mutation {
-  createUser(input: UserInput): User
-  changeUser(input: UserInput): User
+input ReportInput {
+  id: ReportIdInput
+  remarks: String
+  status: String
+  reviews: ReviewsInput
+}
+
+input ReviewsInput {
+  self: ReviewInput
+  peer: [ReviewInput]
+}
+
+input ReviewInput {
+  reviewer: String
+  isDeclined: Boolean
+  submitted: Boolean
+  grades: [GradeInput]
+}
+
+input GradeInput {
+  metric: String
+  rating: Int
+  maxRating: Int
+  comment: String
+}
+
+input ReportIdInput {
+  target: String
+  cycle: String
 }
 
 type User {
@@ -59,7 +91,6 @@ type User {
   companyName: String
 }
 
-
 type ReportID {
   target: String
   cycle: String
@@ -73,9 +104,10 @@ type Report {
 }
 
 type Reviews {
-  self : Review
-  peer : [Review]
+  self: Review
+  peer: [Review]
 }
+
 type Review {
   reviewer: String
   isDeclined: Boolean
@@ -88,7 +120,6 @@ type Grade {
   rating: Int
   maxRating: Int
   comment: String
- 
 }`)
 
 const rootValue = {
@@ -111,7 +142,7 @@ const rootValue = {
       throw new Error('Error fetching users from the database')
     }
   },
-  createUser: async ({ input }: { input: Input }) => {
+  createUser: async ({ input }: { input: UserInput }) => {
     try {
       const newUser = new User(input)
       const savedUser = await newUser.save()
@@ -120,7 +151,7 @@ const rootValue = {
       throw new Error('Error creating a new user and saving it to the database')
     }
   },
-  changeUser: async ({ input }: { input: Input }) => {
+  updateUser: async ({ input }: { input: UserInput }) => {
     try {
       const updatedUser = await User.findOneAndUpdate(
         { email: input.email },
@@ -147,6 +178,25 @@ const rootValue = {
       return report
     } catch (error) {
       throw new Error('Error fetching report from the database')
+    }
+  },
+  updateReport: async ({
+    targetId,
+    cycleId,
+    input,
+  }: {
+    targetId: String
+    cycleId: String
+    input: ReportInput
+  }) => {
+    try {
+      const filter = { '_id.target': targetId, '_id.cycle': cycleId }
+      const updatedReport = await Report.findOneAndUpdate(filter, input, {
+        new: true,
+      })
+      return updatedReport
+    } catch (error) {
+      throw new Error('Error updating a report in the database')
     }
   },
 }
