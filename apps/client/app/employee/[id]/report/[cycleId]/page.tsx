@@ -14,51 +14,6 @@ import { getReport, getUser } from '@/lib/fetch'
 import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
-
-
-
-const getFullReportQuery = `
-query GetReport($targetId: String!, $cycleId: String!) {
-  getReport(targetId: $targetId, cycleId: $cycleId) {
-    _id{ 
-      target
-      cycle
-    }
-    remarks
-    status
-    reviews {
-      peer {
-        reviewer
-        isDeclined
-        submitted
-        grades {
-          metric
-          rating
-          maxRating
-          comment
-        }
-      }
-      self {
-        reviewer
-        isDeclined
-        submitted
-        grades {
-          metric
-          rating
-          maxRating
-          comment
-        }
-      }         
-     }
-  }
-}`
-
-
-
-
-
-
-
 async function Report({ params }) {
   const manager = true
 
