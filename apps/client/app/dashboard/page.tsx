@@ -4,6 +4,7 @@ import axios from 'axios'
 import '../global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { getCookie } from 'cookies-next'
 
 function UserItem({ user }) {
   const cycleId = '64e46166c1903f7622ec9852'
@@ -22,6 +23,8 @@ function UserItem({ user }) {
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])
+
+  const user = getCookie('user')
 
   const getUsersQuery = `{
     getUsers {
@@ -49,9 +52,15 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold bg-pink-400  flex justify-center items-center h-24 text-center">
-        List of the users
-      </h2>
+      <div className=' bg-pink-400 flex px-12 justify-between items-center h-24 text-center'>
+
+        <h2 className="text-3xl font-bold   ">
+          List of the users
+        </h2>
+        <Button>
+          {user ? <div> Hello {user} </div> : <Link href={'/login'}>  Please login </Link>}
+        </Button>
+      </div>
       <div className="border-2 rounded-xl">
         <div className="grid grid-cols-4 gap-4 font-bold border-b p-2 bg-slate-400">
           <p>Title</p>
