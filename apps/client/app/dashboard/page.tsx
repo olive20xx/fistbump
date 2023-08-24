@@ -16,7 +16,7 @@ function UserItem({ loggedUser, user }) {
       <p>{user.teamName}</p>
       {loggedUser === user.fullName ?
         <Link href={`/employee/${user._id}/report/${cycleId}`}>
-          <Button>Take me to my Report Page</Button>
+          <Button variant='destructive'>Take me to my Report Page</Button>
         </Link> : <Button>Nominate peer to review me</Button>
       }
     </div>
