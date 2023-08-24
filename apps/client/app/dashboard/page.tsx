@@ -6,17 +6,19 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
 
-function UserItem({ user }) {
-  const cycleId = '64e46166c1903f7622ec9852'
+function UserItem({ loggedUser, user }) {
+  const cycleId = '131313'
 
   return (
     <div className="grid grid-cols-4 gap-4 border-b p-2">
       <p className="font-semibold">{user.title}</p>
       <Link href={`/employee/${user._id}/new-review`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/report/131313`}>
-        <Button>Take me to Report Page</Button>
-      </Link>
+      {loggedUser === user.fullName ?
+        <Link href={`/employee/${user._id}/report/${cycleId}`}>
+          <Button>Take me to my Report Page</Button>
+        </Link> : <Button>Nominate peer to review me</Button>
+      }
     </div>
   )
 }
@@ -24,7 +26,7 @@ function UserItem({ user }) {
 export default function Dashboard() {
   const [users, setUsers] = useState([])
 
-  const user = getCookie('user')
+  const loggedUser = getCookie('user')
 
   function handleLogout() {
     setCookie('user', '')
@@ -62,9 +64,9 @@ export default function Dashboard() {
           List of the users
         </h2>
         <div>
-          {user ? <div>
+          {loggedUser ? <div>
             <h2>
-              Hello {user}
+              Hello {loggedUser}
 
             </h2>
             <Button onClick={handleLogout}> Log out</Button>
@@ -78,7 +80,7 @@ export default function Dashboard() {
           <p>Team Name</p>
         </div>
         {users.map((user) => (
-          <UserItem key={user.fullName} user={user} />
+          <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
         ))}
       </div>
     </div>
