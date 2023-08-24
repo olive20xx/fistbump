@@ -6,35 +6,33 @@ import { updateReport } from '@/lib/fetch'
 import { GradeData, ReportData } from '@/types/models'
 import { useState } from 'react'
 
-
-const mutation = `mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
-  updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
-    remarks
-    reviews {
-      peer {
-        submitted
-        reviewer
-        grades {
-          metric
-          rating
-          maxRating
-          comment
+const mutation = `
+  mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+    updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
+      remarks
+      reviews {
+        peer {
+          submitted
+          reviewer
+          grades {
+            metric
+            rating
+            maxRating
+            comment
+          }
         }
       }
     }
-  }
-}
-
-`
-
+  }`
 
 export default function MetricList({
   report,
-  target
+  target,
 }: {
-  report: ReportData,
+  report: ReportData
   target: string
 }) {
+  console.log(report)
   const targetId = report._id.target
   const review = report.reviews.peer[0]
   const { submitted, grades: gradeData, reviewer } = review
@@ -44,25 +42,27 @@ export default function MetricList({
   const mutationVars = {
     targetId: targetId,
     cycleId: '131313',
-    input: report
+    input: report,
   }
 
   const handleRatingClick = (n: number, name: string) => {
     console.log('number from handleclick', n, name)
     const updatedState = [...state]
-    const gradeIndex = updatedState.findIndex(obj => obj.metric === name)
+    const gradeIndex = updatedState.findIndex((obj) => obj.metric === name)
     const grade = updatedState[gradeIndex]
     grade.rating = n
     setState(updatedState)
-
   }
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const updatedState = [...state]
-    const gradeIndex = updatedState.findIndex(obj => obj.metric === event.target.name)
+    const gradeIndex = updatedState.findIndex(
+      (obj) => obj.metric === event.target.name
+    )
     const grade = updatedState[gradeIndex]
     grade.comment = event.target.value
     setState(updatedState)
-
   }
   const handleSubmit = () => {
     mutationVars.input.reviews.peer[0].grades = state
@@ -85,6 +85,7 @@ export default function MetricList({
             question={`How did ${target} do on ${datum.metric}?`}
             name={datum.metric}
             value={datum.comment}
+            rating={datum.rating}
             maxRating={datum.maxRating}
             onChange={handleCommentChange}
             onClick={handleRatingClick}
@@ -92,11 +93,23 @@ export default function MetricList({
         )
       })}
       <div className="gap-6 flex justify-center">
-        <Button disabled={isSubmitted} className="w-36" onClick={handleSaveDraft} size="lg">
+        <Button
+          disabled={isSubmitted}
+          className="w-36"
+          onClick={handleSaveDraft}
+          size="lg"
+        >
           Save Draft
         </Button>
-        <Button className="w-36" onClick={handleSubmit} size="lg">
-          Submit
+        <Button
+          disabled={isSubmitted}
+          className={`w-36 ${
+            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+          }`}
+          onClick={handleSubmit}
+          size="lg"
+        >
+          {isSubmitted ? 'Submitted' : 'Submit'}
         </Button>
       </div>
     </div>

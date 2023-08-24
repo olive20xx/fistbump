@@ -10,6 +10,7 @@ interface IMetricProps {
   onClick: (n: number, name: string) => void
   name: string
   value: string
+  rating: number
   maxRating: number
   placeholder?: string
 }
@@ -20,10 +21,12 @@ const Metric: FunctionComponent<IMetricProps> = ({
   onClick,
   name,
   value,
+  rating,
   maxRating,
   placeholder = 'Comments',
 }) => {
-  const [selectedKey, setSelectedKey] = useState<number>(0)
+  console.log(name, rating)
+  const [selectedKey, setSelectedKey] = useState(rating)
 
   return (
     <div className="flex flex-col gap-6 mb-4 justify-center items-center">
