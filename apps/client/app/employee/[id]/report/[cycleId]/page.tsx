@@ -16,53 +16,48 @@ import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
 
-async function getFullReport(variables) {
-  const query = `
-      query GetReport($targetId: String!, $cycleId: String!) {
-        getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id{ 
-            target
-            cycle
-          }
-          remarks
-          status
-          reviews {
-            peer {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }
-            self {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }         
-           }
-        }
-      }`
 
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
-  } catch (error) {
-    console.error(error)
+const getFullReportQuery = `
+query GetReport($targetId: String!, $cycleId: String!) {
+  getReport(targetId: $targetId, cycleId: $cycleId) {
+    _id{ 
+      target
+      cycle
+    }
+    remarks
+    status
+    reviews {
+      peer {
+        reviewer
+        isDeclined
+        submitted
+        grades {
+          metric
+          rating
+          maxRating
+          comment
+        }
+      }
+      self {
+        reviewer
+        isDeclined
+        submitted
+        grades {
+          metric
+          rating
+          maxRating
+          comment
+        }
+      }         
+     }
   }
-}
+}`
+
+
+
+
+
+
 
 async function Report({ params }) {
   const manager = true
