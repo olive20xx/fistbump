@@ -1,5 +1,5 @@
 export type ReportInput = {
-  id: ReportId
+  _id: ReportId
   remarks: string
   status: string
   reviews: {
@@ -9,8 +9,8 @@ export type ReportInput = {
 }
 
 type ReportId = {
-  targetId: string
-  cycleId: string
+  target: string
+  cycle: string
 }
 
 type Review = {

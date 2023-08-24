@@ -7,7 +7,7 @@ import { Textarea } from './textarea'
 interface IMetricProps {
   question: string
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-  onClick: (n: number) => void
+  onClick: (n: number, name: string) => void
   name: string
   value: string
   maxRating: number
@@ -33,7 +33,7 @@ const Metric: FunctionComponent<IMetricProps> = ({
           <Button
             key={n}
             onClick={() => {
-              onClick(n)
+              onClick(n, name)
               setSelectedKey(n)
             }}
             size="sm"

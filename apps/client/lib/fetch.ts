@@ -29,11 +29,7 @@ export async function getReport(query, variables) {
 
 export async function updateReport(query, variables) {
   try {
-    const response = await axios.post(url, {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
+    await axios.post(url, { query, variables })
   } catch (error) {
     console.error(error)
   }
