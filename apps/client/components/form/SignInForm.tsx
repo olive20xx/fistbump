@@ -14,17 +14,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-
+import { getUserByEmail } from '@/lib/fetch';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
     .string()
     .min(1, 'Password is required')
-    .min(8, 'Password must have than 8 characters'),
+
+    //change later to 8 charachters
+    .min(3, 'Password must have than 8 characters'),
 });
 
 const SignInForm = () => {
+
+  const { push } = useRouter()
+
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -33,8 +41,27 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    const query = `
+    query getUserByEmail($email: String!) {
+      getUserByEmail(email:$email) {
+       fullName
+    }
+    }`
+
+
+
+    const email = values.email
+    const password = values.password
+    const variables = { email, password }
+
+
+    const userFound = await getUserByEmail(query, variables);
+    if (userFound.fullName) {
+      console.warn('WELCOME', userFound.fullName);
+      setCookie('user', userFound.fullName)
+      push('/dashboard')
+    }
   };
 
   return (

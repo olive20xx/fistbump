@@ -5,7 +5,7 @@ import '../global.css'
 export default function Login() {
   return (
     <div>
-        <SignInForm></SignInForm>
+      <SignInForm></SignInForm>
     </div>
   );
 }
