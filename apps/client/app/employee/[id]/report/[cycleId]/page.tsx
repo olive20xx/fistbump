@@ -10,50 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-
-
-
-// interface Grade {
-//   metric: string;
-//   rating: number;
-//   maxRating: number;
-//   comment: string;
-// }
-
-// interface Review {
-//   reviewer: string;
-//   isDeclined: boolean | null;
-//   submitted: boolean;
-//   grades: Grade[];
-// }
-
-// interface ReportData {
-//   data: {
-//     getReport: {
-//       _id: {
-//         target: string;
-//         cycle: string;
-//       };
-//       remarks: string;
-//       reviews: {
-//         peer: Review[];
-//         self: Review;
-//       };
-//     };
-//   };
-// }
-
-
-
-
-
-
-
-
-
-
-
-
 async function getReport(variables) {
   const query = `
   query GetReport($targetId: String!, $cycleId: String!) {
