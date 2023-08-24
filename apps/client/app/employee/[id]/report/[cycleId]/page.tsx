@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getReport, getUser, getFullReport } from '@/lib/fetch'
+import { getReport, getUser } from '@/lib/fetch'
 import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
 
@@ -26,7 +26,7 @@ async function Report({ params }) {
 
   const user = await getUser(userQuery, params)
   const report = await getReport(reportQuery, variables)
-  const fullReport = await getFullReport(getFullReportQuery, variables)
+  const fullReport = await getReport(getFullReportQuery, variables)
 
 
 
