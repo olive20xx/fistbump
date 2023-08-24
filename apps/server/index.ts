@@ -26,9 +26,8 @@ const schema = buildSchema(`
 type Query {
   hello: String
   getUsers: [User]
-  getReport(targetId: String!, cycleId: String!): Report
   getUser(id: String): User
-  
+  getReport(targetId: String!, cycleId: String!): Report
 }
 
 input UserInput {
@@ -45,6 +44,7 @@ input UserInput {
 type Mutation {
   createUser(input: UserInput): User
   changeUser(input: UserInput): User
+  updateReport(targetId: String!, cycleId: String!, input: any): Report
 }
 
 type User {
@@ -58,7 +58,6 @@ type User {
   teamName: String
   companyName: String
 }
-
 
 type ReportID {
   target: String
@@ -76,6 +75,7 @@ type Reviews {
   self : Review
   peer : [Review]
 }
+
 type Review {
   reviewer: String
   isDeclined: Boolean
@@ -88,7 +88,6 @@ type Grade {
   rating: Int
   maxRating: Int
   comment: String
- 
 }`)
 
 const rootValue = {
@@ -162,11 +161,10 @@ const rootValue = {
     input: UserInput
   }) => {
     try {
-      const updatedReport = await Report.findOneAndUpdate(
-        { '_id.target': targetId, '_id.cycle': cycleId },
-        input,
-        { new: true }
-      )
+      const filter = { '_id.target': targetId, '_id.cycle': cycleId }
+      const updatedReport = await Report.findOneAndUpdate(filter, input, {
+        new: true,
+      })
       return updatedReport
     } catch (error) {
       throw new Error('Error updating a report in the database')
