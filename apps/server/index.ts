@@ -50,7 +50,7 @@ input UserInput {
 }
 
 input ReportInput {
-  id: ReportIdInput
+  _id: ReportIdInput
   remarks: String
   status: String
   reviews: ReviewsInput
