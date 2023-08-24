@@ -1,6 +1,6 @@
 import axios from 'axios'
 import '../../../../global.css'
- 
+
 import {
   Table,
   TableBody,
@@ -10,56 +10,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getReport, getUser } from '@/lib/fetch'
- 
+import { getReport, getUser, getFullReport } from '@/lib/fetch'
 
-async function getFullReport(variables) {
-  const query = `
-      query GetReport($targetId: String!, $cycleId: String!) {
-        getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id{ 
-            target
-            cycle
-          }
-          remarks
-          status
-          reviews {
-            peer {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }
-            self {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }         
-           }
+
+const getFullReportQuery = `
+query GetReport($targetId: String!, $cycleId: String!) {
+  getReport(targetId: $targetId, cycleId: $cycleId) {
+    _id{ 
+      target
+      cycle
+    }
+    remarks
+    status
+    reviews {
+      peer {
+        reviewer
+        isDeclined
+        submitted
+        grades {
+          metric
+          rating
+          maxRating
+          comment
         }
-      }`
-
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
-  } catch (error) {
-    console.error(error)
+      }
+      self {
+        reviewer
+        isDeclined
+        submitted
+        grades {
+          metric
+          rating
+          maxRating
+          comment
+        }
+      }         
+     }
   }
-}
+}`
 
 
 const userQuery = `
@@ -81,7 +69,7 @@ query GetReport($targetId: String!, $cycleId: String!) {
   }
 }`
 
- 
+
 async function Report({ params }) {
   const manager = true
 
@@ -91,10 +79,10 @@ async function Report({ params }) {
   // const status = undefined
   const variables = { targetId, cycleId }
 
- 
-  const user = await getUser(params)
-  const report = await getReport(variables)
-  const fullReport = await getFullReport(variables)
+
+  const user = await getUser(userQuery, params)
+  const report = await getReport(reportQuery, variables)
+  const fullReport = await getFullReport(getFullReportQuery, variables)
 
 
 
@@ -157,7 +145,7 @@ async function Report({ params }) {
       </div> */}
       {/* // ) */}
     </div >
- 
+
   )
 }
 
