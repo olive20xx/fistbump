@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
 import { updateReport } from '@/lib/fetch'
 import { GradeData, ReportData } from '@/types/models'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const mutation = `
   mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
@@ -24,6 +24,16 @@ const mutation = `
       }
     }
   }`
+
+function SubmittedReview() {
+  return (
+    <div className="w-1/2 border-2 p-4">
+      <Button disabled className="bg-green-500 disabled:opacity-100">
+        Review submitted!
+      </Button>
+    </div>
+  )
+}
 
 export default function MetricList({
   report,
@@ -46,13 +56,13 @@ export default function MetricList({
   }
 
   const handleRatingClick = (n: number, name: string) => {
-    console.log('number from handleclick', n, name)
     const updatedState = [...state]
     const gradeIndex = updatedState.findIndex((obj) => obj.metric === name)
     const grade = updatedState[gradeIndex]
     grade.rating = n
     setState(updatedState)
   }
+
   const handleCommentChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -64,6 +74,7 @@ export default function MetricList({
     grade.comment = event.target.value
     setState(updatedState)
   }
+
   const handleSubmit = () => {
     mutationVars.input.reviews.peer[0].grades = state
     mutationVars.input.reviews.peer[0].submitted = true
@@ -76,8 +87,10 @@ export default function MetricList({
     updateReport(mutation, mutationVars)
   }
 
-  return (
-    <div className={`w-1/2 border-2 p-4`}>
+  return isSubmitted ? (
+    <SubmittedReview />
+  ) : (
+    <div className="w-1/2 border-2 p-4">
       {state.map((datum) => {
         return (
           <Metric

@@ -1,13 +1,9 @@
-import { useParams } from 'next/navigation'
 import Photo from '@/components/ui/photo'
 import '../../../../app/global.css'
-import Metric from '@/components/ui/metric'
 //to be deleted
 import IndianScout from '../../../../../assets_to_test/scout-rogue.jpeg'
-import { Button } from '@/components/ui/button'
 import UserCard from '@/components/ui/user-card'
 import { Header2 } from '@/components/typography/header2'
-import { FunctionComponent, useEffect, useState } from 'react'
 import MetricList from './metric-list'
 import { ReviewData } from '@/types/models'
 import { getReport, getUser } from '@/lib/fetch'
@@ -52,7 +48,6 @@ export default async function Review({ params }: { params: any }) {
 
   const reportVariables = { targetId: params.id, cycleId: '131313' }
   const report = await getReport(reportQuery, reportVariables)
-
 
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">
