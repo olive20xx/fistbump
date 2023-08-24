@@ -4,6 +4,7 @@ import axios from 'axios'
 import '../global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { getUsersQuery } from "../../graphql/queries"
 
 function UserItem({ user }) {
   const cycleId = '64e46166c1903f7622ec9852'
@@ -23,14 +24,7 @@ function UserItem({ user }) {
 export default function Dashboard() {
   const [users, setUsers] = useState([])
 
-  const getUsersQuery = `{
-    getUsers {
-      _id
-      fullName
-      title
-      teamName
-    }
-  }`
+
   useEffect(() => {
     async function getUsers() {
       try {

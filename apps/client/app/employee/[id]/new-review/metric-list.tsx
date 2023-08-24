@@ -6,25 +6,7 @@ import { updateReport } from '@/lib/fetch'
 import { GradeData, ReportData } from '@/types/models'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-
-const mutation = `
-  mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
-    updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
-      remarks
-      reviews {
-        peer {
-          submitted
-          reviewer
-          grades {
-            metric
-            rating
-            maxRating
-            comment
-          }
-        }
-      }
-    }
-  }`
+import { mutation } from "../../../../graphql/queries"
 
 function SubmittedReview() {
   return (
@@ -48,7 +30,6 @@ export default function MetricList({
   report: ReportData
   target: string
 }) {
-  console.log(report)
   const targetId = report._id.target
   const review = report.reviews.peer[0]
   const { submitted, grades: gradeData, reviewer } = review
@@ -126,9 +107,8 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${
-            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-          }`}
+          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+            }`}
           onClick={handleSubmit}
           size="lg"
         >

@@ -7,37 +7,7 @@ import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
 import { ReviewData } from '@/types/models'
 import { getReport, getUser } from '@/lib/fetch'
-
-const userQuery = `
-query getUser($id: String) {
-  getUser(id:$id) {
-    fullName
-    title
-    teamName
-    photo
-}}`
-
-const reportQuery = `
-  query GetReport($targetId: String!, $cycleId: String!) {
-    getReport(targetId: $targetId, cycleId: $cycleId) {
-      _id { 
-        target
-        cycle 
-      }
-      reviews {
-        peer {
-          submitted
-          reviewer
-          grades {
-            metric
-            rating
-            maxRating
-            comment
-          }
-        }
-      }
-    }
-  }`
+import { userQuery, reportQuery } from "../../../../graphql/queries"
 
 // regular variables
 const panelPadding = 'p-4'

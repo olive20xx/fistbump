@@ -1,25 +1,9 @@
 import axios from 'axios'
 import '../../../../global.css'
 import { getReport, getUser } from '@/lib/fetch'
+import { userQuery, reportQuery } from "../../../../../graphql/queries"
 
 
-const userQuery = `
-query getUser($id: String) {
-  getUser(id:$id) {
-    fullName
-}
-}`
-
-const reportQuery = `
-query GetReport($targetId: String!, $cycleId: String!) {
-  getReport(targetId: $targetId, cycleId: $cycleId) {
-    _id {
-      target
-      cycle
-    }
-    remarks
-  }
-}`
 
 
 async function Report({ params }) {
