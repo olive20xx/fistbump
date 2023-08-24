@@ -8,6 +8,7 @@ import { buildSchema } from 'graphql'
 import User from './src/lib/mongoose/models/User'
 import { UserInput } from './src/lib/types/User'
 import Report from './src/lib/mongoose/models/Report'
+import { ReportInput } from './src/lib/types/Report'
 
 const app = express()
 app.use(express.json())
@@ -30,6 +31,12 @@ type Query {
   getReport(targetId: String!, cycleId: String!): Report
 }
 
+type Mutation {
+  createUser(input: UserInput): User
+  changeUser(input: UserInput): User
+  updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+}
+
 input UserInput {
   email: String!
   fullName: String
@@ -41,10 +48,35 @@ input UserInput {
   companyName: String
 }
 
-type Mutation {
-  createUser(input: UserInput): User
-  changeUser(input: UserInput): User
-  updateReport(targetId: String!, cycleId: String!, input: any): Report
+input ReportInput {
+  id: ReportIdInput
+  remarks: String
+  status: String
+  reviews: ReviewsInput
+}
+
+input ReviewsInput {
+  self: ReviewInput
+  peer: [ReviewInput]
+}
+
+input ReviewInput {
+  reviewer: String
+  isDeclined: Boolean
+  submitted: Boolean
+  grades: [GradeInput]
+}
+
+input GradeInput {
+  metric: String
+  rating: Int
+  maxRating: Int
+  comment: String
+}
+
+input ReportIdInput {
+  target: String
+  cycle: String
 }
 
 type User {
@@ -72,8 +104,8 @@ type Report {
 }
 
 type Reviews {
-  self : Review
-  peer : [Review]
+  self: Review
+  peer: [Review]
 }
 
 type Review {
@@ -149,8 +181,6 @@ const rootValue = {
       throw new Error('Error fetching report from the database')
     }
   },
-  // TODO WORK IN PROGRESS
-  // how does this work
   updateReport: async ({
     targetId,
     cycleId,
@@ -158,7 +188,7 @@ const rootValue = {
   }: {
     targetId: String
     cycleId: String
-    input: UserInput
+    input: ReportInput
   }) => {
     try {
       const filter = { '_id.target': targetId, '_id.cycle': cycleId }
