@@ -57,7 +57,6 @@ const SignInForm = () => {
 
 
     const userFound = await getUserByEmail(query, variables);
-    console.log('userfound', userFound)
     if (userFound.fullName) {
       console.warn('WELCOME', userFound.fullName);
       setCookie('user', userFound.fullName)
