@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 
 function UserItem({ user }) {
 
-  const cycleId = "64e46166c1903f7622ec9852"
+  const cycleId = "131313"
 
 
   return (
@@ -16,7 +16,7 @@ function UserItem({ user }) {
       <p className="font-semibold"  >{user.title}</p>
       <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/report/${cycleId}`}><Button>Take me to Report Page</Button></Link>
+      <Link href={`/employee/${user._id}/manager-report/${cycleId}`}><Button>Take me to Report Page</Button></Link>
     </div>
 
   );
