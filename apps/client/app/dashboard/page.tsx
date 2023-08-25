@@ -1,14 +1,14 @@
 'use client'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 import '../global.css'
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
-
+import { useQuery } from '@apollo/client'
+import { GET_USERS } from '@/lib/queries';
 
 function UserItem({ user }) {
 
-  const cycleId = "64e46166c1903f7622ec9852"
+
+  const cycleId = "64e84ce566d3488fe1d4a8cf"
 
 
   return (
@@ -23,32 +23,14 @@ function UserItem({ user }) {
 }
 
 export default function Dashboard() {
-  const [users, setUsers] = useState([])
 
-  const getUsersQuery = `{
-    getUsers {
-      _id
-      fullName
-      title
-      teamName
-    }
-  }`
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        const response = await axios.post('http://localhost:8080/graphql', {
-          query: getUsersQuery,
-        });
 
-        setUsers(response.data.data.getUsers)
-      } catch (error) {
-        console.error(error);
-      }
-    }
 
-    getUsers();
-  }, [getUsersQuery])
 
+  const { loading, error, data } = useQuery(GET_USERS)
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+  const { getUsers: users } = data
 
   return (
     <div>

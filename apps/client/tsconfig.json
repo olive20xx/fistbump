@@ -24,7 +24,7 @@
     "src/**/*",
     "components/**/*",
     ".next/types/**/*.ts"
-  ],
+, "lib/apollo-wrapper.js"  ],
   "exclude": [
     "node_modules"
   ]

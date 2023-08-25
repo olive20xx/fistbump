@@ -1,4 +1,3 @@
-import axios from 'axios'
 import '../../../../global.css'
 import {
   Table,
@@ -9,145 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { getClient } from '@/lib/client'
+import { GET_FULLREPORT, GET_USER_FULLNAME_BY_ID, GET_REPORT_FOR_EMPLOYEE } from '@/lib/queries'
 
 
 
-
-// interface Grade {
-//   metric: string;
-//   rating: number;
-//   maxRating: number;
-//   comment: string;
-// }
-
-// interface Review {
-//   reviewer: string;
-//   isDeclined: boolean | null;
-//   submitted: boolean;
-//   grades: Grade[];
-// }
-
-// interface ReportData {
-//   data: {
-//     getReport: {
-//       _id: {
-//         target: string;
-//         cycle: string;
-//       };
-//       remarks: string;
-//       reviews: {
-//         peer: Review[];
-//         self: Review;
-//       };
-//     };
-//   };
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-async function getReport(variables) {
-  const query = `
-  query GetReport($targetId: String!, $cycleId: String!) {
-    getReport(targetId: $targetId, cycleId: $cycleId) {
-      _id {
-        target
-        cycle
-      }
-      remarks
-    }
-  }`
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function getUser(params) {
-  const query = `
-  query getUser($id: String) {
-    getUser(id:$id) {
-      fullName
-  }
-}`
-
-  const variables = { id: params.id }
-
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getUser.fullName
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-
-
-async function getFullReport(variables) {
-  const query = `
-      query GetReport($targetId: String!, $cycleId: String!) {
-        getReport(targetId: $targetId, cycleId: $cycleId) {
-          _id{ 
-            target
-            cycle
-          }
-          remarks
-          status
-          reviews {
-            peer {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }
-            self {
-              reviewer
-              isDeclined
-              submitted
-              grades {
-                metric
-                rating
-                maxRating
-                comment
-              }
-            }         
-           }
-        }
-      }`
-
-  try {
-    const response = await axios.post('http://localhost:8080/graphql', {
-      query,
-      variables,
-    })
-    return response.data.data.getReport
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 async function Report({ params }) {
+  const client = getClient()
+
   const manager = true
 
   const targetId = params.id
@@ -156,9 +25,10 @@ async function Report({ params }) {
   // const status = undefined
   const variables = { targetId, cycleId }
 
-  const user = await getUser(params)
-  const report = await getReport(variables)
-  const fullReport = await getFullReport(variables)
+  const { data: { getUser: { fullName } } } = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: targetId } })
+  const { data: { getReport: fullReport } } = await client.query({ query: GET_FULLREPORT, variables });
+  const { data: { getReport: { report } } } = await client.query({ query: GET_REPORT_FOR_EMPLOYEE, variables })
+
 
 
 
@@ -177,7 +47,7 @@ async function Report({ params }) {
               {fullReport.reviews.peer.map((peerReview, index) => (
                 <div key={index}>
                   <TableRow>
-                    <TableCell className="font-medium">{peerReview.reviewer}</TableCell>
+                    <TableCell className="font-medium">{fullName}</TableCell>
                   </TableRow>
                   {peerReview.grades.map((grade, gradeIndex) => (
                     <div className='grid grid-cols-5' key={gradeIndex}>
