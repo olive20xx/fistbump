@@ -88,6 +88,7 @@ export default function MetricList({
     }
     mutationVars.input.reviews.peer[0].grades = state
     mutationVars.input.reviews.peer[0].submitted = true
+    console.log('🩷mutationvars', mutationVars.input)
     updateReport(mutation, mutationVars)
     setIsSubmitted(true)
   }
@@ -126,8 +127,9 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-            }`}
+          className={`w-36 ${
+            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+          }`}
           onClick={handleSubmit}
           size="lg"
         >
