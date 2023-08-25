@@ -43,7 +43,7 @@ async function Report({ params }) {
         <h1 className='text-2xl'>Manager</h1>
         <h2>Report remarks: {fullReport.remarks}</h2>
         <Table className='pt-4' >
-          <TableCaption>All the metrics and reting from reviews</TableCaption>
+          <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <h2 className='font-bold' >Peer Reviews</h2>
           <TableBody>
             {fullReport.reviews.peer.map((peerReview, index) => (
@@ -64,7 +64,7 @@ async function Report({ params }) {
         </Table>
         <h2 className='font-bold'>Self Review</h2>
         <Table >
-          <TableCaption>All the metrics and reting from reviews</TableCaption>
+          <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <TableBody>
             <TableRow>
               <TableCell className="font-medium">{target.fullName}</TableCell>
