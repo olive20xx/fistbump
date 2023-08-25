@@ -27,8 +27,12 @@ export async function getReport(query, variables) {
 }
 
 export async function updateReport(query, variables) {
+  console.log('CALLING UPDATEREPORT() with query', query)
+  console.log('CALLING UPDATEREPORT() with variables', variables)
   try {
-    await axios.post(url, { query, variables })
+    console.log('try')
+    const updatedReport = await axios.post(url, { query, variables })
+    console.log('🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️🤷🏻‍♀️', updatedReport)
   } catch (error) {
     console.error(error)
   }
@@ -36,7 +40,7 @@ export async function updateReport(query, variables) {
 
 export async function getUserByEmail(query, variables) {
   try {
-    const response = await axios.post('http://localhost:8080/graphql', { 
+    const response = await axios.post('http://localhost:8080/graphql', {
       query,
       variables,
     })

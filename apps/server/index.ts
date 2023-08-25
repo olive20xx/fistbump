@@ -157,7 +157,7 @@ const rootValue = {
         hashedPw: password,
       })
       console.log('ive found a user', user)
- 
+
       return user
     } catch (error) {
       throw new Error('Error fetching users from the database')
@@ -211,10 +211,12 @@ const rootValue = {
     input: ReportInput
   }) => {
     try {
+      console.log('🩷🩷 called UpdateReport on Server')
       const filter = { '_id.target': targetId, '_id.cycle': cycleId }
       const updatedReport = await Report.findOneAndUpdate(filter, input, {
         new: true,
       })
+      console.log(updatedReport)
       return updatedReport
     } catch (error) {
       throw new Error('Error updating a report in the database')

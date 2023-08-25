@@ -48,7 +48,6 @@ export default function MetricList({
   report: ReportData
   target: string
 }) {
-  console.log(report)
   const targetId = report._id.target
   const review = report.reviews.peer[0]
   const { submitted, grades: gradeData, reviewer } = review
