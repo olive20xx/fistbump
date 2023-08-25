@@ -5,23 +5,8 @@ import '../global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
+import UserItem from '@/components/table/UserItem'
  
-function UserItem({ loggedUser, user }) {
-  const cycleId = '131313'
-
-  return (
-    <div className="grid grid-cols-4 gap-4 border-b p-2">
-      <p className="font-semibold">{user.title}</p>
-      <Link href={`/employee/${user._id}/new-review`}>{user.fullName}</Link>
-      <p>{user.teamName}</p>
-      {loggedUser === user.fullName ?
-        <Link href={`/employee/${user._id}/report/${cycleId}`}>
-          <Button variant='destructive'>Take me to my Report Page</Button>
-        </Link> : <Button>Nominate peer to review me</Button>
-      }
-    </div>
-  )
-}
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])
@@ -40,6 +25,7 @@ export default function Dashboard() {
       teamName
     }
   }`
+
   useEffect(() => {
     async function getUsers() {
       try {
@@ -57,27 +43,28 @@ export default function Dashboard() {
   }, [getUsersQuery])
 
   return (
-    <div>
-      <div className=' bg-pink-400 flex px-12 justify-between items-center h-24 text-center'>
-
-        <h2 className="text-3xl font-bold   ">
-          List of the users
-        </h2>
+    <div className="bg-slate-200 h-screen">
+      <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
+        <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
-          {loggedUser ? <div>
-            <h2>
-              Hello {loggedUser}
-
-            </h2>
-            <Button onClick={handleLogout}> Log out</Button>
-          </div> : <Link href={'/login'}>  <Button> Please login</Button> </Link>}
+          {loggedUser ? (
+            <div>
+              <h2>Hello {loggedUser}</h2>
+              <Button onClick={handleLogout}> Log out</Button>
+            </div>
+          ) : (
+            <Link href={'/login'}>
+              {' '}
+              <Button>Log in</Button>{' '}
+            </Link>
+          )}
         </div>
       </div>
-      <div className="border-2 rounded-xl">
-        <div className="grid grid-cols-4 gap-4 font-bold border-b p-2 bg-slate-400">
-          <p>Title</p>
-          <p>Full Name</p>
-          <p>Team Name</p>
+      <div className="border-2 rounded-xl max-w-7xl mx-auto">
+        <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">
+          <p className='col-span-2'>Title</p>
+          <p className='col-span-2'>Full Name</p>
+          <p className='col-span-2'>Team Name</p>
         </div>
         {users.map((user) => (
           <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
