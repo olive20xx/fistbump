@@ -126,9 +126,8 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${
-            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-          }`}
+          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+            }`}
           onClick={handleSubmit}
           size="lg"
         >

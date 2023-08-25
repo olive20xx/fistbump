@@ -43,7 +43,7 @@ const reportQuery = `
 const panelPadding = 'p-4'
 
 export default async function Review({ params }: { params: any }) {
-  const user = await getUser(params.id, userQuery)
+  const user = await getUser(userQuery, { id: params.id })
   const [firstName, lastName] = user.fullName.split(' ')
 
   const reportVariables = { targetId: params.id, cycleId: '131313' }
