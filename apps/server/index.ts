@@ -157,6 +157,7 @@ const rootValue = {
         hashedPw: password,
       })
       console.log('ive found a user', user)
+ 
       return user
     } catch (error) {
       throw new Error('Error fetching users from the database')

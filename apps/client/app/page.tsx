@@ -10,10 +10,10 @@ export default function Page() {
       <Link href={'/dashboard'}>
         <Button>Go to dashboard</Button>
       </Link>
-
       <Link href={'/managerpanel'}>
         <Button>Go to managerpanel</Button>
       </Link>
+ 
     </div>
   );
 }

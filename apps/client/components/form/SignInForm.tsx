@@ -43,7 +43,7 @@ const SignInForm = () => {
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     const query = `
-    query getUserByEmail($email: String!, $password: String!) {
+     query getUserByEmail($email: String!, $password: String!) {
       getUserByEmail(email:$email,password:$password) {
        fullName
     }

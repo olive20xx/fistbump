@@ -5,3 +5,4 @@ module.exports = {
     domains: ['cloudflare-ipfs.com'],
   },
 }
+ 

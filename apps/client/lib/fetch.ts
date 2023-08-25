@@ -36,7 +36,7 @@ export async function updateReport(query, variables) {
 
 export async function getUserByEmail(query, variables) {
   try {
-    const response = await axios.post('http://localhost:8080/graphql', {
+    const response = await axios.post('http://localhost:8080/graphql', { 
       query,
       variables,
     })
