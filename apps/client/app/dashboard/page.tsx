@@ -5,7 +5,7 @@ import '../global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
-
+ 
 function UserItem({ loggedUser, user }) {
   const cycleId = '131313'
 
