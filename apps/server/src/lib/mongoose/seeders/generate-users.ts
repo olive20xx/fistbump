@@ -3,12 +3,14 @@ import User from '../models/User'
 
 function generateUsers(count: number) {
   const users: User[] = []
-
+  const companyName = 'Arol.Dev'
   for (let i = 0; i < count; i++) {
+    const firstName = faker.person.firstName()
+    const lastName = faker.person.lastName()
     const user = {
-      email: faker.internet.email(),
-      fullName: faker.person.fullName(),
-      hashedPw: faker.string.hexadecimal(),
+      email: `${firstName[0].toLowerCase()}${lastName.toLowerCase()}@${companyName.toLowerCase()}`,
+      fullName: `${firstName} ${lastName}`,
+      hashedPw: '321',
       title: faker.person.jobTitle(),
       isOlga: faker.datatype.boolean(),
       photo: faker.internet.avatar(),
@@ -17,7 +19,7 @@ function generateUsers(count: number) {
         'Students',
         'Instructors',
       ]),
-      companyName: 'Arol.Dev',
+      companyName: companyName,
     }
     users.push(user)
   }
