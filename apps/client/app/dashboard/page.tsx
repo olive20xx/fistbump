@@ -3,22 +3,32 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
 
 function UserItem({ loggedUser, user }) {
   const cycleId = '131313'
 
   return (
-    <div className="grid grid-cols-4 gap-4 border-b p-2">
+    <div className="grid grid-cols-5 gap-4 border-b p-2">
       <p className="font-semibold">{user.title}</p>
-      <Link href={`/employee/${user._id}/new-review`}>{user.fullName}</Link>
+      <p>{user.fullName}</p>
       <p>{user.teamName}</p>
-      {loggedUser === user.fullName ?
+      {loggedUser === user.fullName ? (
         <Link href={`/employee/${user._id}/report/${cycleId}`}>
-          <Button variant='destructive'>Take me to my Report Page</Button>
-        </Link> : <Button>Nominate peer to review me</Button>
-      }
+          <Button variant="destructive">Take me to my Report Page</Button>
+        </Link>
+      ) : (
+        <Button>Nominate peer to review me</Button>
+      )}
+      <p>
+        <Link
+          href={`/employee/${user._id}/new-review`}
+          className={`${buttonVariants({ variant: 'outline' })} bg-blue-500 text-white`}
+        >
+          Write Review
+        </Link>
+      </p>
     </div>
   )
 }
@@ -40,6 +50,7 @@ export default function Dashboard() {
       teamName
     }
   }`
+
   useEffect(() => {
     async function getUsers() {
       try {
@@ -58,23 +69,24 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div className=' bg-pink-400 flex px-12 justify-between items-center h-24 text-center'>
-
-        <h2 className="text-3xl font-bold   ">
-          List of the users
-        </h2>
+      <div className=" bg-pink-400 flex px-12 justify-between items-center h-24 text-center">
+        <h2 className="text-3xl font-bold   ">List of the users</h2>
         <div>
-          {loggedUser ? <div>
-            <h2>
-              Hello {loggedUser}
-
-            </h2>
-            <Button onClick={handleLogout}> Log out</Button>
-          </div> : <Link href={'/login'}>  <Button> Please login</Button> </Link>}
+          {loggedUser ? (
+            <div>
+              <h2>Hello {loggedUser}</h2>
+              <Button onClick={handleLogout}> Log out</Button>
+            </div>
+          ) : (
+            <Link href={'/login'}>
+              {' '}
+              <Button> Please login</Button>{' '}
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-2 rounded-xl">
-        <div className="grid grid-cols-4 gap-4 font-bold border-b p-2 bg-slate-400">
+        <div className="grid grid-cols-5 gap-4 font-bold border-b p-2 bg-slate-400">
           <p>Title</p>
           <p>Full Name</p>
           <p>Team Name</p>
