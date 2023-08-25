@@ -50,7 +50,7 @@ export default function ManagerPanel() {
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">List of the users</h2>
+        <h2 className="text-3xl font-bold">Manager Panel: List of the users</h2>
       </div>
       <div className="rounded-xl max-w-7xl mx-auto">
         <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">

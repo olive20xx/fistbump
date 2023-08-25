@@ -11,17 +11,17 @@ export default function UserItem({ loggedUser, user }) {
         <p className="col-span-2">{user.fullName}</p>
         <p className="col-span-2">{user.teamName}</p>
         {loggedUser === user.fullName ? (
-          <p>
+          <div>
             <Link href={`/employee/${user._id}/report/${cycleId}`}>
               <Button variant="destructive">View my report</Button>
             </Link>
-          </p>
+          </div>
         ) : (
-          <p>
+          <div>
             <Button>Nominate peer</Button>
-          </p>
+          </div>
         )}
-        <p>
+        <div>
           <Link
             href={`/employee/${user._id}/new-review`}
             className={`${buttonVariants({
@@ -30,7 +30,7 @@ export default function UserItem({ loggedUser, user }) {
           >
             Write Review
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   )
