@@ -12,8 +12,6 @@ import { getClient } from '@/lib/client'
 import { GET_FULLREPORT, GET_USER_FULLNAME_BY_ID, GET_REPORT_FOR_EMPLOYEE } from '@/lib/queries'
 
 
-
-
 async function Report({ params }) {
   const client = getClient()
 

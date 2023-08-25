@@ -1,14 +1,16 @@
-'use client'
 import '../global.css'
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@apollo/client'
 import { GET_USERS } from '@/lib/queries';
+import { getClient } from '@/lib/client';
+
+export const fetchCache = 'force-no-store'
 
 function UserItem({ user }) {
 
 
-  const cycleId = "64e84ce566d3488fe1d4a8cf"
+  const cycleId = "64e881e98bca6cf04694cc9e"
 
 
   return (
@@ -22,15 +24,12 @@ function UserItem({ user }) {
   );
 }
 
-export default function Dashboard() {
+export default async function Dashboard() {
 
+  const client = getClient()
 
+  const { data: { getUsers: users } } = await client.query({ query: GET_USERS })
 
-
-  const { loading, error, data } = useQuery(GET_USERS)
-  if (loading) return 'Loading...';
-  if (error) return `Error! ${error.message}`;
-  const { getUsers: users } = data
 
   return (
     <div>

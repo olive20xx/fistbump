@@ -5,7 +5,7 @@ import router from './src/router'
 import cors from 'cors'
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
-import { read, readFileSync } from 'fs'
+import { readFileSync } from 'fs'
 import { resolvers } from './src/resolvers'
 
 const app = express()

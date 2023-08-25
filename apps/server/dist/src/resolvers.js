@@ -30,7 +30,6 @@ exports.resolvers = {
             }
         }),
         getUser: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log('this is the id i get', id);
             try {
                 const user = yield User_1.default.findById(id);
                 return user;
@@ -60,7 +59,6 @@ exports.resolvers = {
         }),
         getReport: (_, { targetId, cycleId, }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                console.log('this is what i get ', targetId, cycleId);
                 const report = yield Report_1.default.findOne({
                     '_id.target': targetId,
                     '_id.cycle': cycleId,
