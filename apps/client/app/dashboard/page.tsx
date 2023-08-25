@@ -3,40 +3,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../global.css'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
-
-function UserItem({ loggedUser, user }) {
-  const cycleId = '131313'
-
-  return (
-    <div className='bg-white'>
-      <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">
-        <p className="font-semibold col-span-2">{user.title}</p>
-        <p className='col-span-2'>{user.fullName}</p>
-        <p className='col-span-2'>{user.teamName}</p>
-        {loggedUser === user.fullName ? (
-          <p>
-          <Link href={`/employee/${user._id}/report/${cycleId}`}>
-            <Button variant="destructive">Take me to my Report Page</Button>
-          </Link></p>
-        ) : (
-          <p>
-            <Button>Nominate peer</Button>
-          </p>
-        )}
-        <p>
-          <Link
-            href={`/employee/${user._id}/new-review`}
-            className={`${buttonVariants({ variant: 'outline' })} bg-blue-500 text-white`}
-          >
-            Write Review
-          </Link>
-        </p>
-      </div>
-    </div>
-  )
-}
+import UserItem from '@/components/table/UserItem'
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])
