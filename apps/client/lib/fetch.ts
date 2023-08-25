@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-const url = 'http://localhost:8080/graphql'
+const url = process.env.GRAPHQL_API_URL
 
-export async function getUser(id, query) {
-  const variables = { id }
+export async function getUser(query, variables) {
   try {
     const response = await axios.post(url, {
       query,
@@ -37,7 +36,7 @@ export async function updateReport(query, variables) {
 
 export async function getUserByEmail(query, variables) {
   try {
-    const response = await axios.post(url, {
+    const response = await axios.post('http://localhost:8080/graphql', { 
       query,
       variables,
     })

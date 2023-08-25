@@ -151,10 +151,13 @@ const rootValue = {
     password: String
   }) => {
     try {
+      console.log('im looking for a user')
       const user = await User.findOne({
         email,
-        password,
+        hashedPw: password,
       })
+      console.log('ive found a user', user)
+ 
       return user
     } catch (error) {
       throw new Error('Error fetching users from the database')
@@ -193,7 +196,6 @@ const rootValue = {
         '_id.target': targetId,
         '_id.cycle': cycleId,
       })
-      console.log('report found', report)
       return report
     } catch (error) {
       throw new Error('Error fetching report from the database')
