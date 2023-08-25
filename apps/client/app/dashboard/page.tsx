@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
 import UserItem from '@/components/table/UserItem'
- 
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])
@@ -60,11 +59,11 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-      <div className="border-2 rounded-xl max-w-7xl mx-auto">
+      <div className="rounded-xl max-w-7xl mx-auto">
         <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">
-          <p className='col-span-2'>Title</p>
-          <p className='col-span-2'>Full Name</p>
-          <p className='col-span-2'>Team Name</p>
+          <p className="col-span-2">Title</p>
+          <p className="col-span-2">Full Name</p>
+          <p className="col-span-2">Team Name</p>
         </div>
         {users.map((user) => (
           <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
