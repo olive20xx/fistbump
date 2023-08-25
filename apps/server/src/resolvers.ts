@@ -23,29 +23,6 @@ export const resolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    createUser: async (_: any, { input }: { input: Input }) => {
-      try {
-        const newUser = new User(input)
-        const savedUser = await newUser.save()
-        return savedUser
-      } catch (error) {
-        throw new Error(
-          'Error creating a new user and saving it to the database'
-        )
-      }
-    },
-    changeUser: async (_: any, { input }: { input: Input }) => {
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { email: input.email },
-          input,
-          { new: true }
-        )
-        return updatedUser
-      } catch (error) {
-        throw new Error('Error updating a user in the database')
-      }
-    },
     getReport: async (
       _: any,
       {
@@ -64,6 +41,33 @@ export const resolvers = {
         return report
       } catch (error) {
         throw new Error('Error fetching report from the database')
+      }
+    },
+  },
+
+  Mutation: {
+    changeUser: async (_: any, { input }: { input: Input }) => {
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { email: input.email },
+          input,
+          { new: true }
+        )
+        return updatedUser
+      } catch (error) {
+        throw new Error('Error updating a user in the database')
+      }
+    },
+
+    createUser: async (_: any, { input }: { input: Input }) => {
+      try {
+        const newUser = new User(input)
+        const savedUser = await newUser.save()
+        return savedUser
+      } catch (error) {
+        throw new Error(
+          'Error creating a new user and saving it to the database'
+        )
       }
     },
   },

@@ -3,6 +3,9 @@ type Query {
   getUsers: [User]
   getReport(targetId: String!, cycleId: String!): Report
   getUser(id: String): User
+}
+
+type Mutation {
   createUser(input: UserInput): User
   changeUser(input: UserInput): User
 }
@@ -18,10 +21,6 @@ input UserInput {
   companyName: String
 }
 
-# type Mutation {
-#   createUser(input: UserInput): User
-#   changeUser(input: UserInput): User
-# }
 
 type User {
   _id: String,

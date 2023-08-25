@@ -1,7 +1,6 @@
 import '../global.css'
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
-import { useQuery } from '@apollo/client'
 import { GET_USERS } from '@/lib/queries';
 import { getClient } from '@/lib/client';
 
