@@ -14,7 +14,7 @@ function UserItem({ user }) {
       <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
       <p>{user.teamName}</p>
       <Link href={`/employee/${user._id}/manager-report/${cycleId}`}>
-        <Button>Take me to Report Page</Button>
+        <Button>View Full Report</Button>
       </Link>
     </div>
   )
