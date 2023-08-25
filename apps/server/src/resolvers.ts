@@ -16,7 +16,6 @@ export const resolvers = {
       }
     },
     getUser: async (_: any, { id }: { id: String }) => {
-      console.log('this is the id i get', id)
       try {
         const user = await User.findById(id)
         return user
@@ -58,7 +57,6 @@ export const resolvers = {
       }
     ) => {
       try {
-        console.log('this is what i get ', targetId, cycleId)
         const report = await Report.findOne({
           '_id.target': targetId,
           '_id.cycle': cycleId,
