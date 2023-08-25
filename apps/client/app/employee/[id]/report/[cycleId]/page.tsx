@@ -32,7 +32,7 @@ async function Report({ params }) {
 
   return (
     <div className='p-4'>
-      {manager ?
+      {manager &&
         <div>
           <h1 className='text-2xl'>Manager</h1>
 
@@ -75,19 +75,7 @@ async function Report({ params }) {
             </TableBody>
           </Table>
         </div>
-
-        : <div></div>
       }
-      {/* // (!status ?{' '} */}
-      {/* <p>come back later </p> : */}
-      {/* <div className="p-12">
-        <h1 className="text-2xl">Your Report {user}</h1>
-        <div>
-          <p>Remarks:</p>
-          <p>{report.remarks}</p>
-        </div>
-      </div> */}
-      {/* // ) */}
     </div >
 
   )
