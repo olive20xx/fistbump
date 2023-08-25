@@ -11,7 +11,7 @@ function UserItem({ user }) {
   return (
     <div className="grid grid-cols-4 gap-4 border-b p-2 bg-white items-center">
       <p className="font-semibold">{user.title}</p>
-      <Link href={`/employee/${user._id}/newReview`}>{user.fullName}</Link>
+      <p>{user.fullName}</p>
       <p>{user.teamName}</p>
       <Link href={`/employee/${user._id}/manager-report/${cycleId}`}>
         <Button>View Full Report</Button>
