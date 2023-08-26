@@ -7,6 +7,7 @@ import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
 import { ReviewData } from '@/types/models'
 import { getReport, getUser } from '@/lib/fetch'
+import { getFullReportQuery } from '@/lib/queries'
 
 const userQuery = `
 query getUser($id: String) {
@@ -17,28 +18,6 @@ query getUser($id: String) {
     photo
 }}`
 
-const reportQuery = `
-  query GetReport($targetId: String!, $cycleId: String!) {
-    getReport(targetId: $targetId, cycleId: $cycleId) {
-      _id { 
-        target
-        cycle 
-      }
-      reviews {
-        peer {
-          submitted
-          reviewer
-          grades {
-            metric
-            rating
-            maxRating
-            comment
-          }
-        }
-      }
-    }
-  }`
-
 // regular variables
 const panelPadding = 'p-4'
 
@@ -47,7 +26,7 @@ export default async function Review({ params }: { params: any }) {
   const [firstName, lastName] = user.fullName.split(' ')
 
   const reportVariables = { targetId: params.id, cycleId: '131313' }
-  const report = await getReport(reportQuery, reportVariables)
+  const report = await getReport(getFullReportQuery, reportVariables)
 
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">

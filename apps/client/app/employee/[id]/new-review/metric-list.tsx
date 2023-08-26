@@ -87,6 +87,7 @@ export default function MetricList({
     }
     mutationVars.input.reviews.peer[0].grades = state
     mutationVars.input.reviews.peer[0].submitted = true
+    console.log('🩷mutationvars', mutationVars.input)
     updateReport(mutation, mutationVars)
     setIsSubmitted(true)
   }
