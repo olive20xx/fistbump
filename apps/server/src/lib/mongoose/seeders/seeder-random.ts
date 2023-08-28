@@ -2,10 +2,12 @@ import mongoose from 'mongoose'
 import { generateRandomUserModels } from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
-import generateReport, { pickRandomReviewers } from './generate-reports'
+import { generateRandomReport, pickRandomReviewers } from './generate-reports'
 import Report from '../models/Report'
 import { ReportModel } from '../../../../../../packages/types/models'
 import { ObjectId, UserDoc } from './types'
+import generateCycle from './generate-cycle'
+import Cycle from '../models/Cycle'
 
 const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
@@ -14,6 +16,8 @@ const MAX_RATING = 5
 const COMPANY = 'Arol.Dev'
 
 const mongoURL = process.env.MONGODB_URL
+
+const cycleInput = generateCycle(new Date(), NUMBER_OF_PEER_REVIEWS)
 
 // Connect to mongodb implementation
 async function seedDb() {
@@ -34,15 +38,18 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
+    const cycle = await Cycle.create(cycleInput)
+    if (!cycle) throw new Error('Cycle.create() failed')
+    console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
+
     const userInput = generateRandomUserModels(count, COMPANY)
     const users = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
 
-    const fakeCycle = '131313'
     const fakeManager = new mongoose.Types.ObjectId()
-    console.log(`💜 CYCLE ID: '${fakeCycle}' 💜`)
+    console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
     const reportInput: ReportModel[] = []
 
     users.forEach((user, index) => {
@@ -54,9 +61,9 @@ async function seedData(count: number) {
       //! ~half the reports will have empty reviews
       const areReviewsEmpty = index < users.length / 2
 
-      const report = generateReport(
+      const report = generateRandomReport(
         user._id,
-        fakeCycle,
+        cycle._id,
         fakeManager,
         reviewers,
         NUMBER_OF_METRICS,

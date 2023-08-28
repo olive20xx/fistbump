@@ -26,7 +26,7 @@ export type ReviewModel = {
 export type ReportModel = {
   _id: ReportId
   summary: string
-  status: string
+  status: ReportStatus
   reviews: {
     peers: ReviewModel[]
     self: ReviewModel

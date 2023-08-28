@@ -3,6 +3,7 @@ import {
   GradeModel,
   ReviewModel,
   ReportModel,
+  REPORT_STATUS,
 } from '../../../../../../packages/types/models'
 import { UserDoc, ObjectId } from './types'
 
@@ -18,8 +19,15 @@ function generateGrades(count: number, maxRating: number, isFilled: boolean) {
       'Skating',
       'Crime',
       'Being From Cuba',
-      'Raw Power',
-      'Animal Magnetism',
+      'Power',
+      'Agility',
+      'Endurance',
+      'Danger',
+      'Charm',
+      'Spellcasting',
+      'Storytelling',
+      'Futbol',
+      'Handstands',
     ],
     count
   )
@@ -41,7 +49,7 @@ function generateGrades(count: number, maxRating: number, isFilled: boolean) {
 function generateReview(
   metricCount: number,
   maxRating: number,
-  reviewerId: ObjectId | null,
+  reviewerId: ObjectId | null = null,
   isGraded: boolean = false
 ) {
   const review: ReviewModel = {
@@ -53,7 +61,34 @@ function generateReview(
   return review
 }
 
-function generateReport(
+export function generateEmptyReport(
+  targetId: ObjectId,
+  cycleId: ObjectId,
+  managerId: ObjectId,
+  peersPerTarget: number,
+  metricCount: number,
+  maxRating: number
+) {
+  const peers: ReviewModel[] = []
+  for (let i = 0; i < peersPerTarget; i++) {
+    const review = generateReview(metricCount, maxRating)
+    peers.push(review)
+  }
+
+  const report: ReportModel = {
+    _id: { targetId, cycleId },
+    summary: '',
+    status: 'Nomination',
+    reviews: {
+      peers,
+      self: generateReview(metricCount, maxRating, targetId),
+      manager: generateReview(metricCount, maxRating, managerId),
+    },
+  }
+  return report
+}
+
+export function generateRandomReport(
   targetId: ObjectId,
   cycleId: ObjectId,
   managerId: ObjectId,
@@ -77,12 +112,7 @@ function generateReport(
   const report: ReportModel = {
     _id: { targetId, cycleId },
     summary: faker.lorem.paragraph({ min: 2, max: 4 }),
-    status: faker.helpers.arrayElement([
-      'Nomination',
-      'Review',
-      'Report',
-      'Completed',
-    ]),
+    status: faker.helpers.objectValue(REPORT_STATUS),
     reviews: {
       peers: peerReviews,
       self: generateReview(metricCount, maxRating, targetId),
@@ -112,5 +142,3 @@ export function pickRandomReviewers(
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)
 }
-
-export default generateReport

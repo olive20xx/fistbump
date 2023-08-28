@@ -1,3 +1,3 @@
-import seedDb from './lib/mongoose/seeders/seeder-random'
+import seedDb from './lib/mongoose/seeders/seeder-aroldev'
 
 seedDb()
