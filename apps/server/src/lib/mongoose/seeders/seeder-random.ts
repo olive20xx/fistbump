@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import generateUsers from './generate-users'
+import { generateRandomUsers } from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
 import generateReport from './generate-reports'
@@ -10,14 +10,15 @@ const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
 const NUMBER_OF_METRICS = 3
 const MAX_RATING = 5
+const COMPANY = 'Arol.Dev'
 
 const mongoURL = process.env.MONGODB_URL
 
 type UserDoc = mongoose.MergeType<
   mongoose.Document<unknown, {}, UserModel> &
-  UserModel & {
-    _id: mongoose.Types.ObjectId
-  },
+    UserModel & {
+      _id: mongoose.Types.ObjectId
+    },
   Omit<UserModel, '_id'>
 >
 
@@ -40,7 +41,7 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
-    const userInput = generateUsers(count)
+    const userInput = generateRandomUsers(count, COMPANY)
     const users: UserDoc[] = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
