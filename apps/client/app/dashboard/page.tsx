@@ -8,6 +8,7 @@ import { UserModel } from '../../../../packages/types/models'
 import { apolloClient } from '@/lib/client'
 import handleLogout from '@/components/Logout'
 
+
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
 
@@ -15,8 +16,7 @@ export default async function Dashboard() {
 
   const loggedUser = cookieStore.get('user')
 
-  const { data: { getUsers: users } } = await apolloClient.query({ query: GET_USERS })
-
+  const { data: { getUsers } } = await apolloClient.query({ query: GET_USERS })
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -42,7 +42,7 @@ export default async function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user: UserModel) => (
+        {getUsers.map((user) => (
           <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
         ))}
       </div>

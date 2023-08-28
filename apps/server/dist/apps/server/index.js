@@ -10,7 +10,7 @@ const router_1 = __importDefault(require("./src/router"));
 const cors_1 = __importDefault(require("cors"));
 const server_1 = require("@apollo/server");
 const standalone_1 = require("@apollo/server/standalone");
-const resolvers_1 = require("./src/resolvers");
+const resolvers_1 = __importDefault(require("./src/resolvers"));
 const fs_1 = require("fs");
 const typeDefs = (0, fs_1.readFileSync)('./src/schema.graphql', 'utf-8');
 const app = (0, express_1.default)();
@@ -21,7 +21,7 @@ mongoose_1.default.connect(constants_1.MONGODB_URL);
 const db = mongoose_1.default.connection;
 const apolloServer = new server_1.ApolloServer({
     typeDefs,
-    resolvers: resolvers_1.resolvers,
+    resolvers: resolvers_1.default,
 });
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {

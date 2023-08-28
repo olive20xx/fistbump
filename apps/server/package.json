@@ -4,9 +4,10 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
-    "start": "npm run compile && node .dist/apps/server/index.js",
-    "dev": "npm run compile && nodemon index.ts",
+    "generate": "graphql-codegen --config codegen.yml",
+    "compile": "npm run generate && tsc",
+    "start": "node .dist/apps/server/index.js",
+    "dev": "nodemon index.ts",
     "seed": "ts-node src/seed.ts"
   },
   "dependencies": {
@@ -28,7 +29,12 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "babel-eslint": "^10.1.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
   }
 }

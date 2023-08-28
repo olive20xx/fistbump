@@ -12,59 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolvers = void 0;
-const User_1 = __importDefault(require("./lib/mongoose/models/User"));
-const Report_1 = __importDefault(require("./lib/mongoose/models/Report"));
-exports.resolvers = {
-    Query: {
-        hello: () => {
-            return 'Hello world!';
-        },
-        getUsers: () => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                const users = yield User_1.default.find();
-                return users;
-            }
-            catch (error) {
-                throw new Error('Error fetching users from the database');
-            }
-        }),
-        getUser: (_, { id }) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                const user = yield User_1.default.findById(id);
-                return user;
-            }
-            catch (error) {
-                throw new Error('Error fetching users from the database');
-            }
-        }),
-        getUserByEmail: (_, { email, password, }) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                console.log('im looking for a user');
-                const user = yield User_1.default.findOne({
-                    email,
-                    hashedPw: password,
-                });
-                console.log('ive found a user', user);
-                return user;
-            }
-            catch (error) {
-                throw new Error('Error fetching users from the database');
-            }
-        }),
-        getReport: (_, { targetId, cycleId, }) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                const report = yield Report_1.default.findOne({
-                    '_id.targetId': targetId,
-                    '_id.cycleId': cycleId,
-                });
-                return report;
-            }
-            catch (error) {
-                throw new Error('Error fetching report from the database');
-            }
-        }),
-    },
+const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
+const User_1 = __importDefault(require("../lib/mongoose/models/User"));
+const mutations = {
     Mutation: {
         createUser: ({ input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
@@ -99,3 +49,4 @@ exports.resolvers = {
         }),
     },
 };
+exports.default = mutations;

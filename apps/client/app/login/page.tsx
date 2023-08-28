@@ -20,6 +20,7 @@ import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { GET_USER_BY_EMAIL } from '@/lib/queries'
 import { useLazyQuery } from '@apollo/client'
+import { getUserByEmail } from '@/lib/fetch'
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z

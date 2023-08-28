@@ -5,7 +5,7 @@ import router from './src/router'
 import cors from 'cors'
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
-import { resolvers } from './src/resolvers'
+import resolvers from './src/resolvers'
 import { readFileSync } from 'fs'
 
 const typeDefs = readFileSync('./src/schema.graphql', 'utf-8')

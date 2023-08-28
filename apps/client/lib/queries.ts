@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client'
+import gql from 'graphql-tag'
 
-export const GET_USERS = gql`
-  query Query {
+export const GET_USERS = gql(`
+  query getUsers {
     getUsers {
       _id
       fullName
@@ -9,10 +9,10 @@ export const GET_USERS = gql`
       teamName
     }
   }
-`
+`)
 
-export const GET_FULLREPORT = gql`
-  query getReport($targetId: String!, $cycleId: String!) {
+export const GET_FULLREPORT =
+  gql(` query getReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
         cycleId
@@ -57,17 +57,17 @@ export const GET_FULLREPORT = gql`
       summary
     }
   }
-`
+`)
 
-export const GET_USER_FULLNAME_BY_ID = gql`
+export const GET_USER_FULLNAME_BY_ID = gql(`
   query getUser($id: String) {
     getUser(id: $id) {
       fullName
     }
   }
-`
+`)
 
-export const GET_USER_BY_ID = gql`
+export const GET_USER_BY_ID = gql(`
   query getUser($id: String) {
     getUser(id: $id) {
       photo
@@ -76,9 +76,9 @@ export const GET_USER_BY_ID = gql`
       fullName
     }
   }
-`
+`)
 
-export const GET_REPORT_FOR_EMPLOYEE = gql`
+export const GET_REPORT_FOR_EMPLOYEE = gql(`
   query getReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
@@ -88,12 +88,12 @@ export const GET_REPORT_FOR_EMPLOYEE = gql`
       summary
     }
   }
-`
+`)
 
-export const GET_USER_BY_EMAIL = gql`
+export const GET_USER_BY_EMAIL = gql(`
   query getUserByEmail($email: String!, $password: String!) {
     getUserByEmail(email: $email, password: $password) {
       fullName
     }
   }
-`
+`)
