@@ -1,11 +1,11 @@
 import faker from './faker'
-import { IGrade, IReport, IReview } from '../models/Report'
+import { GradeModel, ReviewModel, ReportModel } from '../../../../../../packages/types/models'
 import mongoose from 'mongoose'
 
 type ObjectId = mongoose.Types.ObjectId
 
 function generateGrades(count: number, maxRating: number, isFilled: boolean) {
-  const grades: IGrade[] = []
+  const grades: GradeModel[] = []
   const metrics = faker.helpers.arrayElements(
     [
       'Looks',
@@ -23,7 +23,7 @@ function generateGrades(count: number, maxRating: number, isFilled: boolean) {
   )
 
   for (let i = 0; i < count; i++) {
-    const grade: IGrade = {
+    const grade: GradeModel = {
       metric: metrics[i],
       rating: isFilled ? faker.number.int({ min: 1, max: maxRating }) : 0,
       maxRating: maxRating,
@@ -37,13 +37,13 @@ function generateGrades(count: number, maxRating: number, isFilled: boolean) {
 }
 
 function generateReview(
-  reviewer: ObjectId,
+  reviewerId: ObjectId,
   metricCount: number,
   maxRating: number,
   isGraded: boolean = false
 ) {
-  const review: IReview = {
-    reviewer: reviewer,
+  const review: ReviewModel = {
+    reviewerId: reviewerId,
     isDeclined: false,
     submitted: isGraded,
     grades: generateGrades(metricCount, maxRating, isGraded),
@@ -52,14 +52,15 @@ function generateReview(
 }
 
 function generateReport(
-  target: ObjectId,
-  cycle: string,
+  targetId: ObjectId,
+  cycleId: string,
+  managerId: ObjectId,
   reviewers: ObjectId[],
   metricCount: number,
   maxRating: number,
   areReviewsEmpty: boolean
 ) {
-  const peerReviews: IReview[] = []
+  const peerReviews: ReviewModel[] = []
   for (let i = 0; i < reviewers.length; i++) {
     const reviewerId = reviewers[i]
     const review = generateReview(
@@ -71,9 +72,9 @@ function generateReport(
     peerReviews.push(review)
   }
 
-  const report: IReport = {
-    _id: { target, cycle },
-    remarks: faker.lorem.paragraph({ min: 2, max: 4 }),
+  const report: ReportModel = {
+    _id: { targetId, cycleId },
+    summary: faker.lorem.paragraph({ min: 2, max: 4 }),
     status: faker.helpers.arrayElement([
       'Nomination',
       'Review',
@@ -81,8 +82,9 @@ function generateReport(
       'Completed',
     ]),
     reviews: {
-      peer: peerReviews,
-      self: generateReview(target, metricCount, maxRating),
+      peers: peerReviews,
+      self: generateReview(targetId, metricCount, maxRating),
+      manager: generateReview(managerId, metricCount, maxRating)
     },
   }
 
