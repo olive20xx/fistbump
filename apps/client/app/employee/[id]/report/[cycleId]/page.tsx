@@ -1,5 +1,5 @@
 
-import '../../../../global.css'
+import '@/app/global.css'
 import { getReport, getUser } from '@/lib/fetch'
 import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
 
