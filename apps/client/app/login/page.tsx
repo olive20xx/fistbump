@@ -1,5 +1,5 @@
 import SignInForm from '@/components/form/SignInForm'
-import '../global.css'
+import '@/app/global.css'
 
 export default function Login() {
   return (

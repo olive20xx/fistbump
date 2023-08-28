@@ -15,17 +15,17 @@ async function Report({ params }) {
   const variables = { targetId, cycleId }
 
 
-  const report = await client.query({query: GET_REPORT_FOR_EMPLOYEE, variables})
-  const user = await client.query({query: GET_USER_FULLNAME_BY_ID, variables: {id: targetId}})
-console.log('report--------------->', report)
-console.log('user--------------->', user)
+  const report = await client.query({ query: GET_REPORT_FOR_EMPLOYEE, variables })
+  const user = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: targetId } })
+  console.log('report--------------->', report)
+  console.log('user--------------->', user)
 
 
   console.log(variables)
 
   return (
     <div className='p-4'>
-{/* 
+      {/* 
       <h1 className="text-2xl">Your Report {user.fullName}</h1>
       <div>
         <p>Remarks:</p>

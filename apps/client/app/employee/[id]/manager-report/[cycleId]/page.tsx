@@ -1,5 +1,4 @@
-import axios from 'axios'
-import '../../../../global.css'
+import '@/app/global.css'
 
 import {
   Table,
@@ -11,14 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getReport, getUser } from '@/lib/fetch'
-import { userQuery, reportQuery, getFullReportQuery } from '@/lib/queries'
+import { userQuery, getFullReportQuery } from '@/lib/queries'
 
 
 async function Report({ params }) {
 
-
-
-  console.log('params from managerpanme', params)
   const targetId = params.id
   const cycleId = params.cycleId
 
