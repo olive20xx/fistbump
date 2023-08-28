@@ -1,30 +1,7 @@
-import mongoose, { Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
+import { GradeModel, ReviewModel, ReportModel } from "../../../../../types/models"
 
-export type IGrade = {
-  metric: string
-  rating: number
-  maxRating: number
-  comment: string
-}
-
-export type IReview = {
-  reviewer: mongoose.Types.ObjectId
-  isDeclined: boolean
-  submitted: boolean
-  grades: IGrade[]
-}
-
-export type IReport = {
-  _id: { target: mongoose.Types.ObjectId; cycle: string }
-  remarks: string
-  status: string
-  reviews: {
-    peer: IReview[]
-    self: IReview
-  }
-}
-
-const GradeSchema = new Schema<IGrade>({
+const GradeSchema = new Schema<GradeModel>({
   metric: String,
   // rating === 0 when not graded
   rating: Number,
@@ -32,32 +9,33 @@ const GradeSchema = new Schema<IGrade>({
   comment: String,
 })
 
-const ReviewSchema = new Schema<IReview>(
+// In the schema, use 'Schema.Types.ObjectId' when defining a property
+// but in a type declaration, use 'mongoose.Types.ObjectId'
+const ReviewSchema = new Schema<ReviewModel>(
   {
-    // I have no idea why this has to spell out 'Schema.Types.ObjectId'
-    // but in a type declaration, I can just use 'ObjectId'
-    reviewer: Schema.Types.ObjectId,
+    reviewerId: Schema.Types.ObjectId,
     submitted: Boolean,
     grades: [GradeSchema],
   },
-  //* Set createdAt and updatedAt
+  //* timestamps automatically creates createdAt and updatedAt properties
   { timestamps: true }
 )
 
-const ReportSchema = new Schema<IReport>(
+const ReportSchema = new Schema<ReportModel>(
   {
     _id: { target: Schema.Types.ObjectId, cycle: String },
-    remarks: String,
+    remark: String,
     status: String,
     reviews: {
-      peer: [ReviewSchema],
+      peers: [ReviewSchema],
       self: ReviewSchema,
+      manager: ReviewSchema
     },
   },
-  // Set createdAt and updatedAt
+  //* timestamps automatically creates createdAt and updatedAt properties
   { timestamps: true }
 )
 
-const Report = model<IReport>('Report', ReportSchema)
+const Report = model<ReportModel>('Report', ReportSchema)
 
 export default Report
