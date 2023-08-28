@@ -1,21 +1,19 @@
 import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { getCookie, setCookie } from 'cookies-next'
+import { cookies } from 'next/headers'
 import UserItem from '@/components/table/UserItem'
 import { GET_USERS } from '@/lib/queries'
 import { UserModel } from '../../../../packages/types/models'
 import { apolloClient } from '@/lib/client'
+import handleLogout from '@/components/Logout'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
 
-  const loggedUser = getCookie('user')
+  const cookieStore = cookies()
 
-  function handleLogout() {
-    setCookie('user', '')
-  }
-
+  const loggedUser = cookieStore.get('user')
 
   const { data: { getUsers: users } } = await apolloClient.query({ query: GET_USERS })
 
@@ -25,9 +23,9 @@ export default async function Dashboard() {
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
-          {loggedUser ? (
+          {loggedUser.value ? (
             <div>
-              <h2>Hello {loggedUser}</h2>
+              <h2>Hello {loggedUser.value}</h2>
               <Button onClick={handleLogout}> Log out</Button>
             </div>
           ) : (
