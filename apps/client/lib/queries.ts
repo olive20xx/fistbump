@@ -82,8 +82,8 @@ export const GET_REPORT_FOR_EMPLOYEE = gql`
   query getReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
-        target
-        cycle
+        targetId
+        cycleId
       }
       summary
     }

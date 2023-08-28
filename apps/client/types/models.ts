@@ -21,7 +21,7 @@ type UserId = string
 
 type ReportData = {
   _id: { targetId: string; cycleId: string }
-  remarks: string
+  summary: string
   status: string
   reviews: {
     peers: ReviewData[]

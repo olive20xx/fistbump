@@ -16,14 +16,9 @@ export default async function Review({ params }: { params: any }) {
   const client = getClient()
 
   const { data: { getUser } } = await client.query({ query: GET_USER_BY_ID, variables: { id: params.id } })
-
-
   const { data: { getReport } } = await client.query({ query: GET_FULLREPORT, variables: { targetId: params.id, cycleId: '131313' } })
 
-
-
   const [firstName] = getUser.fullName.split(' ')
-
 
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">
