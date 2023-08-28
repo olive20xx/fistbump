@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@/src/__generated__'
 
 export const GET_USERS = gql(`
   query getUsers {
@@ -12,7 +12,7 @@ export const GET_USERS = gql(`
 `)
 
 export const GET_FULLREPORT =
-  gql(` query getReport($targetId: String!, $cycleId: String!) {
+  gql(` query getFullReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
         cycleId
@@ -60,7 +60,7 @@ export const GET_FULLREPORT =
 `)
 
 export const GET_USER_FULLNAME_BY_ID = gql(`
-  query getUser($id: String) {
+  query getUserFullName($id: String) {
     getUser(id: $id) {
       fullName
     }
@@ -68,7 +68,7 @@ export const GET_USER_FULLNAME_BY_ID = gql(`
 `)
 
 export const GET_USER_BY_ID = gql(`
-  query getUser($id: String) {
+  query getUserObject($id: String) {
     getUser(id: $id) {
       photo
       teamName
@@ -79,7 +79,7 @@ export const GET_USER_BY_ID = gql(`
 `)
 
 export const GET_REPORT_FOR_EMPLOYEE = gql(`
-  query getReport($targetId: String!, $cycleId: String!) {
+  query getEmployeeReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
         targetId

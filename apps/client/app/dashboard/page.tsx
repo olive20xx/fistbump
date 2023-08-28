@@ -9,6 +9,8 @@ import { apolloClient } from '@/lib/client'
 import handleLogout from '@/components/Logout'
 
 
+
+
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
 
@@ -17,6 +19,8 @@ export default async function Dashboard() {
   const loggedUser = cookieStore.get('user')
 
   const { data: { getUsers } } = await apolloClient.query({ query: GET_USERS })
+
+
 
   return (
     <div className="bg-slate-200 h-screen">
