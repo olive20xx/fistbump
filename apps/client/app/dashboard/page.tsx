@@ -3,15 +3,12 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
 import UserItem from '@/components/table/UserItem'
-import { getClient } from '@/lib/client'
 import { GET_USERS } from '@/lib/queries'
 import { UserModel } from '../../../../packages/types/models'
+import { apolloClient } from '@/lib/client'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
-
-
-  const client = getClient()
 
   const loggedUser = getCookie('user')
 
@@ -20,7 +17,7 @@ export default async function Dashboard() {
   }
 
 
-  const { data: { getUsers: users } } = await client.query({ query: GET_USERS })
+  const { data: { getUsers: users } } = await apolloClient.query({ query: GET_USERS })
 
 
   return (

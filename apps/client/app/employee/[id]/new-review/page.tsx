@@ -5,7 +5,7 @@ import UserCard from '@/components/ui/user-card'
 import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
 import { GET_FULLREPORT, GET_USER_BY_ID } from '@/lib/queries'
-import { getClient } from '@/lib/client'
+import { apolloClient } from '@/lib/client'
 
 
 
@@ -13,10 +13,10 @@ import { getClient } from '@/lib/client'
 const panelPadding = 'p-4'
 
 export default async function Review({ params }: { params: any }) {
-  const client = getClient()
 
-  const { data: { getUser } } = await client.query({ query: GET_USER_BY_ID, variables: { id: params.id } })
-  const { data: { getReport } } = await client.query({ query: GET_FULLREPORT, variables: { targetId: params.id, cycleId: '131313' } })
+
+  const { data: { getUser } } = await apolloClient.query({ query: GET_USER_BY_ID, variables: { id: params.id } })
+  const { data: { getReport } } = await apolloClient.query({ query: GET_FULLREPORT, variables: { targetId: params.id, cycleId: '131313' } })
 
   const [firstName] = getUser.fullName.split(' ')
 

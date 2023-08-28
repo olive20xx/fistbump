@@ -32,7 +32,7 @@ const FormSchema = z.object({
 const SignInForm = () => {
 
 
-  const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_EMAIL);
+  const [getUser] = useLazyQuery(GET_USER_BY_EMAIL);
 
   const { push } = useRouter()
 
@@ -48,16 +48,11 @@ const SignInForm = () => {
 
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-
-
-
     const email = values.email
     const password = values.password
     const variables = { email, password }
 
     const { data: { getUserByEmail } } = await getUser({ variables })
-
-
 
 
     if (getUserByEmail.fullName) {

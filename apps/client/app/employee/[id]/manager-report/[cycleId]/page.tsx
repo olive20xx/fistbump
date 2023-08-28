@@ -9,22 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getClient } from '@/lib/client'
+import { apolloClient } from '@/lib/client'
 import { GET_FULLREPORT, GET_USER_FULLNAME_BY_ID } from '@/lib/queries'
 
 async function Report({ params }) {
 
-  const client = getClient()
-
   // const status = undefined
   const variables = { targetId: params.id, cycleId: params.cycleId }
 
-  const { data: { getUser: { fullName } } } = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
-  const { data: { getReport } } = await client.query({ query: GET_FULLREPORT, variables })
+  const { data: { getUser: { fullName } } } = await apolloClient.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
+  const { data: { getReport } } = await apolloClient.query({ query: GET_FULLREPORT, variables })
 
 
   async function getReviewer(id) {
-    const { data: { getUser: { fullName } } } = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: id } })
+    const { data: { getUser: { fullName } } } = await apolloClient.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: id } })
     return fullName
   }
 
