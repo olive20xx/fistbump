@@ -1,5 +1,14 @@
 import mongoose from 'mongoose'
 
+export const REPORT_STATUS = {
+  NOMINATION: 'Nomination',
+  REVIEW: 'Review',
+  REPORT: 'Report',
+  COMPLETE: 'Complete',
+} as const
+
+export type ReportStatus = (typeof REPORT_STATUS)[keyof typeof REPORT_STATUS]
+
 export type GradeModel = {
   metric: string
   rating: number
