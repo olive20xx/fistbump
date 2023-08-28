@@ -19,7 +19,7 @@ async function Report({ params }) {
   // const status = undefined
   const variables = { targetId: params.id, cycleId: params.cycleId }
 
-  const { data: { getUser: { fullName } } } = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: targetId } })
+  const { data: { getUser: { fullName } } } = await client.query({ query: GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
   const { data: { getReport } } = await client.query({ query: GET_FULLREPORT, variables })
 
 
