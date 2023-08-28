@@ -39,13 +39,13 @@ function generateGrades(count: number, maxRating: number, isFilled: boolean) {
 }
 
 function generateReview(
-  reviewerId: ObjectId,
   metricCount: number,
   maxRating: number,
+  reviewerId: ObjectId | null,
   isGraded: boolean = false
 ) {
   const review: ReviewModel = {
-    reviewerId: reviewerId,
+    reviewerId,
     isDeclined: false,
     submitted: isGraded,
     grades: generateGrades(metricCount, maxRating, isGraded),
@@ -66,9 +66,9 @@ function generateReport(
   for (let i = 0; i < reviewers.length; i++) {
     const reviewerId = reviewers[i]
     const review = generateReview(
-      reviewerId,
       metricCount,
       maxRating,
+      reviewerId,
       areReviewsEmpty
     )
     peerReviews.push(review)
@@ -85,8 +85,8 @@ function generateReport(
     ]),
     reviews: {
       peers: peerReviews,
-      self: generateReview(targetId, metricCount, maxRating),
-      manager: generateReview(managerId, metricCount, maxRating),
+      self: generateReview(metricCount, maxRating, targetId),
+      manager: generateReview(metricCount, maxRating, managerId),
     },
   }
 

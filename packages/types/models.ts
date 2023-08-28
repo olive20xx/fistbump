@@ -8,7 +8,7 @@ export type GradeModel = {
 }
 
 export type ReviewModel = {
-  reviewerId: mongoose.Types.ObjectId
+  reviewerId: mongoose.Types.ObjectId | null
   isDeclined: boolean
   submitted: boolean
   grades: GradeModel[]
