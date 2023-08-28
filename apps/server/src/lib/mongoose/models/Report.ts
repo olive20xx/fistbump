@@ -24,7 +24,7 @@ const ReviewSchema = new Schema<ReviewModel>(
 const ReportSchema = new Schema<ReportModel>(
   {
     _id: { target: Schema.Types.ObjectId, cycle: String },
-    remark: String,
+    summary: String,
     status: String,
     reviews: {
       peers: [ReviewSchema],
