@@ -18,9 +18,9 @@ export const GET_FULLREPORT = gql`
         cycle
         target
       }
-      remarks
+      summary
       reviews {
-        peer {
+        peers {
           grades {
             comment
             maxRating
@@ -32,6 +32,17 @@ export const GET_FULLREPORT = gql`
           submitted
         }
         self {
+          grades {
+            comment
+            maxRating
+            metric
+            rating
+          }
+          isDeclined
+          reviewer
+          submitted
+        }
+        manager {
           grades {
             comment
             maxRating
@@ -63,7 +74,7 @@ export const GET_REPORT_FOR_EMPLOYEE = gql`
         target
         cycle
       }
-      remarks
+      summary
     }
   }
 `
