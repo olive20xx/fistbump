@@ -1,7 +1,8 @@
 import User from './lib/mongoose/models/User'
 import Report from './lib/mongoose/models/Report'
-import { UserInput } from './lib/types/User'
-import { ReportInput } from './lib/types/Report'
+import { UserInput } from '../../../packages/types/inputs'
+import { ReportInput } from '../../../packages/types/inputs'
+
 
 export const resolvers = {
   Query: {
