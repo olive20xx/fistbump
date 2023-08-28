@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { GradeModel, ReviewModel, ReportModel } from "../../../../../types/models"
+import { GradeModel, ReviewModel, ReportModel } from "../../../../../../packages/types/models"
 
 const GradeSchema = new Schema<GradeModel>({
   metric: String,
