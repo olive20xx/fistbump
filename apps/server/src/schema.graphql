@@ -82,6 +82,7 @@ type Report {
 type Reviews {
   self: Review
   peers: [Review]
+  manager: Review
 }
 
 type Review {
