@@ -1,4 +1,4 @@
-import { gql } from 'graphql-tag'
+import { gql } from '@/src/__generated__'
 
 export const GET_USERS = gql(`
   query getUsers {

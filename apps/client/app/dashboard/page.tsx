@@ -20,8 +20,6 @@ export default async function Dashboard() {
 
   const { data: { getUsers } } = await apolloClient.query({ query: GET_USERS })
 
-
-
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
