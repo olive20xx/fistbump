@@ -9,7 +9,6 @@ export type UserInput = {
   companyName?: string
 }
 
-
 export type ReportInput = {
   _id: ReportIdInput
   summary?: string

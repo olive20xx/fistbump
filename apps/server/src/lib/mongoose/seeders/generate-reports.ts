@@ -1,5 +1,9 @@
 import faker from './faker'
-import { GradeModel, ReviewModel, ReportModel } from '../../../../../../packages/types/models'
+import {
+  GradeModel,
+  ReviewModel,
+  ReportModel,
+} from '../../../../../../packages/types/models'
 import mongoose from 'mongoose'
 
 type ObjectId = mongoose.Types.ObjectId
@@ -84,7 +88,7 @@ function generateReport(
     reviews: {
       peers: peerReviews,
       self: generateReview(targetId, metricCount, maxRating),
-      manager: generateReview(managerId, metricCount, maxRating)
+      manager: generateReview(managerId, metricCount, maxRating),
     },
   }
 

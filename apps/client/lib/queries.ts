@@ -1,4 +1,4 @@
-import { gql } from '@/src/__generated__'
+import { gql } from 'graphql-tag'
 
 export const GET_USERS = gql(`
   query getUsers {
@@ -15,8 +15,8 @@ export const GET_FULLREPORT =
   gql(` query getFullReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
-        cycleId
         targetId
+        cycleId
       }
       reviews {
         manager {
@@ -97,3 +97,32 @@ export const GET_USER_BY_EMAIL = gql(`
     }
   }
 `)
+
+export const UPDATE_REPORT = gql(`
+  mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+    updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
+      summary
+      reviews {
+        peers {
+          submitted
+          reviewerId
+          grades {
+            metric
+            rating
+            maxRating
+            comment
+          }
+        }
+        manager {
+          submitted
+          reviewerId
+          grades {
+            metric
+            rating
+            maxRating
+            comment
+          }
+        }
+      }
+    }
+  }`)

@@ -16,7 +16,7 @@ const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
 const mutations = {
     Mutation: {
-        createUser: ({ input }) => __awaiter(void 0, void 0, void 0, function* () {
+        createUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const newUser = new User_1.default(input);
                 const savedUser = yield newUser.save();
@@ -26,7 +26,7 @@ const mutations = {
                 throw new Error('Error creating a new user and saving it to the database');
             }
         }),
-        updateUser: ({ input }) => __awaiter(void 0, void 0, void 0, function* () {
+        updateUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const updatedUser = yield User_1.default.findOneAndUpdate({ email: input.email }, input, { new: true });
                 return updatedUser;
@@ -35,9 +35,9 @@ const mutations = {
                 throw new Error('Error updating a user in the database');
             }
         }),
-        updateReport: ({ targetId, cycleId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
+        updateReport: (_, { targetId, cycleId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const filter = { '_id.target': targetId, '_id.cycle': cycleId };
+                const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId };
                 const updatedReport = yield Report_1.default.findOneAndUpdate(filter, input, {
                     new: true,
                 });

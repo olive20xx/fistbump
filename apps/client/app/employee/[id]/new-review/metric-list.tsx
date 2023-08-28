@@ -2,29 +2,12 @@
 
 import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
-import { updateReport } from '@/lib/fetch'
+
 import { GradeData, ReportData } from '@/types/models'
 import { useState } from 'react'
 import Link from 'next/link'
-
-const mutation = `
-  mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
-    updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
-      remarks
-      reviews {
-        peers {
-          submitted
-          reviewer
-          grades {
-            metric
-            rating
-            maxRating
-            comment
-          }
-        }
-      }
-    }
-  }`
+import { UPDATE_REPORT } from '@/lib/queries'
+import { useMutation } from '@apollo/client'
 
 function SubmittedReview() {
   return (
@@ -48,16 +31,20 @@ export default function MetricList({
   report: ReportData
   target: string
 }) {
-  console.log(report)
+
+
+  const [updateReport] = useMutation(UPDATE_REPORT);
+
   const targetId = report._id.targetId
+  const cycleId = report._id.cycleId
   const review = report.reviews.peers[0]
-  const { submitted, grades: gradeData, reviewer } = review
+  const { submitted, grades: gradeData, reviewerId } = review
   const [state, setState] = useState(gradeData)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
 
   const mutationVars = {
     targetId: targetId,
-    cycleId: '131313',
+    cycleId: cycleId,
     input: report,
   }
 
@@ -81,21 +68,23 @@ export default function MetricList({
     setState(updatedState)
   }
 
-  const handleSubmit = () => {
+
+
+  const handleSubmit = async () => {
     for (let i = 0; i < state.length; i++) {
       const gradeData = state[i]
       if (gradeData.rating === 0 || gradeData.comment === '') return
     }
     mutationVars.input.reviews.peers[0].grades = state
     mutationVars.input.reviews.peers[0].submitted = true
-    console.log('🩷mutationvars', mutationVars.input)
-    updateReport(mutation, mutationVars)
+    console.log('🩷mutationvars', mutationVars)
+    await updateReport({ variables: mutationVars })
     setIsSubmitted(true)
   }
 
-  const handleSaveDraft = () => {
+  const handleSaveDraft = async () => {
     mutationVars.input.reviews.peers[0].grades = state
-    updateReport(mutation, mutationVars)
+    await updateReport({ variables: mutationVars })
   }
 
   return isSubmitted ? (

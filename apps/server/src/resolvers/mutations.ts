@@ -8,7 +8,7 @@ import User from '../lib/mongoose/models/User'
 
 const mutations: MutationResolvers = {
   Mutation: {
-    createUser: async ({ input }: { input: UserInput }) => {
+    createUser: async (_: any, { input }: { input: UserInput }) => {
       try {
         const newUser = new User(input)
         const savedUser = await newUser.save()
@@ -19,7 +19,7 @@ const mutations: MutationResolvers = {
         )
       }
     },
-    updateUser: async ({ input }: { input: UserInput }) => {
+    updateUser: async (_: any, { input }: { input: UserInput }) => {
       try {
         const updatedUser = await User.findOneAndUpdate(
           { email: input.email },
@@ -32,17 +32,20 @@ const mutations: MutationResolvers = {
       }
     },
 
-    updateReport: async ({
-      targetId,
-      cycleId,
-      input,
-    }: {
-      targetId: String
-      cycleId: String
-      input: ReportInput
-    }) => {
+    updateReport: async (
+      _: any,
+      {
+        targetId,
+        cycleId,
+        input,
+      }: {
+        targetId: String
+        cycleId: String
+        input: ReportInput
+      }
+    ) => {
       try {
-        const filter = { '_id.target': targetId, '_id.cycle': cycleId }
+        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
         const updatedReport = await Report.findOneAndUpdate(filter, input, {
           new: true,
         })

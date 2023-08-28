@@ -57,7 +57,7 @@ function generateReport(targetId, cycleId, managerId, reviewers, metricCount, ma
         reviews: {
             peers: peerReviews,
             self: generateReview(targetId, metricCount, maxRating),
-            manager: generateReview(managerId, metricCount, maxRating)
+            manager: generateReview(managerId, metricCount, maxRating),
         },
     };
     return report;
