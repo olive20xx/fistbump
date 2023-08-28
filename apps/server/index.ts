@@ -6,9 +6,9 @@ import cors from 'cors'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import User from './src/lib/mongoose/models/User'
-import { UserInput } from './src/lib/types/User'
 import Report from './src/lib/mongoose/models/Report'
-import { ReportInput } from './src/lib/types/Report'
+import { UserInput } from "../../packages/types/inputs"
+import { ReportInput } from '../../packages/types/inputs'
 
 const app = express()
 app.use(express.json())
@@ -157,7 +157,7 @@ const rootValue = {
         hashedPw: password,
       })
       console.log('ive found a user', user)
- 
+
       return user
     } catch (error) {
       throw new Error('Error fetching users from the database')
