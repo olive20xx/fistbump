@@ -1,5 +1,5 @@
 import Photo from '@/components/ui/photo'
-import '../../../../app/global.css'
+import '@/app/global.css'
 //to be deleted
 import IndianScout from '../../../../../assets_to_test/scout-rogue.jpeg'
 import UserCard from '@/components/ui/user-card'

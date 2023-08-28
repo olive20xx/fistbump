@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import '../global.css'
+import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
