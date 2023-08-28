@@ -14,6 +14,7 @@ import { GET_FULLREPORT, GET_USER_FULLNAME_BY_ID } from '@/lib/queries'
 
 async function Report({ params }) {
 
+ 
   // const status = undefined
   const variables = { targetId: params.id, cycleId: params.cycleId }
 

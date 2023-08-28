@@ -2,6 +2,7 @@ import { apolloClient } from '@/lib/client'
 import '../../../../global.css'
 import { GET_REPORT_FOR_EMPLOYEE, GET_USER_FULLNAME_BY_ID } from '@/lib/queries'
 import { ReportData } from '@/types/models'
+ 
 
 
 async function Report({ params }) {
