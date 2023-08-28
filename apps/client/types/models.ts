@@ -20,12 +20,13 @@ type ReviewData = {
 type UserId = string
 
 type ReportData = {
-  _id: { target: string, cycle: string }
+  _id: { targetId: string; cycleId: string }
   remarks: string
   status: string
   reviews: {
-    peer: ReviewData[]
+    peers: ReviewData[]
     self: ReviewData
+    manager: ReviewData
   }
 }
 

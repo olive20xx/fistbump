@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import Metric from '@/components/ui/metric'
 import { updateReport } from '@/lib/fetch'
 import { GradeData, ReportData } from '@/types/models'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 const mutation = `
@@ -12,7 +12,7 @@ const mutation = `
     updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
       remarks
       reviews {
-        peer {
+        peers {
           submitted
           reviewer
           grades {
@@ -49,8 +49,8 @@ export default function MetricList({
   target: string
 }) {
   console.log(report)
-  const targetId = report._id.target
-  const review = report.reviews.peer[0]
+  const targetId = report._id.targetId
+  const review = report.reviews.peers[0]
   const { submitted, grades: gradeData, reviewer } = review
   const [state, setState] = useState(gradeData)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
@@ -86,15 +86,15 @@ export default function MetricList({
       const gradeData = state[i]
       if (gradeData.rating === 0 || gradeData.comment === '') return
     }
-    mutationVars.input.reviews.peer[0].grades = state
-    mutationVars.input.reviews.peer[0].submitted = true
+    mutationVars.input.reviews.peers[0].grades = state
+    mutationVars.input.reviews.peers[0].submitted = true
     console.log('🩷mutationvars', mutationVars.input)
     updateReport(mutation, mutationVars)
     setIsSubmitted(true)
   }
 
   const handleSaveDraft = () => {
-    mutationVars.input.reviews.peer[0].grades = state
+    mutationVars.input.reviews.peers[0].grades = state
     updateReport(mutation, mutationVars)
   }
 
@@ -127,9 +127,8 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${
-            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-          }`}
+          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+            }`}
           onClick={handleSubmit}
           size="lg"
         >

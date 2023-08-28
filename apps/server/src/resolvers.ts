@@ -3,7 +3,6 @@ import Report from './lib/mongoose/models/Report'
 import { UserInput } from '../../../packages/types/inputs'
 import { ReportInput } from '../../../packages/types/inputs'
 
-
 export const resolvers = {
   Query: {
     hello: () => {
@@ -17,7 +16,7 @@ export const resolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    getUser: async ({ id }: { id: String }) => {
+    getUser: async (_: any, { id }: { id: String }) => {
       try {
         const user = await User.findById(id)
         return user
@@ -25,13 +24,16 @@ export const resolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    getUserByEmail: async ({
-      email,
-      password,
-    }: {
-      email: String
-      password: String
-    }) => {
+    getUserByEmail: async (
+      _: any,
+      {
+        email,
+        password,
+      }: {
+        email: String
+        password: String
+      }
+    ) => {
       try {
         console.log('im looking for a user')
         const user = await User.findOne({
@@ -45,17 +47,20 @@ export const resolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    getReport: async ({
-      targetId,
-      cycleId,
-    }: {
-      targetId: String
-      cycleId: String
-    }) => {
+    getReport: async (
+      _: any,
+      {
+        targetId,
+        cycleId,
+      }: {
+        targetId: String
+        cycleId: String
+      }
+    ) => {
       try {
         const report = await Report.findOne({
-          '_id.target': targetId,
-          '_id.cycle': cycleId,
+          '_id.targetId': targetId,
+          '_id.cycleId': cycleId,
         })
         return report
       } catch (error) {

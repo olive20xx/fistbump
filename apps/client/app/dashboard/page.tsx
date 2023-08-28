@@ -6,7 +6,10 @@ import UserItem from '@/components/table/UserItem'
 import { getClient } from '@/lib/client'
 import { GET_USERS } from '@/lib/queries'
 import { UserModel } from '../../../../packages/types/models'
+
+export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
+
 
   const client = getClient()
 

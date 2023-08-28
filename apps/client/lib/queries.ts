@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from '@apollo/client'
 
 export const GET_USERS = gql`
   query Query {
@@ -12,14 +12,24 @@ export const GET_USERS = gql`
 `
 
 export const GET_FULLREPORT = gql`
-  query GetReport($targetId: String!, $cycleId: String!) {
+  query getReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
-        cycle
-        target
+        cycleId
+        targetId
       }
-      summary
       reviews {
+        manager {
+          grades {
+            maxRating
+            comment
+            metric
+            rating
+          }
+          isDeclined
+          reviewerId
+          submitted
+        }
         peers {
           grades {
             comment
@@ -28,7 +38,7 @@ export const GET_FULLREPORT = gql`
             rating
           }
           isDeclined
-          reviewer
+          reviewerId
           submitted
         }
         self {
@@ -39,22 +49,12 @@ export const GET_FULLREPORT = gql`
             rating
           }
           isDeclined
-          reviewer
-          submitted
-        }
-        manager {
-          grades {
-            comment
-            maxRating
-            metric
-            rating
-          }
-          isDeclined
-          reviewer
+          reviewerId
           submitted
         }
       }
       status
+      summary
     }
   }
 `
@@ -67,8 +67,19 @@ export const GET_USER_FULLNAME_BY_ID = gql`
   }
 `
 
+export const GET_USER_BY_ID = gql`
+  query getUser($id: String) {
+    getUser(id: $id) {
+      photo
+      teamName
+      title
+      fullName
+    }
+  }
+`
+
 export const GET_REPORT_FOR_EMPLOYEE = gql`
-  query GetReport($targetId: String!, $cycleId: String!) {
+  query getReport($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
         target
