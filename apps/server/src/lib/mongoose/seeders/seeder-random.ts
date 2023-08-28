@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { generateRandomUsers } from './generate-users'
+import { generateRandomUserModels } from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
 import generateReport from './generate-reports'
@@ -41,7 +41,7 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
-    const userInput = generateRandomUsers(count, COMPANY)
+    const userInput = generateRandomUserModels(count, COMPANY)
     const users: UserDoc[] = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)

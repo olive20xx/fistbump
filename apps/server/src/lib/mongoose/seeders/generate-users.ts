@@ -3,7 +3,7 @@ import { UserModel } from '../../../../../../packages/types/models'
 
 const PASSWORD = '321'
 
-export function generateRandomUsers(count: number, companyName: string) {
+export function generateRandomUserModels(count: number, companyName: string) {
   const users: UserModel[] = []
   for (let i = 0; i < count; i++) {
     const firstName = faker.person.firstName()
@@ -27,7 +27,7 @@ export function generateRandomUsers(count: number, companyName: string) {
   return users
 }
 
-export function generateSpecificUser(
+export function generateSpecificUserModel(
   firstName: string,
   lastName: string,
   title: string,
