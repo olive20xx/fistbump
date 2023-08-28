@@ -9,6 +9,7 @@ import generateArolDevTeams, { TEAMS } from './aroldev-teams'
 import Team from '../models/Team'
 import { ObjectId } from './types'
 import mongoose from 'mongoose'
+import 'dotenv/config'
 
 // CYCLE CONFIG
 const today = new Date()
@@ -51,12 +52,13 @@ async function seedArolDevData() {
     console.log(users)
 
     const arol = users.find((user) => {
-      user.title = 'CTO'
+      return user.title === 'CTO'
     })
+    console.log('AROL', arol)
     if (!arol) throw new Error('Arol not found in users collection')
 
     const olga = users.find((user) => {
-      user.title = 'CEO'
+      return user.title === 'CEO'
     })
     if (!olga) throw new Error('Olga not found in users collection')
 
