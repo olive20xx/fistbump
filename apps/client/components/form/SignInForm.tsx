@@ -17,7 +17,8 @@ import Link from 'next/link'
 import { getUserByEmail } from '@/lib/fetch'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
-
+import { GET_USER_BY_EMAIL } from '@/lib/queries'
+import { useLazyQuery } from '@apollo/client'
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
@@ -29,6 +30,10 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
+
+
+  const [getUser, { loading, error, data }] = useLazyQuery(GET_USER_BY_EMAIL);
+
   const { push } = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -39,22 +44,25 @@ const SignInForm = () => {
     },
   })
 
+
+
+
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    const query = `
-     query getUserByEmail($email: String!, $password: String!) {
-      getUserByEmail(email:$email,password:$password) {
-       fullName
-    }
-    }`
+
+
 
     const email = values.email
     const password = values.password
     const variables = { email, password }
 
-    const userFound = await getUserByEmail(query, variables)
-    if (userFound.fullName) {
-      console.warn('WELCOME', userFound.fullName)
-      setCookie('user', userFound.fullName)
+    const { data: { getUserByEmail } } = await getUser({ variables })
+
+
+
+
+    if (getUserByEmail.fullName) {
+      console.warn('WELCOME', getUserByEmail.fullName)
+      setCookie('user', getUserByEmail.fullName)
       push('/dashboard')
     }
   }

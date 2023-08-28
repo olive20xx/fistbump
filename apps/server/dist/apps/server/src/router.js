@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const Report_1 = __importDefault(require("./lib/mongoose/models/Report"));
+const User_1 = __importDefault(require("./lib/mongoose/models/User"));
 const router = express_1.default.Router();
 router.get('/', (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield Report_1.default.find();
+        const data = yield User_1.default.find();
         console.log('data', data);
         res.json(data);
     }
