@@ -1,8 +1,10 @@
 import faker from './faker'
-import { GradeModel, ReviewModel, ReportModel } from '../../../../../../packages/types/models'
-import mongoose from 'mongoose'
-
-type ObjectId = mongoose.Types.ObjectId
+import {
+  GradeModel,
+  ReviewModel,
+  ReportModel,
+} from '../../../../../../packages/types/models'
+import { UserDoc, ObjectId } from './types'
 
 function generateGrades(count: number, maxRating: number, isFilled: boolean) {
   const grades: GradeModel[] = []
@@ -53,7 +55,7 @@ function generateReview(
 
 function generateReport(
   targetId: ObjectId,
-  cycleId: string,
+  cycleId: ObjectId,
   managerId: ObjectId,
   reviewers: ObjectId[],
   metricCount: number,
@@ -84,11 +86,31 @@ function generateReport(
     reviews: {
       peers: peerReviews,
       self: generateReview(targetId, metricCount, maxRating),
-      manager: generateReview(managerId, metricCount, maxRating)
+      manager: generateReview(managerId, metricCount, maxRating),
     },
   }
 
   return report
+}
+
+export function pickRandomReviewers(
+  targetId: ObjectId,
+  users: UserDoc[],
+  reviewerCount: number
+) {
+  const reviewers: ObjectId[] = []
+
+  while (reviewers.length < reviewerCount) {
+    const i = getRandomInt(users.length - 1)
+    const user = users[i]
+    if (user._id !== targetId) reviewers.push(user._id)
+  }
+
+  return reviewers
+}
+
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max)
 }
 
 export default generateReport

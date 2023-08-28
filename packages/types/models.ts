@@ -27,7 +27,7 @@ export type ReportModel = {
 
 export type ReportId = {
   targetId: mongoose.Types.ObjectId
-  cycleId: string
+  cycleId: mongoose.Types.ObjectId
 }
 
 export type UserModel = {

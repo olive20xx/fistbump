@@ -2,9 +2,10 @@ import mongoose from 'mongoose'
 import { generateRandomUserModels } from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
-import generateReport from './generate-reports'
+import generateReport, { pickRandomReviewers } from './generate-reports'
 import Report from '../models/Report'
-import { UserModel, ReportModel } from '../../../../../../packages/types/models'
+import { ReportModel } from '../../../../../../packages/types/models'
+import { ObjectId, UserDoc } from './types'
 
 const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
@@ -13,14 +14,6 @@ const MAX_RATING = 5
 const COMPANY = 'Arol.Dev'
 
 const mongoURL = process.env.MONGODB_URL
-
-type UserDoc = mongoose.MergeType<
-  mongoose.Document<unknown, {}, UserModel> &
-    UserModel & {
-      _id: mongoose.Types.ObjectId
-    },
-  Omit<UserModel, '_id'>
->
 
 // Connect to mongodb implementation
 async function seedDb() {
@@ -42,7 +35,7 @@ async function seedDb() {
 async function seedData(count: number) {
   try {
     const userInput = generateRandomUserModels(count, COMPANY)
-    const users: UserDoc[] = await User.insertMany(userInput)
+    const users = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
@@ -77,30 +70,10 @@ async function seedData(count: number) {
     const reports = await Report.insertMany(reportInput)
     if (!reports) throw new Error('Report.insertMany() failed')
     console.log(`${reports.length} reports have been added to the database`)
-    console.log(reports[8].reviews.peers[0])
+    console.log(reports[0])
   } catch (error: any) {
     console.log(error.message)
   }
-}
-
-function pickRandomReviewers(
-  targetId: mongoose.Types.ObjectId,
-  users: UserDoc[],
-  reviewerCount: number
-) {
-  const reviewers: mongoose.Types.ObjectId[] = []
-
-  while (reviewers.length < reviewerCount) {
-    const i = getRandomInt(users.length - 1)
-    const user = users[i]
-    if (user._id !== targetId) reviewers.push(user._id)
-  }
-
-  return reviewers
-}
-
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max)
 }
 
 export default seedDb
