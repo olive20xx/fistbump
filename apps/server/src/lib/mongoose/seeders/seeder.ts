@@ -3,7 +3,8 @@ import generateUsers from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
 import generateReport from './generate-reports'
-import Report, { IReport } from '../models/Report'
+import Report from '../models/Report'
+import { UserModel, ReportModel } from '../../../../../../packages/types/models'
 
 const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
@@ -13,11 +14,11 @@ const MAX_RATING = 5
 const mongoURL = process.env.MONGODB_URL
 
 type UserDoc = mongoose.MergeType<
-  mongoose.Document<unknown, {}, User> &
-    User & {
-      _id: mongoose.Types.ObjectId
-    },
-  Omit<User, '_id'>
+  mongoose.Document<unknown, {}, UserModel> &
+  UserModel & {
+    _id: mongoose.Types.ObjectId
+  },
+  Omit<UserModel, '_id'>
 >
 
 // Connect to mongodb implementation
@@ -46,8 +47,9 @@ async function seedData(count: number) {
     console.log(users)
 
     const fakeCycle = '131313'
+    const fakeManager = new mongoose.Types.ObjectId()
     console.log(`💜 CYCLE ID: '${fakeCycle}' 💜`)
-    const reportInput: IReport[] = []
+    const reportInput: ReportModel[] = []
 
     users.forEach((user, index) => {
       const reviewers = pickRandomReviewers(
@@ -61,6 +63,7 @@ async function seedData(count: number) {
       const report = generateReport(
         user._id,
         fakeCycle,
+        fakeManager,
         reviewers,
         NUMBER_OF_METRICS,
         MAX_RATING,
@@ -73,7 +76,7 @@ async function seedData(count: number) {
     const reports = await Report.insertMany(reportInput)
     if (!reports) throw new Error('Report.insertMany() failed')
     console.log(`${reports.length} reports have been added to the database`)
-    console.log(reports[8].reviews.peer[0])
+    console.log(reports[8].reviews.peers[0])
   } catch (error: any) {
     console.log(error.message)
   }
