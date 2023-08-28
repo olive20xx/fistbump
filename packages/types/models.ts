@@ -21,7 +21,7 @@ export type ReportModel = {
   reviews: {
     peers: ReviewModel[]
     self: ReviewModel
-    manager: ReportModel
+    manager: ReviewModel
   }
 }
 
