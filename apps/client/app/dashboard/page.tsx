@@ -1,14 +1,14 @@
-'use client'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCookie, setCookie } from 'cookies-next'
 import UserItem from '@/components/table/UserItem'
+import { getClient } from '@/lib/client'
+import { GET_USERS } from '@/lib/queries'
+import { UserModel } from '../../../../packages/types/models'
+export default async function Dashboard() {
 
-export default function Dashboard() {
-  const [users, setUsers] = useState([])
+  const client = getClient()
 
   const loggedUser = getCookie('user')
 
@@ -16,30 +16,9 @@ export default function Dashboard() {
     setCookie('user', '')
   }
 
-  const getUsersQuery = `{
-    getUsers {
-      _id
-      fullName
-      title
-      teamName
-    }
-  }`
 
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        const response = await axios.post('http://localhost:8080/graphql', {
-          query: getUsersQuery,
-        })
+  const { data: { getUsers: users } } = await client.query({ query: GET_USERS })
 
-        setUsers(response.data.data.getUsers)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    getUsers()
-  }, [getUsersQuery])
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -65,7 +44,7 @@ export default function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user) => (
+        {users.map((user: UserModel) => (
           <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
         ))}
       </div>
