@@ -26,7 +26,7 @@ export type ReportModel = {
 }
 
 export type ReportId = {
-  targetId: mongoose.Types.ObjectId;
+  targetId: mongoose.Types.ObjectId
   cycleId: string
 }
 
@@ -39,4 +39,19 @@ export type UserModel = {
   photo: string
   teamName: string
   companyName: string
+}
+
+export type TeamModel = {
+  name: string
+  managerId: mongoose.Types.ObjectId
+}
+
+export type CycleModel = {
+  title: string
+  startDate: Date
+  endDate: Date
+  peersPerTarget: number
+  nominationDeadline: Date
+  reviewDeadline: Date
+  reportDeadline: Date
 }
