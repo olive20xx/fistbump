@@ -1,9 +1,10 @@
-'use client'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { getClient } from '@/lib/client'
+import { GET_USERS } from '@/lib/queries'
+import { UserModel } from '../../../../packages/types/models'
+
 
 function UserItem({ user }) {
   const cycleId = '131313'
@@ -20,32 +21,12 @@ function UserItem({ user }) {
   )
 }
 
-export default function ManagerPanel() {
-  const [users, setUsers] = useState([])
+export default async function ManagerPanel() {
 
-  const getUsersQuery = `{
-    getUsers {
-      _id
-      fullName
-      title
-      teamName
-    }
-  }`
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        const response = await axios.post('http://localhost:8080/graphql', {
-          query: getUsersQuery,
-        })
+  const client = getClient()
 
-        setUsers(response.data.data.getUsers)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  const { data: { getUsers } } = await client.query({ query: GET_USERS })
 
-    getUsers()
-  }, [getUsersQuery])
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -58,7 +39,7 @@ export default function ManagerPanel() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user) => (
+        {getUsers.map((user: UserModel) => (
           <UserItem key={user.fullName} user={user} />
         ))}
       </div>
