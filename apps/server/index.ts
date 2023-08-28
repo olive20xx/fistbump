@@ -21,7 +21,7 @@ const db = mongoose.connection
 
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
 })
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
