@@ -1,27 +1,17 @@
 import { Schema, model } from 'mongoose'
+import { UserModel } from "../../../../../../packages/types/models"
 
-type User = {
-  email: string
-  fullName: string
-  hashedPw: string
-  title: string
-  isOlga: boolean
-  photo: string
-  teamName: string
-  companyName: string
-}
-
-const userSchema = new Schema<User>({
+const userSchema = new Schema<UserModel>({
   email: String,
   fullName: String,
   hashedPw: String,
   title: String,
-  isOlga: Boolean,
+  isAdmin: Boolean,
   photo: String,
   teamName: String,
   companyName: String,
 })
 
-const User = model<User>('User', userSchema)
+const User = model<UserModel>('User', userSchema)
 
 export default User
