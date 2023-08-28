@@ -1,8 +1,8 @@
 import faker from './faker'
-import User from '../models/User'
+import { UserModel } from '../../../../../../packages/types/models'
 
 function generateUsers(count: number) {
-  const users: User[] = []
+  const users: UserModel[] = []
   const companyName = 'Arol.Dev'
   for (let i = 0; i < count; i++) {
     const firstName = faker.person.firstName()
@@ -12,7 +12,7 @@ function generateUsers(count: number) {
       fullName: `${firstName} ${lastName}`,
       hashedPw: '321',
       title: faker.person.jobTitle(),
-      isOlga: faker.datatype.boolean(),
+      isAdmin: faker.datatype.boolean(),
       photo: faker.internet.avatar(),
       teamName: faker.helpers.arrayElement([
         'Staff',
