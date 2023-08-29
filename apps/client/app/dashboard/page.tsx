@@ -1,54 +1,32 @@
-'use client'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import '../global.css'
+import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { getCookie, setCookie } from 'cookies-next'
+import { cookies } from 'next/headers'
 import UserItem from '@/components/table/UserItem'
+import { queries } from '@/lib/graphql-queries'
+import { apolloClient } from '@/lib/apollo-client'
+import handleLogout from '@/components/Logout'
 
-export default function Dashboard() {
-  const [users, setUsers] = useState([])
 
-  const loggedUser = getCookie('user')
 
-  function handleLogout() {
-    setCookie('user', '')
-  }
 
-  const getUsersQuery = `{
-    getUsers {
-      _id
-      fullName
-      title
-      teamName
-    }
-  }`
+export const fetchCache = 'force-no-store'
+export default async function Dashboard() {
 
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        const response = await axios.post('http://localhost:8080/graphql', {
-          query: getUsersQuery,
-        })
+  const cookieStore = cookies()
 
-        setUsers(response.data.data.getUsers)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  const loggedUser = cookieStore.get('user')
 
-    getUsers()
-  }, [getUsersQuery])
+  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
 
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
-          {loggedUser ? (
+          {loggedUser.value ? (
             <div>
-              <h2>Hello {loggedUser}</h2>
+              <h2>Hello {loggedUser.value}</h2>
               <Button onClick={handleLogout}> Log out</Button>
             </div>
           ) : (
@@ -65,7 +43,7 @@ export default function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user) => (
+        {getUsers.map((user) => (
           <UserItem key={user.fullName} loggedUser={loggedUser} user={user} />
         ))}
       </div>

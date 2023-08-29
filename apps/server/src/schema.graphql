@@ -1,0 +1,100 @@
+type Query {
+  hello: String
+  getUsers: [User]
+  getUser(id: String): User
+  getReport(targetId: String!, cycleId: String!): Report
+  getUserByEmail(email: String, password: String): User
+}
+
+type Mutation {
+  createUser(input: UserInput): User
+  updateUser(input: UserInput): User
+  updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+}
+
+input UserInput {
+  email: String!
+  fullName: String
+  hashedPw: String
+  title: String
+  isAdmin: Boolean
+  photo: String
+  teamName: String
+  companyName: String
+}
+
+input ReportInput {
+  _id: ReportIdInput
+  summary: String
+  status: String
+  reviews: ReviewsInput
+}
+
+input ReviewsInput {
+  self: ReviewInput
+  peers: [ReviewInput]
+  manager: ReviewInput
+}
+
+input ReviewInput {
+  reviewerId: String
+  isDeclined: Boolean
+  submitted: Boolean
+  grades: [GradeInput]
+}
+
+input GradeInput {
+  metric: String
+  rating: Int
+  maxRating: Int
+  comment: String
+}
+
+input ReportIdInput {
+  targetId: String
+  cycleId: String
+}
+
+type User {
+  _id: String
+  email: String
+  fullName: String
+  hashedPw: String
+  title: String
+  isAdmin: Boolean
+  photo: String
+  teamName: String
+  companyName: String
+}
+
+type ReportID {
+  targetId: String
+  cycleId: String
+}
+
+type Report {
+  _id: ReportID
+  summary: String
+  status: String
+  reviews: Reviews
+}
+
+type Reviews {
+  self: Review
+  peers: [Review]
+  manager: Review
+}
+
+type Review {
+  reviewerId: String
+  isDeclined: Boolean
+  submitted: Boolean
+  grades: [Grade]
+}
+
+type Grade {
+  metric: String
+  rating: Int
+  maxRating: Int
+  comment: String
+}

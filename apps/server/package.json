@@ -4,16 +4,22 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
+    "generate": "graphql-codegen --config codegen.yml",
+    "compile": "npm run generate && tsc",
+    "start": "node .dist/apps/server/index.js",
     "dev": "nodemon index.ts",
     "seed": "ts-node src/seed.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.9.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.5.7",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
+    "fs": "^0.0.1-security",
     "graphql": "^16.8.0",
     "mongoose": "^7.4.3",
     "typescript": "^5.1.6"
@@ -23,7 +29,12 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "babel-eslint": "^10.1.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
   }
 }
