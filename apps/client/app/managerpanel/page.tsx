@@ -6,9 +6,7 @@ import { queries } from '@/lib/graphql-queries'
 import { UserModel } from '../../../../packages/types/models'
 
 
-function UserItem({ user }) {
-  const cycleId = '131313'
-
+function UserItem({ user, cycleId }) {
   return (
     <div className="grid grid-cols-4 gap-4 border-b p-2 bg-white items-center">
       <p className="font-semibold">{user.title}</p>
@@ -22,6 +20,8 @@ function UserItem({ user }) {
 }
 
 export default async function ManagerPanel() {
+  const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
+  const cycleId = getCurrentCycle._id
 
   const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
 
@@ -38,7 +38,7 @@ export default async function ManagerPanel() {
           <p className="col-span-2">Team Name</p>
         </div>
         {getUsers.map((user: UserModel) => (
-          <UserItem key={user.fullName} user={user} />
+          <UserItem key={user.fullName} user={user} cycleId={cycleId} />
         ))}
       </div>
     </div>

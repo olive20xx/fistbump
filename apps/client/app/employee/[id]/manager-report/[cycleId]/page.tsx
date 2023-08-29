@@ -13,7 +13,6 @@ import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
 
 async function Report({ params }) {
-  // const status = undefined
   const variables = { targetId: params.id, cycleId: params.cycleId }
 
   const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
@@ -33,26 +32,27 @@ async function Report({ params }) {
           <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <h2 className="font-bold">Peer Reviews</h2>
           <TableBody>
-            {getReport.reviews.peers.map((peerReview, index) => (
-              <div key={index}>
-                <TableRow>
-                  <TableCell className="font-medium">
-                    {getReviewer(peerReview.reviewerId)}
-                  </TableCell>
-                </TableRow>
-                {peerReview.grades.map((grade, gradeIndex) => (
-                  <div className="grid grid-cols-5" key={gradeIndex}>
-                    <TableCell>{grade.metric}</TableCell>
-                    <TableCell>
-                      {grade.rating}/{grade.maxRating}
+            {getReport.reviews.peers.map((peerReview, index) => {
+              return !peerReview.reviewerId ? <></> :
+                <div key={index}>
+                  <TableRow>
+                    <TableCell className="font-medium">
+                      {getReviewer(peerReview.reviewerId)}
                     </TableCell>
-                    <TableCell className="grid col-span-3">
-                      {grade.comment}
-                    </TableCell>
-                  </div>
-                ))}
-              </div>
-            ))}
+                  </TableRow>
+                  {peerReview.grades.map((grade, gradeIndex) => (
+                    <div className="grid grid-cols-5" key={gradeIndex}>
+                      <TableCell>{grade.metric}</TableCell>
+                      <TableCell>
+                        {grade.rating}/{grade.maxRating}
+                      </TableCell>
+                      <TableCell className="grid col-span-3">
+                        {grade.comment}
+                      </TableCell>
+                    </div>
+                  ))}
+                </div>
+            })}
           </TableBody>
         </Table>
         <h2 className="font-bold">Self Review</h2>
