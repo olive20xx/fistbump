@@ -64,8 +64,8 @@ const queries = {
         }),
         getCurrentCycle: (_) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const now = new Date().toISOString().split('T')[0];
-                const cycle = yield Cycle_1.default.find({ startDate: { $lte: now }, endDate: { $gte: now } });
+                const now = new Date();
+                const cycle = yield Cycle_1.default.findOne({ startDate: { $lte: now }, endDate: { $gte: now } });
                 return cycle;
             }
             catch (error) {

@@ -66,7 +66,7 @@ const queries: QueryResolvers = {
     },
     getCurrentCycle: async (_:any) => {
       try {
-        const now = new Date().toISOString().split('T')[0]
+        const now = new Date()
 
         const cycle = await Cycle.findOne({startDate: {$lte: now}, endDate: {$gte: now}})
         return cycle
