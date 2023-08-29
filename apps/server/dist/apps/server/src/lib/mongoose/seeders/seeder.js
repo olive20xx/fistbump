@@ -18,6 +18,7 @@ require("dotenv/config");
 const User_1 = __importDefault(require("../models/User"));
 const generate_reports_1 = __importDefault(require("./generate-reports"));
 const Report_1 = __importDefault(require("../models/Report"));
+const Cycle_1 = __importDefault(require("../models/Cycle"));
 const NUMBER_OF_USERS = 10;
 const NUMBER_OF_PEER_REVIEWS = 1;
 const NUMBER_OF_METRICS = 3;
@@ -43,6 +44,16 @@ function seedDb() {
 function seedData(count) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const cycle = yield Cycle_1.default.create({
+                title: 'Hello',
+                startDate: '2023-01-01',
+                endDate: '2023-12-25',
+                peersPerTarget: '3',
+                nominationDeadline: '2023-09-11',
+                reviewDeadline: '2023-09-11',
+                reportDeadline: '2023-09-11',
+            });
+            console.log('🩷🩷🩷🩷 cycle', cycle);
             const userInput = (0, generate_users_1.default)(count);
             const users = yield User_1.default.insertMany(userInput);
             if (!users)

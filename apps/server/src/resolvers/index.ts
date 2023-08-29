@@ -3,7 +3,8 @@ import Query from './queries'
 import Mutation from './mutations'
 import queries from './queries'
 import mutations from './mutations'
+import { dateScalar } from './dateScalar'
 
-const resolvers: Resolvers = { ...queries, ...mutations }
+const resolvers: Resolvers = { Date: dateScalar, ...queries, ...mutations }
 
 export default resolvers

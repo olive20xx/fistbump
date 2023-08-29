@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
+const Cycle_1 = __importDefault(require("../lib/mongoose/models/Cycle"));
 const queries = {
     Query: {
         hello: () => {
@@ -56,6 +57,16 @@ const queries = {
                     '_id.cycleId': cycleId,
                 });
                 return report;
+            }
+            catch (error) {
+                throw new Error('Error fetching report from the database');
+            }
+        }),
+        getCurrentCycle: (_) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const now = new Date().toISOString().split('T')[0];
+                const cycle = yield Cycle_1.default.find({ startDate: { $lte: now }, endDate: { $gte: now } });
+                return cycle;
             }
             catch (error) {
                 throw new Error('Error fetching report from the database');

@@ -21,8 +21,8 @@
     "express-graphql": "^0.12.0",
     "fs": "^0.0.1-security",
     "graphql": "^16.8.0",
-    "mongoose": "^7.4.3",
-    "typescript": "^5.1.6"
+    "graphql-scalars": "^1.22.2",
+    "mongoose": "^7.4.3"
   },
   "mdSeed": {
     "seedersFolder": "./seeders"

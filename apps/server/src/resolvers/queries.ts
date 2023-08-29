@@ -1,6 +1,7 @@
 import { QueryResolvers } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
+import Cycle from '../lib/mongoose/models/Cycle'
 
 const queries: QueryResolvers = {
   Query: {
@@ -63,7 +64,18 @@ const queries: QueryResolvers = {
         throw new Error('Error fetching report from the database')
       }
     },
+    getCurrentCycle: async (_:any) => {
+      try {
+        const now = new Date().toISOString().split('T')[0]
+
+        const cycle = await Cycle.find({startDate: {$lte: now}, endDate: {$gte: now}})
+        return cycle
+      } catch (error) {
+        throw new Error('Error fetching report from the database')
+      }
+    },
   },
 }
 
 export default queries
+
