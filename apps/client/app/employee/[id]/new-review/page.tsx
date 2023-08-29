@@ -35,7 +35,7 @@ export default async function Review({ params }: { params: any }) {
       <MetricList report={getReport as ReportData} target={firstName} />
       <div className={`w-1/4 border-2 ${panelPadding}`}>
         <h1>PROFILE PICTURE</h1>
-        <Photo photo={getUser.photo} alt="Motorcycle" />
+        <Photo photo={getUser.photo} alt="photo of the user" />
       </div>
     </div>
   )
