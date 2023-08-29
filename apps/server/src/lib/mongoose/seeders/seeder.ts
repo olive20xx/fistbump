@@ -5,6 +5,7 @@ import User from '../models/User'
 import generateReport from './generate-reports'
 import Report from '../models/Report'
 import { UserModel, ReportModel } from '../../../../../../packages/types/models'
+import Cycle from '../models/Cycle'
 
 const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
@@ -40,6 +41,16 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
+    const cycle = await Cycle.create({
+      title: 'Hello',
+      startDate: '2023-01-01',
+      endDate: '2023-12-25',
+      peersPerTarget: '3',
+      nominationDeadline: '2023-09-11',
+      reviewDeadline: '2023-09-11',
+      reportDeadline: '2023-09-11',
+    })
+    console.log('🩷🩷🩷🩷 cycle', cycle)
     const userInput = generateUsers(count)
     const users: UserDoc[] = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')

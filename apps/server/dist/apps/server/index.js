@@ -21,7 +21,7 @@ mongoose_1.default.connect(constants_1.MONGODB_URL);
 const db = mongoose_1.default.connection;
 const apolloServer = new server_1.ApolloServer({
     typeDefs,
-    resolvers: resolvers_1.default,
+    resolvers: resolvers_1.default
 });
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {

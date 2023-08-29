@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,6 +14,18 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
+};
+
+export type Cycle = {
+  __typename?: 'Cycle';
+  endDate?: Maybe<Scalars['Date']['output']>;
+  nominationDeadline?: Maybe<Scalars['Date']['output']>;
+  peersPerTarget?: Maybe<Scalars['Int']['output']>;
+  reportDeadline?: Maybe<Scalars['Date']['output']>;
+  reviewDeadline?: Maybe<Scalars['Date']['output']>;
+  startDate?: Maybe<Scalars['Date']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type Grade = {
@@ -57,6 +69,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getCurrentCycle?: Maybe<Cycle>;
   getReport?: Maybe<Report>;
   getUser?: Maybe<User>;
   getUserByEmail?: Maybe<User>;
@@ -232,6 +245,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Cycle: ResolverTypeWrapper<Cycle>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   Grade: ResolverTypeWrapper<Grade>;
   GradeInput: GradeInput;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -253,6 +268,8 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  Cycle: Cycle;
+  Date: Scalars['Date']['output'];
   Grade: Grade;
   GradeInput: GradeInput;
   Int: Scalars['Int']['output'];
@@ -271,6 +288,21 @@ export type ResolversParentTypes = ResolversObject<{
   UserInput: UserInput;
 }>;
 
+export type CycleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cycle'] = ResolversParentTypes['Cycle']> = ResolversObject<{
+  endDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  nominationDeadline?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  peersPerTarget?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  reportDeadline?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  reviewDeadline?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  startDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
 export type GradeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Grade'] = ResolversParentTypes['Grade']> = ResolversObject<{
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   maxRating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -286,6 +318,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getCurrentCycle?: Resolver<Maybe<ResolversTypes['Cycle']>, ParentType, ContextType>;
   getReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<QueryGetReportArgs, 'cycleId' | 'targetId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   getUserByEmail?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserByEmailArgs>>;
@@ -336,6 +369,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  Cycle?: CycleResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Grade?: GradeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

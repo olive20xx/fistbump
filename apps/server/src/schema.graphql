@@ -1,9 +1,12 @@
+scalar Date
+
 type Query {
   hello: String
   getUsers: [User]
   getUser(id: String): User
   getReport(targetId: String!, cycleId: String!): Report
   getUserByEmail(email: String, password: String): User
+  getCurrentCycle: Cycle
 }
 
 type Mutation {
@@ -97,4 +100,14 @@ type Grade {
   rating: Int
   maxRating: Int
   comment: String
+}
+
+type Cycle {
+  title: String
+  startDate: Date
+  endDate: Date
+  peersPerTarget: Int
+  nominationDeadline: Date
+  reviewDeadline: Date
+  reportDeadline: Date
 }
