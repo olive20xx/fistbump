@@ -12,18 +12,8 @@ import { ReportData } from '@/types/models'
 const panelPadding = 'p-4'
 
 export default async function Review({ params }: { params: any }) {
-  const {
-    data: { getUser },
-  } = await apolloClient.query({
-    query: queries.GET_USER_BY_ID,
-    variables: { id: params.id },
-  })
-  const {
-    data: { getReport },
-  } = await apolloClient.query({
-    query: queries.GET_FULL_REPORT,
-    variables: { targetId: params.id, cycleId: '131313' },
-  })
+  const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: params.id } })
+  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULL_REPORT, variables: { targetId: params.id, cycleId: '131313' } })
   const [firstName] = getUser.fullName.split(' ')
 
   return (
