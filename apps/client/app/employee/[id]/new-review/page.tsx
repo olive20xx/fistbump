@@ -6,6 +6,7 @@ import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
 import { GET_FULLREPORT, GET_USER_BY_ID } from '@/lib/queries'
 import { apolloClient } from '@/lib/client'
+import { ReportData } from '@/types/models'
 
 
 
@@ -31,9 +32,7 @@ export default async function Review({ params }: { params: any }) {
           team={getUser.teamName}
         />
       </div>
-
-      <MetricList report={getReport} target={firstName} />
-
+      <MetricList report={getReport as ReportData} target={firstName} />
       <div className={`w-1/4 border-2 ${panelPadding}`}>
         <h1>PROFILE PICTURE</h1>
         <Photo photo={getUser.photo} alt="Motorcycle" />

@@ -6,13 +6,14 @@ import {
 import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc'
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
 
+
+const options = {
+  addTypename: false
+}
 const { getClient } = registerApolloClient(() => {
   const removeTypenameLink = removeTypenameFromVariables();
   return new NextSSRApolloClient({
-    cache: new NextSSRInMemoryCache({
-      addTypename: false
-    }
-    ),
+    cache: new NextSSRInMemoryCache(options),
     link: new HttpLink({
       // https://studio.apollographql.com/public/spacex-l4uc6p/
       uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
