@@ -69,6 +69,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getCurrentCycle?: Maybe<Cycle>;
   getReport?: Maybe<Report>;
   getUser?: Maybe<User>;
   getUserByEmail?: Maybe<User>;
@@ -317,6 +318,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getCurrentCycle?: Resolver<Maybe<ResolversTypes['Cycle']>, ParentType, ContextType>;
   getReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<QueryGetReportArgs, 'cycleId' | 'targetId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   getUserByEmail?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserByEmailArgs>>;
