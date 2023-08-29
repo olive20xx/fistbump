@@ -126,6 +126,16 @@ export const mutations = {
             comment
           }
         }
+          self {
+          submitted
+          reviewerId
+        grades {
+          metric
+          rating
+          maxRating
+          comment
+        }
+      }
       }
     }
   }`),
