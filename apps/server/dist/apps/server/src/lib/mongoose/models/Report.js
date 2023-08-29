@@ -18,7 +18,7 @@ const ReviewSchema = new mongoose_1.Schema({
 //* timestamps automatically creates createdAt and updatedAt properties
 { timestamps: true });
 const ReportSchema = new mongoose_1.Schema({
-    _id: { targetId: mongoose_1.Schema.Types.ObjectId, cycleId: String },
+    _id: { targetId: mongoose_1.Schema.Types.ObjectId, cycleId: mongoose_1.Schema.Types.ObjectId },
     summary: String,
     status: String,
     reviews: {
