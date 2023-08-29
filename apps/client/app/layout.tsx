@@ -1,6 +1,5 @@
 import { ApolloWrapper } from '@/lib/apollo-wrapper'
-import { apolloClient } from '@/lib/client'
-
+import { apolloClient } from '@/lib/apollo-client'
 export default function RootLayout({
 
   children,

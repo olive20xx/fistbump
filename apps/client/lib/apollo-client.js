@@ -4,14 +4,13 @@ import {
   NextSSRApolloClient,
 } from '@apollo/experimental-nextjs-app-support/ssr'
 import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc'
-import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
-
+import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename'
 
 const options = {
-  addTypename: false
+  addTypename: false,
 }
 const { getClient } = registerApolloClient(() => {
-  const removeTypenameLink = removeTypenameFromVariables();
+  const removeTypenameLink = removeTypenameFromVariables()
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(options),
     link: new HttpLink({

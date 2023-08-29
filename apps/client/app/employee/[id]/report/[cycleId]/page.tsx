@@ -1,4 +1,4 @@
-import { apolloClient } from '@/lib/client'
+import { apolloClient } from '@/lib/apollo-client'
 import '../../../../global.css'
 import { queries } from '@/lib/graphql-queries'
 

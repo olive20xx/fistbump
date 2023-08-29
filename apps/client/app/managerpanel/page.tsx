@@ -1,7 +1,7 @@
 import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { apolloClient } from '@/lib/client'
+import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
 import { UserModel } from '../../../../packages/types/models'
 

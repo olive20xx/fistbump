@@ -5,7 +5,7 @@ import UserCard from '@/components/ui/user-card'
 import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
 import { queries } from '@/lib/graphql-queries'
-import { apolloClient } from '@/lib/client'
+import { apolloClient } from '@/lib/apollo-client'
 import { ReportData } from '@/types/models'
 
 

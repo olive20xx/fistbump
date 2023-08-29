@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { apolloClient } from '@/lib/client'
+import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
 
 async function Report({ params }) {
