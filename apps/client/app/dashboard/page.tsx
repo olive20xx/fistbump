@@ -11,8 +11,8 @@ export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
   const cookieStore = cookies()
 
-  const loggedUser = cookieStore.get('user')
-  const loggedUserFullName = loggedUser.value
+  const loggedUserFullName = cookieStore.get('user').value
+  const [loggedUserFirstName] = loggedUserFullName.split(' ')
 
   const {
     data: { getUsers },
@@ -25,7 +25,7 @@ export default async function Dashboard() {
         <div>
           {loggedUserFullName ? (
             <div>
-              <h2>Hello {loggedUserFullName.split(' ')[0]}</h2>
+              <h2>Hello {loggedUserFirstName}</h2>
               <Button onClick={handleLogout}> Log out</Button>
             </div>
           ) : (
