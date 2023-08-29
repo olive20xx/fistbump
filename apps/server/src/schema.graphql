@@ -1,4 +1,4 @@
-  type Query {
+type Query {
   hello: String
   getUsers: [User]
   getUser(id: String): User
