@@ -38,12 +38,27 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
+<<<<<<< HEAD:apps/server/src/lib/mongoose/seeders/seeder-random.ts
     const cycle = await Cycle.create(cycleInput)
     if (!cycle) throw new Error('Cycle.create() failed')
     console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
 
     const userInput = generateRandomUserModels(count, COMPANY)
     const users = await User.insertMany(userInput)
+=======
+    const cycle = await Cycle.create({
+      title: 'Hello',
+      startDate: '2023-01-01',
+      endDate: '2023-12-25',
+      peersPerTarget: '3',
+      nominationDeadline: '2023-09-11',
+      reviewDeadline: '2023-09-11',
+      reportDeadline: '2023-09-11',
+    })
+    console.log('🩷🩷🩷🩷 cycle', cycle)
+    const userInput = generateUsers(count)
+    const users: UserDoc[] = await User.insertMany(userInput)
+>>>>>>> 6dc9662 (created get current cycle server side):apps/server/src/lib/mongoose/seeders/seeder.ts
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
