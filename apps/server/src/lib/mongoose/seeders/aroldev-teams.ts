@@ -18,7 +18,7 @@ function generateArolDevTeams(olgaId: ObjectId, arolId: ObjectId) {
   const instructors = generateTeam(TEAMS.INSTR, arolId)
   const students = generateTeam(TEAMS.STUDS, arolId)
 
-  return { founders, studentXp, marketing, instructors, students }
+  return [founders, studentXp, marketing, instructors, students]
 }
 
 export default generateArolDevTeams

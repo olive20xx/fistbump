@@ -15,6 +15,7 @@ import 'dotenv/config'
 const today = new Date()
 const CYCLE_START = today
 const CYCLE_PEERS_PER_TARGET = 3
+
 //TODO I think the Cycle model needs a Grade Template
 const GRADES_PER_REVIEW = 3
 const MAX_RATING = 5
