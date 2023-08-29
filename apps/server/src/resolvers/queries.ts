@@ -68,7 +68,7 @@ const queries: QueryResolvers = {
       try {
         const now = new Date().toISOString().split('T')[0]
 
-        const cycle = await Cycle.find({startDate: {$lte: now}, endDate: {$gte: now}})
+        const cycle = await Cycle.findOne({startDate: {$lte: now}, endDate: {$gte: now}})
         return cycle
       } catch (error) {
         throw new Error('Error fetching report from the database')
