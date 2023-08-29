@@ -19,7 +19,7 @@ async function Report({ params }) {
   const variables = { targetId: params.id, cycleId: params.cycleId }
 
   const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
-  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULLREPORT, variables })
+  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULL_REPORT, variables })
 
 
   async function getReviewer(id) {
