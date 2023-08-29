@@ -10,10 +10,11 @@ import Team from '../models/Team'
 import { ObjectId } from './types'
 import mongoose from 'mongoose'
 import 'dotenv/config'
+import { addDays } from '../../utils'
 
 // CYCLE CONFIG
-const today = new Date()
-const CYCLE_START = today
+const yesterday = addDays(new Date(), -1)
+const CYCLE_START = yesterday
 const CYCLE_PEERS_PER_TARGET = 3
 
 //TODO I think the Cycle model needs a Grade Template

@@ -1,4 +1,5 @@
 import { CycleModel } from '../../../../../../packages/types/models'
+import { addDays } from '../../utils'
 
 export default function generateCycle(startDate: Date, peersPerTarget: number) {
   const title = 'Cycle-' + startDate.toLocaleString()
@@ -18,10 +19,4 @@ export default function generateCycle(startDate: Date, peersPerTarget: number) {
   }
 
   return cycle
-}
-
-function addDays(date: Date, days: number) {
-  const newDate = new Date(date)
-  newDate.setDate(date.getDate() + days)
-  return newDate
 }
