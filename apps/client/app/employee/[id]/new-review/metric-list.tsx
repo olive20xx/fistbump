@@ -30,13 +30,11 @@ export default function MetricList({
   report: ReportData
   target: string
 }) {
-
-
-  const [updateReport] = useMutation(mutations.UPDATE_REPORT);
+  const [updateReport] = useMutation(mutations.UPDATE_REPORT)
 
   const targetId = report._id.targetId
   const cycleId = report._id.cycleId
-  const review = report.reviews.peers[0]
+  const review = report.reviews.self
   const { submitted, grades: gradeData, reviewerId } = review
   const [state, setState] = useState(gradeData)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
@@ -67,22 +65,20 @@ export default function MetricList({
     setState(updatedState)
   }
 
-
-
   const handleSubmit = async () => {
     for (let i = 0; i < state.length; i++) {
       const gradeData = state[i]
       if (gradeData.rating === 0 || gradeData.comment === '') return
     }
-    mutationVars.input.reviews.peers[0].grades = state
-    mutationVars.input.reviews.peers[0].submitted = true
+    mutationVars.input.reviews.self.grades = state
+    mutationVars.input.reviews.self.submitted = true
     console.log('🩷mutationvars', mutationVars)
     await updateReport({ variables: mutationVars })
     setIsSubmitted(true)
   }
 
   const handleSaveDraft = async () => {
-    mutationVars.input.reviews.peers[0].grades = state
+    mutationVars.input.reviews.self.grades = state
     await updateReport({ variables: mutationVars })
   }
 
@@ -115,8 +111,9 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-            }`}
+          className={`w-36 ${
+            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+          }`}
           onClick={handleSubmit}
           size="lg"
         >
