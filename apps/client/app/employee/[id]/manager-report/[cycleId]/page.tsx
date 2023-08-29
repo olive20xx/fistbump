@@ -9,26 +9,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getReport, getUser } from '@/lib/fetch'
-import { userQuery, getFullReportQuery } from '@/lib/queries'
-
+import { apolloClient } from '@/lib/apollo-client'
+import { queries } from '@/lib/graphql-queries'
 
 async function Report({ params }) {
 
-  const targetId = params.id
-  const cycleId = params.cycleId
 
   // const status = undefined
-  const variables = { targetId, cycleId }
+  const variables = { targetId: params.id, cycleId: params.cycleId }
 
+  const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
+  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULL_REPORT, variables })
 
-
-  const target = await getUser(userQuery, { id: targetId })
-  const fullReport = await getReport(getFullReportQuery, variables)
 
   async function getReviewer(id) {
-    const reviewerName = await getUser(userQuery, { id: id })
-    return reviewerName.fullName
+    const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: id } })
+    return fullName
   }
 
 
@@ -37,15 +33,15 @@ async function Report({ params }) {
     <div className='p-4'>
       <div>
         <h1 className='text-2xl'>Manager</h1>
-        <h2>Report remarks: {fullReport.remarks}</h2>
+        <h2>Report remarks: {getReport.summary}</h2>
         <Table className='pt-4' >
           <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <h2 className='font-bold' >Peer Reviews</h2>
           <TableBody>
-            {fullReport.reviews.peer.map((peerReview, index) => (
+            {getReport.reviews.peers.map((peerReview, index) => (
               <div key={index}>
                 <TableRow>
-                  <TableCell className="font-medium">{getReviewer(peerReview.reviewer)}</TableCell>
+                  <TableCell className="font-medium">{getReviewer(peerReview.reviewerId)}</TableCell>
                 </TableRow>
                 {peerReview.grades.map((grade, gradeIndex) => (
                   <div className='grid grid-cols-5' key={gradeIndex}>
@@ -63,9 +59,9 @@ async function Report({ params }) {
           <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <TableBody>
             <TableRow>
-              <TableCell className="font-medium">{target.fullName}</TableCell>
+              <TableCell className="font-medium">{fullName}</TableCell>
             </TableRow>
-            {fullReport.reviews.self.grades.map((grade, gradeIndex) => (
+            {getReport.reviews.self.grades.map((grade, gradeIndex) => (
               <div className='grid grid-cols-5' key={gradeIndex}>
                 <TableCell>{grade.metric}</TableCell>
                 <TableCell>{grade.rating}/{grade.maxRating}</TableCell>

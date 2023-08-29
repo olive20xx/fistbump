@@ -1,5 +1,9 @@
 import { Schema, model } from 'mongoose'
-import { GradeModel, ReviewModel, ReportModel } from "../../../../../../packages/types/models"
+import {
+  GradeModel,
+  ReviewModel,
+  ReportModel,
+} from '../../../../../../packages/types/models'
 
 const GradeSchema = new Schema<GradeModel>({
   metric: String,
@@ -23,13 +27,13 @@ const ReviewSchema = new Schema<ReviewModel>(
 
 const ReportSchema = new Schema<ReportModel>(
   {
-    _id: { target: Schema.Types.ObjectId, cycle: String },
+    _id: { targetId: Schema.Types.ObjectId, cycleId: String },
     summary: String,
     status: String,
     reviews: {
       peers: [ReviewSchema],
       self: ReviewSchema,
-      manager: ReviewSchema
+      manager: ReviewSchema,
     },
   },
   //* timestamps automatically creates createdAt and updatedAt properties
