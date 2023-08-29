@@ -103,6 +103,7 @@ type Grade {
 }
 
 type Cycle {
+  _id: String
   title: String
   startDate: Date
   endDate: Date

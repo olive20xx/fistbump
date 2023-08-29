@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type Cycle = {
   __typename?: 'Cycle';
+  _id?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['Date']['output']>;
   nominationDeadline?: Maybe<Scalars['Date']['output']>;
   peersPerTarget?: Maybe<Scalars['Int']['output']>;
@@ -289,6 +290,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type CycleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cycle'] = ResolversParentTypes['Cycle']> = ResolversObject<{
+  _id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   endDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   nominationDeadline?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   peersPerTarget?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

@@ -89,6 +89,19 @@ export const queries = {
       fullName
     }
   }`),
+
+  GET_CURRENT_CYCLE: gql(`query getCurrentCycle {
+    getCurrentCycle {
+      _id
+      title
+      startDate
+      endDate
+      peersPerTarget
+      nominationDeadline
+      reviewDeadline
+      reportDeadline
+    }
+  }`),
 }
 
 export const mutations = {
