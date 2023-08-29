@@ -21,16 +21,20 @@ export default function UserItem({ loggedUser, user }) {
             <Button>Nominate peer</Button>
           </p>
         )}
-        <p>
-          <Link
-            href={`/employee/${user._id}/new-review`}
-            className={`${buttonVariants({
-              variant: 'outline',
-            })} bg-blue-500 text-white`}
-          >
-            Write Review
-          </Link>
-        </p>
+        {loggedUser === user.fullName ? (
+          <p>
+            <Link
+              href={`/employee/${user._id}/new-review`}
+              className={`${buttonVariants({
+                variant: 'outline',
+              })} bg-blue-500 text-white`}
+            >
+              Review Me
+            </Link>
+          </p>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   )
