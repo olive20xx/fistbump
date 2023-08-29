@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 import UserItem from '@/components/table/UserItem'
 import { queries } from '@/lib/graphql-queries'
-import { UserModel } from '../../../../packages/types/models'
 import { apolloClient } from '@/lib/client'
 import handleLogout from '@/components/Logout'
 
