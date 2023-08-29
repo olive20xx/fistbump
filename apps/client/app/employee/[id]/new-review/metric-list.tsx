@@ -6,7 +6,7 @@ import Metric from '@/components/ui/metric'
 import { GradeData, ReportData } from '@/types/models'
 import { useState } from 'react'
 import Link from 'next/link'
-import { UPDATE_REPORT } from '@/lib/queries'
+import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
 
 function SubmittedReview() {
@@ -33,7 +33,7 @@ export default function MetricList({
 }) {
 
 
-  const [updateReport] = useMutation(UPDATE_REPORT);
+  const [updateReport] = useMutation(mutations.UPDATE_REPORT);
 
   const targetId = report._id.targetId
   const cycleId = report._id.cycleId

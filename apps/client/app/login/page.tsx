@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
-import { GET_USER_BY_EMAIL } from '@/lib/queries'
+import { queries } from '@/lib/graphql-queries'
 import { useLazyQuery } from '@apollo/client'
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -33,7 +33,7 @@ const FormSchema = z.object({
 const SignInForm = () => {
 
 
-  const [getUser] = useLazyQuery(GET_USER_BY_EMAIL);
+  const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL);
 
   const { push } = useRouter()
 

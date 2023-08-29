@@ -4,7 +4,7 @@ import '@/app/global.css'
 import UserCard from '@/components/ui/user-card'
 import { Header2 } from '@/components/typography/header2'
 import MetricList from './metric-list'
-import { GET_FULLREPORT, GET_USER_BY_ID } from '@/lib/queries'
+import { queries } from '@/lib/graphql-queries'
 import { apolloClient } from '@/lib/client'
 import { ReportData } from '@/types/models'
 
@@ -17,8 +17,8 @@ const panelPadding = 'p-4'
 export default async function Review({ params }: { params: any }) {
 
 
-  const { data: { getUser } } = await apolloClient.query({ query: GET_USER_BY_ID, variables: { id: params.id } })
-  const { data: { getReport } } = await apolloClient.query({ query: GET_FULLREPORT, variables: { targetId: params.id, cycleId: '131313' } })
+  const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: params.id } })
+  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULLREPORT, variables: { targetId: params.id, cycleId: '131313' } })
   const [firstName] = getUser.fullName.split(' ')
 
   return (

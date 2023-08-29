@@ -2,7 +2,7 @@ import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { apolloClient } from '@/lib/client'
-import { GET_USERS } from '@/lib/queries'
+import { queries } from '@/lib/graphql-queries'
 import { UserModel } from '../../../../packages/types/models'
 
 
@@ -23,7 +23,7 @@ function UserItem({ user }) {
 
 export default async function ManagerPanel() {
 
-  const { data: { getUsers } } = await apolloClient.query({ query: GET_USERS })
+  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
 
 
   return (

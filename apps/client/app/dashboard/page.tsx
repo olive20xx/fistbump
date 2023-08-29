@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 import UserItem from '@/components/table/UserItem'
-import { GET_USERS } from '@/lib/queries'
+import { queries } from '@/lib/graphql-queries'
 import { UserModel } from '../../../../packages/types/models'
 import { apolloClient } from '@/lib/client'
 import handleLogout from '@/components/Logout'
@@ -18,7 +18,7 @@ export default async function Dashboard() {
 
   const loggedUser = cookieStore.get('user')
 
-  const { data: { getUsers } } = await apolloClient.query({ query: GET_USERS })
+  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
 
   return (
     <div className="bg-slate-200 h-screen">
