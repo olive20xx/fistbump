@@ -13,6 +13,7 @@ type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+  signup(email: String!, hashedPw: String): String
 }
 
 input UserInput {
@@ -103,7 +104,6 @@ type Grade {
 }
 
 type Cycle {
-  _id: String
   title: String
   startDate: Date
   endDate: Date

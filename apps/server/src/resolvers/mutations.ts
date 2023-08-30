@@ -5,9 +5,18 @@ import {
 } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
+import Auth from '../lib/services/services.auth'
 
 const mutations: MutationResolvers = {
   Mutation: {
+
+    signup: async (_: any, { email, hashedPw}: {email: string, hashedPw: string}) => {
+      const hashedPwd = await Auth.hashPassword(hashedPw)
+      const user = new User({ email, hashedPw: hashedPwd })
+      await user.save()
+      return 'user created'
+    },
+
     createUser: async (_: any, { input }: { input: UserInput }) => {
       try {
         const newUser = new User(input)

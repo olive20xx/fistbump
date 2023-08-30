@@ -14,8 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
+const services_auth_1 = __importDefault(require("../lib/services/services.auth"));
 const mutations = {
     Mutation: {
+        signup: (_, { email, hashedPw }) => __awaiter(void 0, void 0, void 0, function* () {
+            const hashedPwd = yield services_auth_1.default.hashPassword(hashedPw);
+            const user = new User_1.default({ email, hashedPw: hashedPwd });
+            yield user.save();
+            return 'user created';
+        }),
         createUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const newUser = new User_1.default(input);
