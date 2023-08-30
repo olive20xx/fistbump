@@ -1,83 +1,65 @@
-import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
-import { cookies } from 'next/headers';
-import Dashboard, { fetchCache } from '../app/dashboard/page';
-import { queries } from '@/lib/graphql-queries';
-import { vi } from 'vitest'
+// @vitest-environment node
 
-vi.mock('next/headers', () => ({
-  cookies: vi.fn(() => ({
-    get: vi.fn(() => ({ value: 'Muto Otum' })),
-  })),
-}));
+import { render, screen } from '@testing-library/react'
+import Dashboard from '../app/dashboard/page'
+import { queries } from '@/lib/graphql-queries'
+import { MockedProvider } from '@apollo/client/testing'
+import { vi, expect } from 'vitest'
 
 
-const mockUsersData = {
-  data: {
-    getUsers: [
-      {
-        title: 'Software Engineer',
-        fullName: 'Muto Otum',
-        teamName: 'Engineering',
-      },
-      {
-        title: 'Software Engineer',
-        fullName: 'Craig Giarc',
-        teamName: 'Engineering',
-      },
-      {
-        title: 'Software Engineer',
-        fullName: 'Rita Atir',
-        teamName: 'Engineering',
-      },
-      {
-        title: 'Software Engineer',
-        fullName: 'Herva Avreh',
-        teamName: 'Engineering',
-      },
-    ],
-  },
-};
+let mockedGet = vi.fn(() => ({ value: "Olga Dev" }))
 
-const mocks = [
-  {
-    request: {
-      query: queries.GET_USERS,
-    },
-    result: mockUsersData,
-  },
-];
+vi.mock("next/headers", async () => {
+  const actual = await vi.importActual("next/headers") as any;
+  return {
+    ...actual,
+    cookies: vi.fn(() => ({
+      get: mockedGet
+    }))
+  };
+});
 
-describe('Dashboard', () => {
-  it('renders user details and log in button', async () => {
+describe.only('Dashboard', async () => {
+  it('renders user list when logged in', () => {
+    //   const getUsersMock = {
+    //     request: {
+    //       query: queries.GET_USERS,
+    //     },
+    //     result: {
+    //       data: {
+    //         getUsers: [
+    //           {
+    //             _id: '123',
+    //             title: 'Product Manager',
+    //             fullName: 'Muto Otum',
+    //             teamName: 'Product',
+    //           },
+    //           {
+    //             _id: '234',
+    //             title: 'Product Manager',
+    //             fullName: 'Craig Giarc',
+    //             teamName: 'Product',
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   }
+
     //   render(
-    //     <MockedProvider mocks={mocks} addTypename={false}>
+    //     <MockedProvider mocks={[getUsersMock]} addTypename={false}>
     //       <Dashboard />
     //     </MockedProvider>
-    // );
 
-    //   await waitFor(() => {
-    //     screen.getByText('Software Engineer');
-    //     screen.getByText('Muto Otum');
-    //     screen.getByText('Engineering');
-    //   });
-    //   await waitFor(() => {
-    //     screen.getByText('Software Engineer');
-    //     screen.getByText('Craig Giarc');
-    //     screen.getByText('Engineering');
-    //   });
-    //   await waitFor(() => {
-    //     screen.getByText('Software Engineer');
-    //     screen.getByText('Rita Atir');
-    //     screen.getByText('Engineering');
-    //   });
-    //   await waitFor(() => {
-    //     screen.getByText('Software Engineer');
-    //     screen.getByText('Herva Avreh');
-    //     screen.getByText('Engineering');
-    //   });
-
-    //   expect(screen.getByRole('button', { name: 'Log in' })).toBeInTheDocument();
-  });
-});
+    //   );
+    //   expect(screen.getByText('List of the users')).toBeDefined()
+    //   expect(screen.getByText(`Hello Olga`)).toBeDefined()
+    //   expect(screen.getByText('Log out')).toBeDefined()
+    //   expect(screen.getByText('Title')).toBeDefined()
+    //   expect(screen.getByText('Full Name')).toBeDefined()
+    //   expect(screen.getByText('Team Name')).toBeDefined()
+    //   expect(screen.getByText('Product Manager')).toBeDefined()
+    //   expect(screen.getByText('Muto Otum')).toBeDefined()
+    //   expect(screen.getByText('Craig Giarc')).toBeDefined()
+    //   expect(screen.getByText('Product')).toBeDefined()
+  })
+})
