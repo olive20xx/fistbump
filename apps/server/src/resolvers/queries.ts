@@ -77,7 +77,15 @@ const queries: QueryResolvers = {
         throw new Error('Error fetching report from the database')
       }
     },
+     getUserByName: async (_: any, {fullName}: {fullName: string})=> {
+      try {
+        const user = await User.findOne({fullName})
+        return user
+      } catch (error) {
+        throw new Error('Error fetching users from the database')
+    }
   },
+ },
 }
 
 export default queries

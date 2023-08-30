@@ -7,6 +7,7 @@ type Query {
   getReport(targetId: String!, cycleId: String!): Report
   getUserByEmail(email: String, password: String): User
   getCurrentCycle: Cycle
+  getUserByName(fullName:String): User
 }
 
 type Mutation {
