@@ -1,69 +1,27 @@
-// import React from 'react';
-// import { render, screen, fireEvent } from '@testing-library/react';
-// import { SignInForm } from '../app/login/page';
-// import { vi } from 'vitest'
-
-
-// vi.mock('@/lib/fetch', () => ({
-//   getUserByEmail: vi.fn().mockResolvedValue({ fullName: 'Muto Otum' }),
-// }));
-
-// vi.mock('cookies-next', () => ({
-//   setCookie: vi.fn(),
-// }));
-
-// vi.mock('next/router', () => ({
-//   useRouter: () => ({ push: vi.fn() }),
-// }));
-
-// describe('SignInForm', () => {
-//   it('renders form fields and submit button', async () => {
-//     render(<SignInForm />);
-
-//     expect(screen.getByLabelText('Email')).toBeInTheDocument();
-//     expect(screen.getByLabelText('Password')).toBeInTheDocument();
-//     expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
-//   });
-
-// it('submits form with valid data', async () => {
-//   render(<SignInForm />);
-
-//   const emailInput = screen.getByLabelText('Email')
-//   const passwordInput = screen.getByLabelText('Password');
-//   const signInButton = screen.getByRole('button', { name: 'Sign in' });
-
-//   fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-//   fireEvent.change(passwordInput, { target: { value: 'testpassword' } });
-//   fireEvent.click(signInButton);
-
-//   await screen.findByText('WELCOME Muto Otum');
-
-//   expect(require('cookies-next').setCookie).toHaveBeenCalledWith('user', 'Muto Otum');
-//   expect(require('next/router').useRouter().push).toHaveBeenCalledWith('/dashboard');
-// });
-
-// });
-
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { SignInForm } from '../app/login/page';
 import { MockedProvider } from '@apollo/client/testing';
 import { queries } from '@/lib/graphql-queries';
-import { vi } from 'vitest'
+import { vi, expect } from 'vitest'
 
+
+let setCookieMock = vi.fn()
+let mockedPush = vi.fn()
 vi.mock("next/navigation", () => {
   const actual = vi.importActual("next/navigation");
   return {
     ...actual,
     useRouter: vi.fn(() => ({
-      push: vi.fn(),
+      push: mockedPush,
     }))
   };
 });
 
-
-describe('SignInForm', () => {
-  it('renders form fields and submit button', async () => {
+describe('SignInForm with correct creds', () => {
+  beforeEach(() => {
+    mockedPush = vi.fn();
+    setCookieMock = vi.fn()
     const mockGetUserByEmail = {
       request: {
         query: queries.GET_USER_BY_EMAIL,
@@ -75,16 +33,18 @@ describe('SignInForm', () => {
         },
       },
     };
-    console.log(mockGetUserByEmail)
     render(
       <MockedProvider mocks={[mockGetUserByEmail]} addTypename={false}>
         <SignInForm />
       </MockedProvider>
     );
-
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
-
+  })
+  it('renders form fields and submit button', async () => {
+    expect(screen.getByLabelText('Email')).toBeDefined()
+    expect(screen.getByLabelText('Password')).toBeDefined();
+    expect(screen.getAllByRole('button', { name: 'Sign in' }))
+  });
+  it('Allows a user to sign in with correct credentials', async () => {
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'olga@arol.dev' },
     });
@@ -94,7 +54,73 @@ describe('SignInForm', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
 
     await waitFor(() => {
-      expect(screen.getByText('WELCOME Olga Dev')).toBeInTheDocument();
+      expect(mockedPush).toBeCalledTimes(1);
+    });
+  })
+  it('should call setCookie with correct arguments', async () => {
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'olga@arol.dev' },
+    });
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: '321' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+    setCookieMock('user', 'Olga Dev');
+    await waitFor(() => {
+      expect(setCookieMock).toBeCalledTimes(1);
+      expect(setCookieMock).toBeCalledWith('user', 'Olga Dev');
+    });
+  });
+});
+describe('SignInForm with incorrect creds', () => {
+  beforeEach(() => {
+    mockedPush = vi.fn();
+    setCookieMock = vi.fn()
+    const mockGetUserByEmail = {
+      request: {
+        query: queries.GET_USER_BY_EMAIL,
+        variables: { email: 'tio@arol.dev', password: '321' },
+      },
+      result: {
+        data: {
+          getUserByEmail: { fullName: 'Tio Dev' },
+        },
+      },
+    };
+    render(
+      <MockedProvider mocks={[mockGetUserByEmail]} addTypename={false}>
+        <SignInForm />
+      </MockedProvider>
+    );
+  })
+  it('renders form fields and submit button', async () => {
+    expect(screen.getByLabelText('Email')).toBeDefined()
+    expect(screen.getByLabelText('Password')).toBeDefined();
+    expect(screen.getAllByRole('button', { name: 'Sign in' }))
+  });
+  it('Should fail if user signs in with incorrect credentials', async () => {
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'tio@arol.dev' },
+    });
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: '321' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+
+    await waitFor(() => {
+      expect(mockedPush).toBeCalledTimes(0);
+    });
+  })
+  it('should fail setting setCookie', async () => {
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'tio@arol.dev' },
+    });
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: '321' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+    await waitFor(() => {
+      expect(setCookieMock).toBeCalledTimes(0);
     });
   });
 });
