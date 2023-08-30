@@ -14,27 +14,37 @@ export default async function Dashboard() {
   const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
   const cycleId = getCurrentCycle._id
 
-  const loggedUserFullName = cookieStore.get('user').value
-  const [loggedUserFirstName] = loggedUserFullName.split(' ')
+  let loggedUserFullName
+  let loggedUser
 
-  const {
-    data: { getUsers },
-  } = await apolloClient.query({ query: queries.GET_USERS })
+  const userCookie = cookieStore.get('user');
+  if (userCookie === undefined) {
+    loggedUser = null
+    loggedUserFullName = null
+  }
+  if (userCookie.value) {
+    loggedUserFullName = userCookie.value
+    loggedUser = true
+  }
+
+  const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
+
+
+  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
 
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
-          {loggedUserFullName ? (
+          {loggedUser && loggedUserFullName ? (
             <div>
               <h2>Hello {loggedUserFirstName}</h2>
               <Button onClick={handleLogout}> Log out</Button>
             </div>
           ) : (
             <Link href={'/login'}>
-              {' '}
-              <Button>Log in</Button>{' '}
+              <Button>Log in</Button>
             </Link>
           )}
         </div>
