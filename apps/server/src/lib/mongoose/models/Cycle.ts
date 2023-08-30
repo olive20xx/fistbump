@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { CycleModel } from "../../../../../../packages/types/models"
+import { CycleModel } from '../../../../../../packages/types/models'
 
 const cycleSchema = new Schema<CycleModel>({
   title: String,

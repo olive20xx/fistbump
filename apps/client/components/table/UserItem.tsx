@@ -1,9 +1,7 @@
 import { Button, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 
-export default function UserItem({ loggedUser, user }) {
-  const cycleId = '131313'
-
+export default function UserItem({ loggedUser, user, cycleId }) {
   return (
     <div className="bg-white">
       <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">

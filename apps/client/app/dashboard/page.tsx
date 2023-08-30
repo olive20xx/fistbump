@@ -11,6 +11,9 @@ export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
   const cookieStore = cookies()
 
+  const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
+  const cycleId = getCurrentCycle._id
+
   const loggedUserFullName = cookieStore.get('user').value
   const [loggedUserFirstName] = loggedUserFullName.split(' ')
 
@@ -47,6 +50,7 @@ export default async function Dashboard() {
             key={user.fullName}
             loggedUser={loggedUserFullName}
             user={user}
+            cycleId={cycleId}
           />
         ))}
       </div>

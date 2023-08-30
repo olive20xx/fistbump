@@ -1,24 +1,24 @@
 import { gql } from '@/src/__generated__'
 
 export const queries = {
-  GET_USERS: gql(`
-   query getUsers {
-     getUsers {
-       _id
-       fullName
-       title
-       teamName
-      }
+  GET_USERS: gql(`query getUsers {
+    getUsers {
+      _id
+      fullName
+      title
+      teamName
     }
-    `),
+  }`),
 
   GET_FULL_REPORT:
     gql(` query getFullReport($targetId: String!, $cycleId: String!) {
-      getReport(targetId: $targetId, cycleId: $cycleId) {
-        _id {
-          targetId
-          cycleId
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id {
+        targetId
+        cycleId
       }
+      status
+      summary
       reviews {
         manager {
           grades {
@@ -54,50 +54,54 @@ export const queries = {
           submitted
         }
       }
-      status
-      summary
     }
-  }
-  `),
+  }`),
 
-  GET_USER_FULLNAME_BY_ID: gql(`
-  query getUserFullName($id: String) {
+  GET_USER_FULLNAME_BY_ID: gql(`query getUserFullName($id: String) {
     getUser(id: $id) {
       fullName
     }
-  }
-`),
+  }`),
 
-  GET_USER_BY_ID: gql(`
-query getUserObject($id: String) {
-  getUser(id: $id) {
-    photo
-    teamName
-    title
-    fullName
-  }
-}
-`),
-
-  GET_REPORT_FOR_EMPLOYEE: gql(`
-query getEmployeeReport($targetId: String!, $cycleId: String!) {
-  getReport(targetId: $targetId, cycleId: $cycleId) {
-    _id {
-      targetId
-      cycleId
+  GET_USER_BY_ID: gql(`query getUserObject($id: String) {
+    getUser(id: $id) {
+      photo
+      teamName
+      title
+      fullName
     }
-    summary
-  }
-}
-`),
+  }`),
 
-  GET_USER_BY_EMAIL: gql(`
-  query getUserByEmail($email: String!, $password: String!) {
-  getUserByEmail(email: $email, password: $password) {
-    fullName
-  }
-  }
-  `),
+  GET_REPORT_FOR_EMPLOYEE:
+    gql(`query getEmployeeReport($targetId: String!, $cycleId: String!) {
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id {
+        targetId
+        cycleId
+      }
+      summary
+    }
+  }`),
+
+  GET_USER_BY_EMAIL:
+    gql(`query getUserByEmail($email: String!, $password: String!) {
+    getUserByEmail(email: $email, password: $password) {
+      fullName
+    }
+  }`),
+
+  GET_CURRENT_CYCLE: gql(`query getCurrentCycle {
+    getCurrentCycle {
+      _id
+      title
+      startDate
+      endDate
+      peersPerTarget
+      nominationDeadline
+      reviewDeadline
+      reportDeadline
+    }
+  }`),
 }
 
 export const mutations = {

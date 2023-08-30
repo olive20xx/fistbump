@@ -1,26 +1,23 @@
 import mongoose from 'mongoose'
-import generateUsers from './generate-users'
+import { generateRandomUserModels } from './generate-users'
 import 'dotenv/config'
 import User from '../models/User'
-import generateReport from './generate-reports'
+import { generateRandomReport, pickRandomReviewers } from './generate-reports'
 import Report from '../models/Report'
-import { UserModel, ReportModel } from '../../../../../../packages/types/models'
+import { ReportModel } from '../../../../../../packages/types/models'
+import { ObjectId, UserDoc } from './types'
+import generateCycle from './generate-cycle'
 import Cycle from '../models/Cycle'
 
 const NUMBER_OF_USERS = 10
 const NUMBER_OF_PEER_REVIEWS = 1
 const NUMBER_OF_METRICS = 3
 const MAX_RATING = 5
+const COMPANY = 'Arol.Dev'
 
 const mongoURL = process.env.MONGODB_URL
 
-type UserDoc = mongoose.MergeType<
-  mongoose.Document<unknown, {}, UserModel> &
-  UserModel & {
-    _id: mongoose.Types.ObjectId
-  },
-  Omit<UserModel, '_id'>
->
+const cycleInput = generateCycle(new Date(), NUMBER_OF_PEER_REVIEWS)
 
 // Connect to mongodb implementation
 async function seedDb() {
@@ -41,25 +38,18 @@ async function seedDb() {
 
 async function seedData(count: number) {
   try {
-    const cycle = await Cycle.create({
-      title: 'Hello',
-      startDate: '2023-01-01',
-      endDate: '2023-12-25',
-      peersPerTarget: '3',
-      nominationDeadline: '2023-09-11',
-      reviewDeadline: '2023-09-11',
-      reportDeadline: '2023-09-11',
-    })
-    console.log('🩷🩷🩷🩷 cycle', cycle)
-    const userInput = generateUsers(count)
-    const users: UserDoc[] = await User.insertMany(userInput)
+    const cycle = await Cycle.create(cycleInput)
+    if (!cycle) throw new Error('Cycle.create() failed')
+    console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
+
+    const userInput = generateRandomUserModels(count, COMPANY)
+    const users = await User.insertMany(userInput)
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
 
-    const fakeCycle = '131313'
     const fakeManager = new mongoose.Types.ObjectId()
-    console.log(`💜 CYCLE ID: '${fakeCycle}' 💜`)
+    console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
     const reportInput: ReportModel[] = []
 
     users.forEach((user, index) => {
@@ -71,9 +61,9 @@ async function seedData(count: number) {
       //! ~half the reports will have empty reviews
       const areReviewsEmpty = index < users.length / 2
 
-      const report = generateReport(
+      const report = generateRandomReport(
         user._id,
-        fakeCycle,
+        cycle._id,
         fakeManager,
         reviewers,
         NUMBER_OF_METRICS,
@@ -87,30 +77,10 @@ async function seedData(count: number) {
     const reports = await Report.insertMany(reportInput)
     if (!reports) throw new Error('Report.insertMany() failed')
     console.log(`${reports.length} reports have been added to the database`)
-    console.log(reports[8].reviews.peers[0])
+    console.log(reports[0])
   } catch (error: any) {
     console.log(error.message)
   }
-}
-
-function pickRandomReviewers(
-  targetId: mongoose.Types.ObjectId,
-  users: UserDoc[],
-  reviewerCount: number
-) {
-  const reviewers: mongoose.Types.ObjectId[] = []
-
-  while (reviewers.length < reviewerCount) {
-    const i = getRandomInt(users.length - 1)
-    const user = users[i]
-    if (user._id !== targetId) reviewers.push(user._id)
-  }
-
-  return reviewers
-}
-
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max)
 }
 
 export default seedDb

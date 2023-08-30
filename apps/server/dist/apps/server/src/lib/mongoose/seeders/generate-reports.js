@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.pickRandomReviewers = exports.generateRandomReport = exports.generateEmptyReport = void 0;
 const faker_1 = __importDefault(require("./faker"));
+const models_1 = require("../../../../../../packages/types/models");
 function generateGrades(count, maxRating, isFilled) {
     const grades = [];
     const metrics = faker_1.default.helpers.arrayElements([
@@ -15,8 +17,15 @@ function generateGrades(count, maxRating, isFilled) {
         'Skating',
         'Crime',
         'Being From Cuba',
-        'Raw Power',
-        'Animal Magnetism',
+        'Power',
+        'Agility',
+        'Endurance',
+        'Danger',
+        'Charm',
+        'Spellcasting',
+        'Storytelling',
+        'Futbol',
+        'Handstands',
     ], count);
     for (let i = 0; i < count; i++) {
         const grade = {
@@ -29,37 +38,65 @@ function generateGrades(count, maxRating, isFilled) {
     }
     return grades;
 }
-function generateReview(reviewerId, metricCount, maxRating, isGraded = false) {
+function generateReview(metricCount, maxRating, reviewerId = null, isGraded = false) {
     const review = {
-        reviewerId: reviewerId,
+        reviewerId,
         isDeclined: false,
         submitted: isGraded,
         grades: generateGrades(metricCount, maxRating, isGraded),
     };
     return review;
 }
-function generateReport(targetId, cycleId, managerId, reviewers, metricCount, maxRating, areReviewsEmpty) {
+function generateEmptyReport(targetId, cycleId, managerId, peersPerTarget, metricCount, maxRating) {
+    const peers = [];
+    for (let i = 0; i < peersPerTarget; i++) {
+        const review = generateReview(metricCount, maxRating);
+        peers.push(review);
+    }
+    const report = {
+        _id: { targetId, cycleId },
+        summary: '',
+        status: 'Nomination',
+        reviews: {
+            peers,
+            self: generateReview(metricCount, maxRating, targetId),
+            manager: generateReview(metricCount, maxRating, managerId),
+        },
+    };
+    return report;
+}
+exports.generateEmptyReport = generateEmptyReport;
+function generateRandomReport(targetId, cycleId, managerId, reviewers, metricCount, maxRating, areReviewsEmpty) {
     const peerReviews = [];
     for (let i = 0; i < reviewers.length; i++) {
         const reviewerId = reviewers[i];
-        const review = generateReview(reviewerId, metricCount, maxRating, areReviewsEmpty);
+        const review = generateReview(metricCount, maxRating, reviewerId, areReviewsEmpty);
         peerReviews.push(review);
     }
     const report = {
         _id: { targetId, cycleId },
         summary: faker_1.default.lorem.paragraph({ min: 2, max: 4 }),
-        status: faker_1.default.helpers.arrayElement([
-            'Nomination',
-            'Review',
-            'Report',
-            'Completed',
-        ]),
+        status: faker_1.default.helpers.objectValue(models_1.REPORT_STATUS),
         reviews: {
             peers: peerReviews,
-            self: generateReview(targetId, metricCount, maxRating),
-            manager: generateReview(managerId, metricCount, maxRating),
+            self: generateReview(metricCount, maxRating, targetId),
+            manager: generateReview(metricCount, maxRating, managerId),
         },
     };
     return report;
 }
-exports.default = generateReport;
+exports.generateRandomReport = generateRandomReport;
+function pickRandomReviewers(targetId, users, reviewerCount) {
+    const reviewers = [];
+    while (reviewers.length < reviewerCount) {
+        const i = getRandomInt(users.length - 1);
+        const user = users[i];
+        if (user._id !== targetId)
+            reviewers.push(user._id);
+    }
+    return reviewers;
+}
+exports.pickRandomReviewers = pickRandomReviewers;
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}

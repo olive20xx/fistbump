@@ -1,5 +1,14 @@
 import mongoose from 'mongoose'
 
+export const REPORT_STATUS = {
+  NOMINATION: 'Nomination',
+  REVIEW: 'Review',
+  REPORT: 'Report',
+  COMPLETE: 'Complete',
+} as const
+
+export type ReportStatus = (typeof REPORT_STATUS)[keyof typeof REPORT_STATUS]
+
 export type GradeModel = {
   metric: string
   rating: number
@@ -8,7 +17,7 @@ export type GradeModel = {
 }
 
 export type ReviewModel = {
-  reviewerId: mongoose.Types.ObjectId
+  reviewerId: mongoose.Types.ObjectId | null
   isDeclined: boolean
   submitted: boolean
   grades: GradeModel[]
@@ -17,7 +26,7 @@ export type ReviewModel = {
 export type ReportModel = {
   _id: ReportId
   summary: string
-  status: string
+  status: ReportStatus
   reviews: {
     peers: ReviewModel[]
     self: ReviewModel
@@ -27,7 +36,7 @@ export type ReportModel = {
 
 export type ReportId = {
   targetId: mongoose.Types.ObjectId
-  cycleId: string
+  cycleId: mongoose.Types.ObjectId
 }
 
 export type UserModel = {
@@ -55,4 +64,3 @@ export type CycleModel = {
   reviewDeadline: Date
   reportDeadline: Date
 }
- 

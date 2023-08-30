@@ -64,11 +64,14 @@ const queries: QueryResolvers = {
         throw new Error('Error fetching report from the database')
       }
     },
-    getCurrentCycle: async (_:any) => {
+    getCurrentCycle: async (_: any) => {
       try {
         const now = new Date()
 
-        const cycle = await Cycle.findOne({startDate: {$lte: now}, endDate: {$gte: now}})
+        const cycle = await Cycle.findOne({
+          startDate: { $lte: now },
+          endDate: { $gte: now },
+        })
         return cycle
       } catch (error) {
         throw new Error('Error fetching report from the database')
@@ -78,4 +81,3 @@ const queries: QueryResolvers = {
 }
 
 export default queries
-
