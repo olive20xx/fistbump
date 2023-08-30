@@ -22,7 +22,7 @@ export default async function Dashboard() {
     loggedUser = null
     loggedUserFullName = null
   }
-  if (userCookie.value) {
+  if (userCookie && userCookie.value) {
     loggedUserFullName = userCookie.value
     loggedUser = true
   }
