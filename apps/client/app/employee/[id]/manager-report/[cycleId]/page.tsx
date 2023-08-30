@@ -1,25 +1,22 @@
 import '@/app/global.css'
-
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { apolloClient } from '@/lib/apollo-client'
-import { queries } from '@/lib/graphql-queries'
+import { getFullReport, getUserFullName } from '@/lib/get-data-api'
 
 async function Report({ params }) {
-  const variables = { targetId: params.id, cycleId: params.cycleId }
+  const targetId = params.id
+  const cycleId = params.cycleId
 
-  const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: variables.targetId } })
-  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULL_REPORT, variables })
+  const fullName = await getUserFullName(targetId)
+  const fullReport = await getFullReport(targetId, cycleId)
 
   async function getReviewer(id) {
-    const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: id } })
+    const fullName = await getUserFullName(id)
     return fullName
   }
 
@@ -27,12 +24,12 @@ async function Report({ params }) {
     <div className="p-4">
       <div>
         <h1 className="text-2xl">Manager</h1>
-        <h2>Report remarks: {getReport.summary}</h2>
+        <h2>Report remarks: {fullReport.summary}</h2>
         <Table className="pt-4">
           <TableCaption>All the metrics and ratings from reviews</TableCaption>
           <h2 className="font-bold">Peer Reviews</h2>
           <TableBody>
-            {getReport.reviews.peers.map((peerReview, index) => {
+            {fullReport.reviews.peers.map((peerReview, index) => {
               return !peerReview.reviewerId ? <></> :
                 <div key={index}>
                   <TableRow>
@@ -62,7 +59,7 @@ async function Report({ params }) {
             <TableRow>
               <TableCell className="font-medium">{fullName}</TableCell>
             </TableRow>
-            {getReport.reviews.self.grades.map((grade, gradeIndex) => (
+            {fullReport.reviews.self.grades.map((grade, gradeIndex) => (
               <div className="grid grid-cols-5" key={gradeIndex}>
                 <TableCell>{grade.metric}</TableCell>
                 <TableCell>
