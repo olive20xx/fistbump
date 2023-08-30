@@ -1,18 +1,19 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SignInForm } from '../app/login/page';
+import { vi } from 'vitest'
 
 
-jest.mock('@/lib/fetch', () => ({
-  getUserByEmail: jest.fn().mockResolvedValue({ fullName: 'Muto Otum' }),
+vi.mock('@/lib/fetch', () => ({
+  getUserByEmail: vi.fn().mockResolvedValue({ fullName: 'Muto Otum' }),
 }));
 
-jest.mock('cookies-next', () => ({
-  setCookie: jest.fn(),
+vi.mock('cookies-next', () => ({
+  setCookie: vi.fn(),
 }));
 
-jest.mock('next/router', () => ({
-  useRouter: () => ({ push: jest.fn() }),
+vi.mock('next/router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
 }));
 
 describe('SignInForm', () => {
