@@ -1,16 +1,19 @@
 'use client'
 import { Button, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
-import { queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { mutations, queries } from '@/lib/graphql-queries'
+import { useLazyQuery, useMutation } from '@apollo/client'
 
 export default function UserItem({ loggedUser, user, cycleId }) {
 
-
+  const [getPeerReviews] = useLazyQuery(queries.GET_PEER_REVIEWS)
   const [getUser] = useLazyQuery(queries.GET_USER_BY_NAME)
-
+  const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
   async function handleNominatePeer() {
     const { data: { getUserByName: { _id: userId } } } = await getUser({ variables: { fullName: loggedUser } })
+    const { data: { getReport: { reviews: { peers } } } } = await getPeerReviews({ variables: { targetId: userId, cycleId } })
+    console.log('peer reviews', peers)
+
   }
 
 

@@ -107,6 +107,28 @@ export const queries = {
       _id
     }
   }`),
+  GET_PEER_REVIEWS:
+    gql(` query getPeerReviews($targetId: String!, $cycleId: String!) {
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id {
+        targetId
+        cycleId
+      }
+      reviews {
+        peers {
+          grades {
+            comment
+            maxRating
+            metric
+            rating
+          }
+          isDeclined
+          reviewerId
+          submitted
+        }
+      }
+    }
+  }`),
 }
 
 export const mutations = {
@@ -145,6 +167,23 @@ export const mutations = {
           comment
         }
       }
+      }
+    }
+  }`),
+  UPDATE_PEER_REVIEWS: gql(`
+    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+      updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
+        reviews {
+          peers {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
       }
     }
   }`),
