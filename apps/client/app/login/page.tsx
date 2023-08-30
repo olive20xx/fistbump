@@ -1,7 +1,6 @@
 'use client'
 
 import '@/app/global.css'
-
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -20,18 +19,19 @@ import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
 import { useLazyQuery } from '@apollo/client'
+
+
+
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
     .string()
     .min(1, 'Password is required')
-
-    //change later to 8 charachters
+    //!change later to 8 charachters
     .min(3, 'Password must have than 8 characters'),
 })
 
 const SignInForm = () => {
-
 
   const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL);
 
@@ -44,8 +44,6 @@ const SignInForm = () => {
       password: '',
     },
   })
-
-
 
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
@@ -107,7 +105,7 @@ const SignInForm = () => {
       </div>
       <p className="text-center text-sm text-gray-600 mt-2">
         If you don&apos;t have an account, please&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/sign-up">
+        <Link className="text-blue-500 hover:underline" href="/signup">
           Sign up
         </Link>
       </p>
