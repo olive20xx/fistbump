@@ -47,6 +47,7 @@ export type GradeInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
+  updatePeerReview?: Maybe<Report>;
   updateReport?: Maybe<Report>;
   updateUser?: Maybe<User>;
 };
@@ -54,6 +55,13 @@ export type Mutation = {
 
 export type MutationCreateUserArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+
+export type MutationUpdatePeerReviewArgs = {
+  cycleId: Scalars['String']['input'];
+  input: PeerUpdateInput;
+  targetId: Scalars['String']['input'];
 };
 
 
@@ -66,6 +74,10 @@ export type MutationUpdateReportArgs = {
 
 export type MutationUpdateUserArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+export type PeerUpdateInput = {
+  newReviewerId: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -258,6 +270,7 @@ export type ResolversTypes = ResolversObject<{
   GradeInput: GradeInput;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  PeerUpdateInput: PeerUpdateInput;
   Query: ResolverTypeWrapper<{}>;
   Report: ResolverTypeWrapper<Report>;
   ReportID: ResolverTypeWrapper<ReportId>;
@@ -281,6 +294,7 @@ export type ResolversParentTypes = ResolversObject<{
   GradeInput: GradeInput;
   Int: Scalars['Int']['output'];
   Mutation: {};
+  PeerUpdateInput: PeerUpdateInput;
   Query: {};
   Report: Report;
   ReportID: ReportId;
@@ -321,6 +335,7 @@ export type GradeResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
+  updatePeerReview?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdatePeerReviewArgs, 'cycleId' | 'input' | 'targetId'>>;
   updateReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateReportArgs, 'cycleId' | 'targetId'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 }>;

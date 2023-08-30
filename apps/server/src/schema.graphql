@@ -14,6 +14,7 @@ type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+  updatePeerReview(targetId: String!, cycleId: String!, input: PeerUpdateInput!) : Report
 }
 
 input UserInput {
@@ -32,6 +33,10 @@ input ReportInput {
   summary: String
   status: String
   reviews: ReviewsInput
+}
+
+input PeerUpdateInput {
+  newReviewerId: String!
 }
 
 input ReviewsInput {
