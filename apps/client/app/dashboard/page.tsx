@@ -31,6 +31,8 @@ export default async function Dashboard() {
 
 
   const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
+  const { data: { getUserByName: { _id: loggedUserId } } } = await apolloClient.query({ query: queries.GET_USER_BY_NAME, variables: { fullName: loggedUserFullName } })
+
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -61,6 +63,7 @@ export default async function Dashboard() {
             loggedUser={loggedUserFullName}
             user={user}
             cycleId={cycleId}
+            loggedUserId={loggedUserId}
           />
         ))}
       </div>

@@ -171,20 +171,13 @@ export const mutations = {
     }
   }`),
   UPDATE_PEER_REVIEWS: gql(`
-    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:ReportInput!) {
-      updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
+    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:PeerUpdateInput!) {
+      updatePeerReview(targetId: $targetId, cycleId: $cycleId, input: $input) {
         reviews {
           peers {
-            submitted
             reviewerId
-            grades {
-              metric
-              rating
-              maxRating
-              comment
-            }
           }
-      }
+        }
     }
   }`),
 }

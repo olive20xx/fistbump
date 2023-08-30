@@ -68,16 +68,6 @@ const mutations: MutationResolvers = {
         const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
         const report = await Report.findOne(filter)
         const ObjectId = mongoose.Types.ObjectId
-        // if (report.reviews.peers[0].reviewerId === null) {
-        //   report.reviews.peers[0].reviewerId = new ObjectId(
-        //     input.newReviewerId
-        //   )
-        // }
-
-        // let empty = report.reviews.peers.filter((x) => x.reviewerId === null)
-        //           if (empty.length === 0) {
-        //           report.updateOne(empty[0].reviewerId = new ObjectId(input.newReviewerId))
-
         if (report) {
           for (let i = 0; i < report.reviews.peers.length; i++) {
             const review = report.reviews.peers[i]
