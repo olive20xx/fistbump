@@ -30,7 +30,7 @@ const FormSchema = z.object({
     .min(3, 'Password must have than 8 characters'),
 })
 
-const SignInForm = () => {
+export const SignInForm = () => {
 
 
   const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL);
