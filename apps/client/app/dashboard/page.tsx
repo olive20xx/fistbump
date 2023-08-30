@@ -6,13 +6,14 @@ import UserItem from '@/components/table/UserItem'
 import { queries } from '@/lib/graphql-queries'
 import { apolloClient } from '@/lib/apollo-client'
 import handleLogout from '@/components/Logout'
+import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
   const cookieStore = cookies()
 
-  const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
-  const cycleId = getCurrentCycle._id
+  const cycle = await getCurrentCycle()
+  const cycleId = cycle._id
 
   let loggedUserFullName
   let loggedUser
@@ -29,8 +30,7 @@ export default async function Dashboard() {
 
   const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
 
-
-  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
+  const users = await getAllUsers()
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -55,7 +55,7 @@ export default async function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {getUsers.map((user) => (
+        {users.map((user) => (
           <UserItem
             key={user.fullName}
             loggedUser={loggedUserFullName}

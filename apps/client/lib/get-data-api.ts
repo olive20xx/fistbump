@@ -6,7 +6,7 @@ import { apolloClient } from '@/lib/apollo-client'
 // client components use 'useQuery' or 'useMutation'
 
 // **** users ***
-export async function getUsers(): Promise<User[]> {
+export async function getAllUsers(): Promise<User[]> {
   const query = queries.GET_USERS
 
   const result = await apolloClient.query({ query })
