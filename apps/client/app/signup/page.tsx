@@ -15,13 +15,15 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
-import { queries } from '@/lib/graphql-queries'
+import { mutations } from '@/lib/graphql-queries';
+import { useLazyQuery } from '@apollo/client'
+
+
 
 
 const FormSchema = z
   .object({
-    firstName: z.string().min(1, 'Name is required').max(15),
-    lastName: z.string().min(1, 'Name is required').max(15),
+    fullName: z.string().min(1, 'Name is required').max(30),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
     password: z
       .string()
@@ -37,28 +39,33 @@ const FormSchema = z
 
 const SignUpForm = () => {
 
+  // const [createUser] = useMutation(mutations.CREATE_USER);
+
   const { push } = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      fullName: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     console.log(values);
     const email = values.email
     const password = values.password
-    const firstName = values.firstName
-    const lastName = values.lastName
-    const variables = { firstName, lastName, email, password }
+    const fullName = values.fullName
+    const variables = { input: { fullName, email, password } }
 
-    const { data: { getUserByEmail } } = await getUser({ variables })
+    try {
+      const response = await createUser({ variables });
+      console.log('User created:', response.data.createUser);
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
 
     push('/dashboard')
 
@@ -67,35 +74,21 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-      <div className='flex justify-between'>
-        <FormField
-          control={form.control}
-          name='firstName'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder='John' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='lastName'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder='Doe' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
+         
         <div className='space-y-2'>
+        <FormField
+            control={form.control}
+            name='fullName'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder='Doe' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name='email'

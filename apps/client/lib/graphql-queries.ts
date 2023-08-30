@@ -92,7 +92,6 @@ export const queries = {
 
   GET_CURRENT_CYCLE: gql(`query getCurrentCycle {
     getCurrentCycle {
-      _id
       title
       startDate
       endDate
@@ -141,6 +140,14 @@ export const mutations = {
         }
       }
       }
-    }
+    },
+  }`),
+    CREATE_USER: gql(`
+    mutation createUser($input: UserInput!){
+    createUser(input: $input) {
+        email
+        fullName
+        hashedPw
+      }
   }`),
 }
