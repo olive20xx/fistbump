@@ -102,6 +102,11 @@ export const queries = {
       reportDeadline
     }
   }`),
+  GET_USER_BY_NAME: gql(`query getUserByName($fullName: String!) {
+    getUserByName(fullName: $fullName) {
+      _id
+    }
+  }`),
 }
 
 export const mutations = {
