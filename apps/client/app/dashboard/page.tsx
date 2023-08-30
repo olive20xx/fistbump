@@ -6,6 +6,7 @@ import UserItem from '@/components/table/UserItem'
 import { queries } from '@/lib/graphql-queries'
 import { apolloClient } from '@/lib/apollo-client'
 import handleLogout from '@/components/Logout'
+import ComboboxDemo from '@/components/Combobox'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
@@ -66,7 +67,11 @@ export default async function Dashboard() {
             loggedUserId={loggedUserId}
           />
         ))}
+        <ComboboxDemo getUsers={getUsers} loggedUserId={loggedUserId} cycleId={cycleId}></ComboboxDemo>
+        <ComboboxDemo getUsers={getUsers} loggedUserId={loggedUserId} cycleId={cycleId}></ComboboxDemo>
+        <ComboboxDemo getUsers={getUsers} loggedUserId={loggedUserId} cycleId={cycleId}></ComboboxDemo>
+
       </div>
-    </div>
+    </div >
   )
 }
