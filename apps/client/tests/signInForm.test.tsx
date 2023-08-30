@@ -41,7 +41,7 @@ describe('SignInForm with correct creds', () => {
   })
   it('renders form fields and submit button', async () => {
     expect(screen.getByLabelText('Email')).toBeDefined()
-    expect(screen.getByLabelText('Password')).toBeDefined();
+    expect(screen.getByLabelText('Password')).toBeDefined()
     expect(screen.getAllByRole('button', { name: 'Sign in' }))
   });
   it('Allows a user to sign in with correct credentials', async () => {
@@ -105,7 +105,7 @@ describe('SignInForm with incorrect creds', () => {
     fireEvent.change(screen.getByLabelText('Password'), {
       target: { value: '321' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
 
     await waitFor(() => {
       expect(mockedPush).toBeCalledTimes(0);
@@ -118,7 +118,7 @@ describe('SignInForm with incorrect creds', () => {
     fireEvent.change(screen.getByLabelText('Password'), {
       target: { value: '321' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }))
     await waitFor(() => {
       expect(setCookieMock).toBeCalledTimes(0);
     });

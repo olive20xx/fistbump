@@ -1,42 +1,78 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import UserItem from '../components/table/UserItem';
-import { vi } from 'vitest'
-
-vi.mock('next/link', () => ({ children }) => children);
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import UserItem from '../components/table/UserItem'
+import { MockedProvider } from '@apollo/client/testing'
+import { queries } from '@/lib/graphql-queries'
 
 describe('UserItem', () => {
-  it('renders user details correctly', () => {
-
-    // const user = {
-    //   title: 'Software Engineer',
-    //   fullName: 'Muto Otum',
-    //   teamName: 'Engineering',
-    //   _id: '123456',
-    // };
-    // render(<UserItem loggedUser="Muto Otum" user={user} />);
-    // expect(screen.getByText('Software Engineer')).toBeInTheDocument();
-    // expect(screen.getByText('Muto Otum')).toBeInTheDocument();
-    // expect(screen.getByText('Engineering')).toBeInTheDocument();
-  });
-
-  // it('renders "View my report" button for the logged-in user', () => {
-  //   const user = {
-  //     title: 'Software Engineer',
-  //     fullName: 'Muto Otum',
-  //     teamName: 'Engineering',
-  //     _id: '123456',
-  //   };
-
-  //   render(<UserItem loggedUser="Muto Otum" user={user} />);
-
-  //   const viewReportButton = screen.getByRole('button', { name: 'View my report' });
-  //   expect(viewReportButton).toBeInTheDocument();
-  //   userEvent.click(viewReportButton);
-  //   expect(screen.getByRole('link', { name: 'View my report' })).toHaveAttribute(
-  //     'href',
-  //     `/employee/${user._id}/report/131313`
-  //   );
-  // });
-});
+  it('renders user details and "View my report" button for logged user', async () => {
+    const mockUser = {
+      request: {
+        query: queries.GET_USER_BY_ID,
+        variables: { _id: '456' },
+      },
+      result: {
+        data: {
+          getUserById: {
+            _id: '456',
+            title: 'Product Manager',
+            fullName: 'Olga Dev',
+            teamName: 'Product',
+          },
+        },
+      },
+    }
+    render(
+      <MockedProvider mocks={[mockUser]} addTypename={false}>
+        <UserItem
+          loggedUser="Olga Dev"
+          user={{
+            _id: '456',
+            title: 'Product Manager',
+            fullName: 'Olga Dev',
+            teamName: 'Product',
+          }}
+        />
+      </MockedProvider>
+    )
+    expect(screen.getByText('Product Manager')).toBeDefined()
+    expect(screen.getByText('Olga Dev')).toBeDefined()
+    expect(screen.getByText('Product')).toBeDefined()
+    expect(screen.getByRole('button', { name: 'View my report' })).toBeDefined()
+  })
+  it('renders user details and "Nominate peer" button for other users', async () => {
+    const mockUser = {
+      request: {
+        query: queries.GET_USER_BY_ID,
+        variables: { _id: '456' },
+      },
+      result: {
+        data: {
+          getUserById: {
+            _id: '456',
+            title: 'Product Manager',
+            fullName: 'Muto Atom',
+            teamName: 'Product',
+          },
+        },
+      },
+    }
+    render(
+      <MockedProvider mocks={[mockUser]} addTypename={false}>
+        <UserItem
+          loggedUser="Olga Dev"
+          user={{
+            _id: '456',
+            title: 'Product Manager',
+            fullName: 'Muto Atom',
+            teamName: 'Product',
+          }}
+        />
+      </MockedProvider>
+    )
+    expect(screen.getByText('Product Manager')).toBeDefined()
+    expect(screen.getByText('Muto Atom')).toBeDefined()
+    expect(screen.getByText('Product')).toBeDefined()
+    expect(screen.getByRole('button', { name: 'Nominate peer' })).toBeDefined()
+  })
+})
