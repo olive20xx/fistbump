@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
 import { UserModel } from '../../../../packages/types/models'
+import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 
 
 function UserItem({ user, cycleId }) {
@@ -20,11 +21,10 @@ function UserItem({ user, cycleId }) {
 }
 
 export default async function ManagerPanel() {
-  const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
-  const cycleId = getCurrentCycle._id
+  const cycle = await getCurrentCycle()
+  const cycleId = cycle._id
 
-  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
-
+  const users = await getAllUsers()
 
   return (
     <div className="bg-slate-200 h-screen">
@@ -37,7 +37,7 @@ export default async function ManagerPanel() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {getUsers.map((user: UserModel) => (
+        {users.map((user: UserModel) => (
           <UserItem key={user.fullName} user={user} cycleId={cycleId} />
         ))}
       </div>
