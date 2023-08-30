@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { mutations } from '@/lib/graphql-queries';
-import { useLazyQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client';
 
 
 
@@ -39,7 +39,7 @@ const FormSchema = z
 
 const SignUpForm = () => {
 
-  // const [createUser] = useMutation(mutations.CREATE_USER);
+  const [createUser] = useMutation(mutations.CREATE_USER);
 
   const { push } = useRouter()
 
@@ -56,9 +56,9 @@ const SignUpForm = () => {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     console.log(values);
     const email = values.email
-    const password = values.password
+    const hashedPw = values.password
     const fullName = values.fullName
-    const variables = { input: { fullName, email, password } }
+    const variables = { input: { fullName, email, hashedPw } }
 
     try {
       const response = await createUser({ variables });
@@ -67,14 +67,13 @@ const SignUpForm = () => {
       console.error('Error creating user:', error);
     }
 
-    push('/dashboard')
+    // push('/dashboard')
 
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-         
         <div className='space-y-2'>
         <FormField
             control={form.control}
