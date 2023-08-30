@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 import UserItem from '@/components/table/UserItem'
-import { queries } from '@/lib/graphql-queries'
-import { apolloClient } from '@/lib/apollo-client'
 import handleLogout from '@/components/Logout'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 
