@@ -25,16 +25,13 @@ async function ReportPage({ params }) {
   const cycleId = cycle._id
 
   const targetUser = await getUserById(targetId)
+  const targetName = targetUser.fullName
   const fullReport = await getFullReport(targetId, cycleId)
 
   const tableData = await formatTableDataArray(fullReport.reviews as ReviewsData, targetUser.fullName)
-  // //TODO FIX
-  // const reviewers = await fullReport.reviews.peers.map(async (review) => {
-  //   if (!review.reviewerId) return
-  //   console.log(review.reviewerId)
-  //   const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: review.reviewerId } })
-  //   return { photo: getUser.photo, fullname: getUser.fullName }
-  // })
+
+  const reviewerIdsRaw = fullReport.reviews.peers.map(review => review.reviewerId)
+  const reviewerIds = reviewerIdsRaw.filter((id) => id !== null)
 
   return (
     <div className="h-screen flex">
@@ -51,14 +48,10 @@ async function ReportPage({ params }) {
           </div>
           <div className='p-4'>
             <Header2>Reviewers</Header2>
-            {/* {reviewers.map((reviewer, i) => {
-              return <Reviewer photo={reviewer.photo} fullName={reviewer.fullName} key={i} />
-            })} */}
-            <div>Craig</div>
-            <div>Rita</div>
+            {reviewerIds.map(async (id, i) => <Reviewer id={id} key={i} />)}
           </div>
         </div>
-        <SummaryTables className={'mt-8 px-4'} metricSummaries={tableData} />
+        <SummaryTables className={'mt-8 px-4'} metricSummaries={tableData} targetName={targetName} />
       </div>
       <div className='bg-blue-300 h-full w-1/2'>
         Metric List
@@ -68,7 +61,9 @@ async function ReportPage({ params }) {
   )
 }
 
-function Reviewer({ photo, fullName }) {
+async function Reviewer({ id }) {
+  const { fullName, photo } = await getUserById(id)
+
   return (
     <div className='flex'>
       <Photo photo={photo} alt={`Picture of ${fullName}`} />
@@ -80,24 +75,26 @@ function Reviewer({ photo, fullName }) {
 type SummaryTablesProps = {
   className: string
   metricSummaries: TableData[]
+  targetName: string
 }
 
-function SummaryTables({ className, metricSummaries }: SummaryTablesProps) {
+function SummaryTables({ className, metricSummaries, targetName }: SummaryTablesProps) {
   return (
     <div className={className}>
       {metricSummaries.map((metricSummary, i) => {
-        return <MetricSummaryTable targetFirstName={'Olga'} data={metricSummary} key={i} />
+        return <MetricSummaryTable targetName={targetName} data={metricSummary} key={i} />
       })}
     </div>
   )
 }
 
 type SummaryTableProps = {
-  targetFirstName: string
+  targetName: string
   data: TableData
 }
-function MetricSummaryTable({ targetFirstName, data }: SummaryTableProps) {
+function MetricSummaryTable({ targetName, data }: SummaryTableProps) {
   const { metricName, rows } = data
+  const [targetFirstName] = targetName.split(' ')
 
   const averageRating = rows.reduce((ac, row) => {
     return ac + row.rating
@@ -116,7 +113,7 @@ function MetricSummaryTable({ targetFirstName, data }: SummaryTableProps) {
         </TableHeader>
         <TableBody>
           {rows.map((row, i) => {
-            return <MetricRow reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
+            return <MetricRow targetName={targetName} reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
           })}
         </TableBody>
         <TableFooter className='bg-pink-200 text-black'>
@@ -131,9 +128,9 @@ function MetricSummaryTable({ targetFirstName, data }: SummaryTableProps) {
   )
 }
 
-function MetricRow({ reviewerName, rating, comment }) {
+function MetricRow({ targetName, reviewerName, rating, comment }) {
   return (
-    <TableRow>
+    <TableRow className={targetName === reviewerName ? 'bg-pink-50' : ''}>
       <TableCell>{reviewerName}</TableCell>
       <TableCell className='text-center'>{rating}</TableCell>
       <TableCell>{comment}</TableCell>
