@@ -17,12 +17,18 @@ export default async function Dashboard() {
   let loggedUser
 
   const userCookie = cookieStore.get('user')
+
+    // console.log(JSON.parse(userCookie.value))
+
+  const {id, name} = JSON.parse(userCookie.value)
+  
+
   if (userCookie === undefined) {
     loggedUser = null
     loggedUserFullName = null
   }
   if (userCookie && userCookie.value) {
-    loggedUserFullName = userCookie.value
+    loggedUserFullName = name
     loggedUser = true
   }
 
@@ -39,7 +45,7 @@ export default async function Dashboard() {
         <div>
           {loggedUser && loggedUserFullName ? (
             <div className='flex gap-10 items-baseline'>
-              <h2 className='font-extrabold'>Hello {loggedUserFirstName}</h2>
+              <h2 className='font-extrabold'>Hello {name}</h2>
               <Link href={'/managerpanel'}>
                 <Button>Go to managerpanel</Button>
               </Link>

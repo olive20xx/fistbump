@@ -20,6 +20,9 @@ import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
 import { useLazyQuery } from '@apollo/client'
+
+
+
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
@@ -52,7 +55,13 @@ const SignInForm = () => {
 
     if (getUserByEmail.fullName) {
       console.warn('WELCOME', getUserByEmail.fullName)
-      setCookie('user', getUserByEmail.fullName)
+
+      const userData = {
+        id: getUserByEmail._id,
+        name: getUserByEmail.fullName
+      };
+      setCookie('user', JSON.stringify(userData));
+      // setCookie('user', getUserByEmail.fullName)
       push('/dashboard')
     }
   }
