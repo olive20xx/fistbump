@@ -162,6 +162,7 @@ async function formatTableDataArray(reviews: ReviewsData, targetName: string): P
   const peerReviews = reviews.peers
   peerReviews.forEach(async (review) => {
     const { reviewerId, grades } = review
+    if (!reviewerId) return
     const reviewerName = await getUserFullName(reviewerId)
     grades.forEach((grade) => {
       const { rating, comment } = grade

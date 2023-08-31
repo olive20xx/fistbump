@@ -10,6 +10,7 @@ export async function getAllUsers(): Promise<User[]> {
   const query = queries.GET_USERS
 
   const result = await apolloClient.query({ query })
+  if (!result.data.getUsers) throw new Error(`❌ getAllUsers: users not found`)
 
   const users = result.data.getUsers
   return users
@@ -21,6 +22,9 @@ export async function getUserById(id: string): Promise<User> {
 
   const result = await apolloClient.query({ query, variables })
 
+  if (!result.data.getUser)
+    throw new Error(`❌ getUserById: user not found, id ${id}`)
+
   const user = result.data.getUser
   return user
 }
@@ -30,6 +34,9 @@ export async function getUserByEmail(email: string): Promise<string> {
   const variables = { email }
 
   const result = await apolloClient.query({ query, variables })
+
+  if (!result.data.getUserByEmail)
+    throw new Error(`❌ getUserByEmail: user not found, email ${email}`)
 
   const fullName = result.data.getUserByEmail.fullName
   return fullName
@@ -41,7 +48,10 @@ export async function getUserFullName(id: string): Promise<string> {
 
   const result = await apolloClient.query({ query, variables })
 
-  const fullName = result.data.getUser.fullName
+  if (!result.data.getUser)
+    throw new Error(`❌ getUserFullName: user not found, id ${id}`)
+
+  const fullName = result.data.getUser?.fullName
   return fullName
 }
 
@@ -54,6 +64,8 @@ export async function getFullReport(
   const variables = { targetId, cycleId }
 
   const result = await apolloClient.query({ query, variables })
+  if (!result.data.getReport)
+    throw new Error(`❌ getFullReport: report not found`)
 
   const report = result.data.getReport
   return report
@@ -67,6 +79,8 @@ export async function getEmployeeReport(
   const variables = { targetId, cycleId }
 
   const result = await apolloClient.query({ query, variables })
+  if (!result.data.getReport)
+    throw new Error(`❌ getEmployeeReport: report not found`)
 
   const report = result.data.getReport
   return report
@@ -77,6 +91,8 @@ export async function getCurrentCycle(): Promise<Cycle> {
   const query = queries.GET_CURRENT_CYCLE
 
   const result = await apolloClient.query({ query })
+  if (!result.data.getCurrentCycle)
+    throw new Error(`❌ getCurrentCycle: cycle not found`)
 
   const cycle = result.data.getCurrentCycle
   return cycle
