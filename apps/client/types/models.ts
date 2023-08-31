@@ -29,5 +29,8 @@ type ReportData = {
     manager: ReviewData
   }
 }
+type GradeDataWithError = GradeData & {
+  hasError: boolean;
+};
 
-export type { MetricData, GradeData, ReviewData, UserId, ReportData }
+export type { MetricData, GradeData, ReviewData, UserId, ReportData, GradeDataWithError }

@@ -13,6 +13,7 @@ interface IMetricProps {
   rating: number
   maxRating: number
   placeholder?: string
+  hasError: boolean
 }
 
 const Metric: FunctionComponent<IMetricProps> = ({
@@ -23,6 +24,7 @@ const Metric: FunctionComponent<IMetricProps> = ({
   value,
   rating,
   maxRating,
+  hasError,
   placeholder = 'Comments',
 }) => {
   console.log(name, rating)
@@ -31,7 +33,7 @@ const Metric: FunctionComponent<IMetricProps> = ({
   return (
     <div className="flex flex-col gap-6 mb-4 justify-center items-center">
       <h4 className="flex gap-2 justify-center items-center">{question}</h4>
-      <div className="flex gap-2 justify-center items-center">
+      <div className={"flex gap-2 justify-center items-center"}>
         {createArrayNumbers(maxRating).map((n) => (
           <Button
             key={n}
@@ -46,9 +48,10 @@ const Metric: FunctionComponent<IMetricProps> = ({
           </Button>
         ))}
       </div>
+      {hasError && <div className="border-2 border-red-500 h-1 w-44"></div>}
       <div>
         <Textarea
-          className="text-start w-96 h-28"
+          className={hasError ? "border-2 border-red-500 text-start w-96 h-28" : "text-start w-96 h-28"}
           placeholder={placeholder}
           name={name}
           value={value}

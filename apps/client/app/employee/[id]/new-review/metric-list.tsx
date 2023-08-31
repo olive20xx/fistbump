@@ -7,6 +7,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
+import { GradeDataWithError } from '@/types/models'
 
 function SubmittedReview() {
   return (
@@ -36,7 +37,10 @@ export default function MetricList({
   const cycleId = report._id.cycleId
   const review = report.reviews.self
   const { submitted, grades: gradeData, reviewerId } = review
-  const [state, setState] = useState(gradeData)
+  const [state, setState] = useState<GradeDataWithError[]>(
+    gradeData.map(gradeDatum => ({ ...gradeDatum, hasError: false }))
+  );
+
   const [isSubmitted, setIsSubmitted] = useState(submitted)
 
   const mutationVars = {
@@ -66,15 +70,34 @@ export default function MetricList({
   }
 
   const handleSubmit = async () => {
+    const resetErrorState = state.map(gradeDatum => ({ ...gradeDatum, hasError: false }))
+    const invalidIndexes = [];
     for (let i = 0; i < state.length; i++) {
-      const gradeData = state[i]
-      if (gradeData.rating === 0 || gradeData.comment === '') return
+      const gradeData = state[i];
+      if (gradeData.rating === 0 || gradeData.comment === '') {
+        invalidIndexes.push(i);
+      }
     }
-    mutationVars.input.reviews.self.grades = state
-    mutationVars.input.reviews.self.submitted = true
-    console.log('🩷mutationvars', mutationVars)
-    await updateReport({ variables: mutationVars })
-    setIsSubmitted(true)
+    if (invalidIndexes.length > 0) {
+      const updatedState = [...resetErrorState];
+      for (const index of invalidIndexes) {
+        updatedState[index] = {
+          ...updatedState[index],
+          hasError: true,
+        };
+      }
+      setState(updatedState);
+      return;
+    }
+    mutationVars.input.reviews.self.grades = state;
+    mutationVars.input.reviews.self.submitted = true;
+    try {
+      console.log('🩷mutationvars', mutationVars);
+      await updateReport({ variables: mutationVars });
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting report:', error);
+    }
   }
 
   const handleSaveDraft = async () => {
@@ -97,6 +120,7 @@ export default function MetricList({
             maxRating={datum.maxRating}
             onChange={handleCommentChange}
             onClick={handleRatingClick}
+            hasError={datum.hasError}
           />
         )
       })}
@@ -111,9 +135,8 @@ export default function MetricList({
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${
-            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-          }`}
+          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+            }`}
           onClick={handleSubmit}
           size="lg"
         >
