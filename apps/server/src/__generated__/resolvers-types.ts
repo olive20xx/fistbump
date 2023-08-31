@@ -141,6 +141,7 @@ export type ReportInput = {
 
 export type Review = {
   __typename?: 'Review';
+  _id?: Maybe<Scalars['String']['output']>;
   grades?: Maybe<Array<Maybe<Grade>>>;
   isDeclined?: Maybe<Scalars['Boolean']['output']>;
   reviewerId?: Maybe<Scalars['String']['output']>;
@@ -365,6 +366,7 @@ export type ReportIdResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type ReviewResolvers<ContextType = any, ParentType extends ResolversParentTypes['Review'] = ResolversParentTypes['Review']> = ResolversObject<{
+  _id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   grades?: Resolver<Maybe<Array<Maybe<ResolversTypes['Grade']>>>, ParentType, ContextType>;
   isDeclined?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   reviewerId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

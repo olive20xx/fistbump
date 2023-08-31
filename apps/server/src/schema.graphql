@@ -99,6 +99,7 @@ type Review {
   isDeclined: Boolean
   submitted: Boolean
   grades: [Grade]
+  _id: String
 }
 
 type Grade {
