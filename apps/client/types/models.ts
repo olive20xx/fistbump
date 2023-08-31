@@ -17,17 +17,26 @@ type ReviewData = {
   grades: GradeData[]
 }
 
+type ReviewsData = {
+  peers: ReviewData[]
+  self: ReviewData
+  manager: ReviewData
+}
+
 type UserId = string
 
 type ReportData = {
   _id: { targetId: string; cycleId: string }
   summary: string
   status: string
-  reviews: {
-    peers: ReviewData[]
-    self: ReviewData
-    manager: ReviewData
-  }
+  reviews: ReviewsData
 }
 
-export type { MetricData, GradeData, ReviewData, UserId, ReportData }
+export type {
+  MetricData,
+  GradeData,
+  ReviewData,
+  ReviewsData,
+  UserId,
+  ReportData,
+}
