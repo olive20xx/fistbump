@@ -9,13 +9,17 @@ import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 
 function UserItem({ user, cycleId }) {
   return (
-    <div className="grid grid-cols-4 gap-4 border-b p-2 bg-white items-center">
+    <div className="grid grid-cols-5 gap-4 border-b p-2 bg-white items-center">
       <p className="font-semibold">{user.title}</p>
       <p>{user.fullName}</p>
       <p>{user.teamName}</p>
+      <Link href={`/employee/${user._id}/new-review`}>
+        <Button>Write a report</Button>
+      </Link>
       <Link href={`/employee/${user._id}/manager-report/${cycleId}`}>
         <Button>View Full Report</Button>
       </Link>
+
     </div>
   )
 }
@@ -32,7 +36,7 @@ export default async function ManagerPanel() {
         <h2 className="text-3xl font-bold">List of the users</h2>
       </div>
       <div className="rounded-xl max-w-7xl mx-auto">
-        <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">
+        <div className="grid grid-cols-10 gap-4 font-bold border-b p-2 bg-slate-400">
           <p className="col-span-2">Title</p>
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
