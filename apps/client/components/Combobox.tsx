@@ -16,16 +16,33 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { mutations } from "@/lib/graphql-queries"
-import { useMutation } from "@apollo/client"
+import { mutations, queries } from "@/lib/graphql-queries"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
 export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [open, setOpen] = React.useState("")
+  const [currentValue, setCurrentValue] = React.useState('')
+
+  const [popoverStates, setPopoverStates] = React.useState([])
   const [peerId, setPeerId] = React.useState(null)
   const [confirmationClicked, setConfirmationClicked] = React.useState(false)
-
+  const [peers, setPeers] = React.useState(null)
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
+  const [getNominations] = useLazyQuery(queries.GET_PEER_REVIEWS)
+
+
+  React.useEffect(() => {
+    async function nominations() {
+      const { data: { getReport: { reviews: { peers } } } } = await getNominations({
+        variables: { targetId: loggedUserId, cycleId }
+      })
+      console.log('nominations===>', peers)
+      setPeers(peers)
+      setPopoverStates(peers.map((_, index) => ({ value: '', index })));
+    }
+    nominations()
+  }, [])
+
 
   async function handleNominatePeer() {
     const mutationVars = {
@@ -40,48 +57,52 @@ export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          disabled={confirmationClicked}
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? value
-            : "Select a peer"}
-          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Find a peer" className="h-9" />
-          <CommandEmpty>No peer found</CommandEmpty>
-          <CommandGroup>
-            {getUsers.map((user) => (
-              <CommandItem
-                key={user._id}
-                onSelect={(currentValue) => {
-                  setPeerId(user._id)
-                  setValue(currentValue === user.fullName ? "" : currentValue)
-                  setOpen(false)
-                }}
-              >
-                {user.fullName}
-                <CheckIcon
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    value === user.fullName ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-      <Button disabled={confirmationClicked} onClick={handleNominatePeer}>Confirm</Button>
-    </Popover>
-  )
+    (!peers ? <p>Loading</p> :
+      (peers?.map((peer, index) => (
+        <Popover key={peer._id} open={open === peer._id} onOpenChange={() => setOpen(peer._id)} >
+          <PopoverTrigger asChild>
+            <Button
+              disabled={peer.reviewerId !== null}
+              variant="outline"
+              role="combobox"
+              aria-expanded={open === peer._id}
+              className="w-[200px] justify-between"
+            >
+              {popoverStates[index].value
+                ? popoverStates[index].value
+                : "Select a peer"}
+              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandInput placeholder="Find a peer" className="h-9" />
+              <CommandEmpty>No peer found</CommandEmpty>
+              <CommandGroup>
+                {getUsers.map((user) => (
+                  <CommandItem
+                    key={user._id}
+                    onSelect={(value) => {
+                      setPeerId(user._id)
+                      const updatedStates = [...popoverStates]
+                      updatedStates[index].value = value === user.fullName ? "" : value
+                      setOpen('')
+                    }}
+                  >
+                    {user.fullName}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        currentValue === user.fullName ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+          <Button disabled={peer.reviewerId !== null} onClick={handleNominatePeer}>Confirm</Button>
+        </Popover>
+      )))
+    ))
 }
