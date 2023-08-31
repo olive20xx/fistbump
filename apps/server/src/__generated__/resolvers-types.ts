@@ -82,6 +82,7 @@ export type PeerUpdateInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getAssignedReviews?: Maybe<Array<Maybe<Report>>>;
   getCurrentCycle?: Maybe<Cycle>;
   getReport?: Maybe<Report>;
   getUser?: Maybe<User>;
@@ -89,6 +90,12 @@ export type Query = {
   getUserByName?: Maybe<User>;
   getUsers?: Maybe<Array<Maybe<User>>>;
   hello?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type QueryGetAssignedReviewsArgs = {
+  cycleId?: InputMaybe<Scalars['String']['input']>;
+  reviewerId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -342,6 +349,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getAssignedReviews?: Resolver<Maybe<Array<Maybe<ResolversTypes['Report']>>>, ParentType, ContextType, Partial<QueryGetAssignedReviewsArgs>>;
   getCurrentCycle?: Resolver<Maybe<ResolversTypes['Cycle']>, ParentType, ContextType>;
   getReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<QueryGetReportArgs, 'cycleId' | 'targetId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;

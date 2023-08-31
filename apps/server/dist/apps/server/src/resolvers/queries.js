@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
 const Cycle_1 = __importDefault(require("../lib/mongoose/models/Cycle"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const ObjectId = mongoose_1.default.Types.ObjectId;
 const queries = {
     Query: {
         hello: () => {
@@ -82,6 +84,22 @@ const queries = {
             }
             catch (error) {
                 throw new Error('Error fetching users from the database');
+            }
+        }),
+        getAssignedReviews: (_, { cycleId, reviewerId }) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const reports = yield Report_1.default.find({
+                    '_id.cycleId': cycleId,
+                    'reviews.peers': {
+                        $elemMatch: {
+                            reviewerId: reviewerId,
+                        },
+                    },
+                });
+                return reports;
+            }
+            catch (error) {
+                throw new Error('Error fetching report from the database');
             }
         }),
     },
