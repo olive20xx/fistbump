@@ -59,7 +59,6 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationUpdateAssignedReviewArgs = {
-  cycleId: Scalars['String']['input'];
   input: ReviewInput;
   targetId: Scalars['String']['input'];
 };
@@ -323,7 +322,7 @@ export type GradeResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
-  updateAssignedReview?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateAssignedReviewArgs, 'cycleId' | 'input' | 'targetId'>>;
+  updateAssignedReview?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateAssignedReviewArgs, 'input' | 'targetId'>>;
   updateReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateReportArgs, 'cycleId' | 'targetId'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 }>;

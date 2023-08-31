@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
+const Cycle_1 = __importDefault(require("../lib/mongoose/models/Cycle"));
 const ObjectId = mongoose_1.default.Types.ObjectId;
 const mutations = {
     Mutation: {
@@ -49,9 +50,17 @@ const mutations = {
                 throw new Error('Error updating a report in the database');
             }
         }),
-        updateAssignedReview: (_, { targetId, cycleId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
+        updateAssignedReview: (_, { targetId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId };
+                //TODO get current cycle -- repeat code, should refactor
+                const now = new Date();
+                const cycle = yield Cycle_1.default.findOne({
+                    startDate: { $lte: now },
+                    endDate: { $gte: now },
+                });
+                if (!cycle)
+                    throw new Error('Current cycle not found');
+                const filter = { '_id.targetId': targetId, '_id.cycleId': cycle._id };
                 const report = yield Report_1.default.findOne(filter);
                 if (!report)
                     throw new Error('Report not found');

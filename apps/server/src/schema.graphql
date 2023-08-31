@@ -13,7 +13,7 @@ type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
-  updateAssignedReview(targetId: String!, cycleId: String!, input: ReviewInput!): Report
+  updateAssignedReview(targetId: String!, input: ReviewInput!): Report
 }
 
 input UserInput {

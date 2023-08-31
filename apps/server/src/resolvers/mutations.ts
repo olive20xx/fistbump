@@ -8,6 +8,7 @@ import {
 } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
+import Cycle from '../lib/mongoose/models/Cycle'
 
 const ObjectId = mongoose.Types.ObjectId
 
@@ -63,16 +64,22 @@ const mutations: MutationResolvers = {
       _: any,
       {
         targetId,
-        cycleId,
         input,
       }: {
         targetId: String
-        cycleId: String
         input: ReviewInput
       }
     ) => {
       try {
-        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
+        //TODO get current cycle -- repeat code, should refactor
+        const now = new Date()
+        const cycle = await Cycle.findOne({
+          startDate: { $lte: now },
+          endDate: { $gte: now },
+        })
+        if (!cycle) throw new Error('Current cycle not found')
+
+        const filter = { '_id.targetId': targetId, '_id.cycleId': cycle._id }
         const report = await Report.findOne(filter)
         if (!report) throw new Error('Report not found')
 
