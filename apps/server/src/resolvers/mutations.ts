@@ -1,10 +1,15 @@
+import mongoose from 'mongoose'
+import { GradeModel, ReviewModel } from '../../../../packages/types/models'
 import {
   MutationResolvers,
   ReportInput,
+  ReviewInput,
   UserInput,
 } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
+
+const ObjectId = mongoose.Types.ObjectId
 
 const mutations: MutationResolvers = {
   Mutation: {
@@ -52,6 +57,53 @@ const mutations: MutationResolvers = {
         return updatedReport
       } catch (error) {
         throw new Error('Error updating a report in the database')
+      }
+    },
+    updateAssignedReview: async (
+      _: any,
+      {
+        targetId,
+        cycleId,
+        input,
+      }: {
+        targetId: String
+        cycleId: String
+        input: ReviewInput
+      }
+    ) => {
+      try {
+        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
+        const report = await Report.findOne(filter)
+        if (!report) throw new Error('Report not found')
+
+        const reviews = report.reviews
+        if (!reviews)
+          throw new Error('Report does not contain reviews property')
+
+        const reviewerId = new ObjectId(input.reviewerId)
+
+        let review: ReviewModel | undefined
+        if (reviews.self.reviewerId === reviewerId) review = reviews.self
+        else if (reviews.manager.reviewerId === reviewerId)
+          review = reviews.manager
+        else {
+          review = reviews.peers.find((r) => r.reviewerId === reviewerId)
+        }
+        if (!review)
+          throw new Error(`Review not found for reviewerId ${reviewerId}`)
+
+        if (input.grades) review.grades = input.grades as GradeModel[]
+        if (input.isDeclined !== undefined && input.isDeclined !== null) {
+          review.isDeclined = input.isDeclined
+        }
+        if (input.submitted !== undefined && input.submitted !== null) {
+          review.submitted = input.submitted
+        }
+
+        await report.save()
+        return report
+      } catch (error) {
+        throw new Error('Error updating a review in the database')
       }
     },
   },

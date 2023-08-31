@@ -47,6 +47,7 @@ export type GradeInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
+  updateAssignedReview?: Maybe<Report>;
   updateReport?: Maybe<Report>;
   updateUser?: Maybe<User>;
 };
@@ -54,6 +55,13 @@ export type Mutation = {
 
 export type MutationCreateUserArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+
+export type MutationUpdateAssignedReviewArgs = {
+  cycleId: Scalars['String']['input'];
+  input: ReviewInput;
+  targetId: Scalars['String']['input'];
 };
 
 
@@ -132,7 +140,7 @@ export type Review = {
 export type ReviewInput = {
   grades?: InputMaybe<Array<InputMaybe<GradeInput>>>;
   isDeclined?: InputMaybe<Scalars['Boolean']['input']>;
-  reviewerId?: InputMaybe<Scalars['String']['input']>;
+  reviewerId: Scalars['String']['input'];
   submitted?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -315,6 +323,7 @@ export type GradeResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
+  updateAssignedReview?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateAssignedReviewArgs, 'cycleId' | 'input' | 'targetId'>>;
   updateReport?: Resolver<Maybe<ResolversTypes['Report']>, ParentType, ContextType, RequireFields<MutationUpdateReportArgs, 'cycleId' | 'targetId'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUpdateUserArgs>>;
 }>;

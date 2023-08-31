@@ -12,8 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
+const ObjectId = mongoose_1.default.Types.ObjectId;
 const mutations = {
     Mutation: {
         createUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,6 +47,41 @@ const mutations = {
             }
             catch (error) {
                 throw new Error('Error updating a report in the database');
+            }
+        }),
+        updateAssignedReview: (_, { targetId, cycleId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId };
+                const report = yield Report_1.default.findOne(filter);
+                if (!report)
+                    throw new Error('Report not found');
+                const reviews = report.reviews;
+                if (!reviews)
+                    throw new Error('Report does not contain reviews property');
+                const reviewerId = new ObjectId(input.reviewerId);
+                let review;
+                if (reviews.self.reviewerId === reviewerId)
+                    review = reviews.self;
+                else if (reviews.manager.reviewerId === reviewerId)
+                    review = reviews.manager;
+                else {
+                    review = reviews.peers.find((r) => r.reviewerId === reviewerId);
+                }
+                if (!review)
+                    throw new Error(`Review not found for reviewerId ${reviewerId}`);
+                if (input.grades)
+                    review.grades = input.grades;
+                if (input.isDeclined !== undefined && input.isDeclined !== null) {
+                    review.isDeclined = input.isDeclined;
+                }
+                if (input.submitted !== undefined && input.submitted !== null) {
+                    review.submitted = input.submitted;
+                }
+                yield report.save();
+                return report;
+            }
+            catch (error) {
+                throw new Error('Error updating a review in the database');
             }
         }),
     },
