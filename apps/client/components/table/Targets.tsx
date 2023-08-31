@@ -35,8 +35,14 @@ export default function Targets({ loggedUser, user, cycleId, loggedUserId, assig
               </p>
             ) : (
               <p>
-                {/* add write a review */}
-                <Button>Write a review</Button>
+                <Link
+                  href={`/employee/${user._id}/new-review`}
+                  className={`${buttonVariants({
+                    variant: 'outline',
+                  })} bg-blue-500 text-white`}
+                >
+                  Write a review
+                </Link>
               </p>
             )}
             {loggedUser === user.fullName ? (
