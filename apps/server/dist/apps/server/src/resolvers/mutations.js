@@ -12,11 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
 const Report_1 = __importDefault(require("../lib/mongoose/models/Report"));
 const User_1 = __importDefault(require("../lib/mongoose/models/User"));
 const Cycle_1 = __importDefault(require("../lib/mongoose/models/Cycle"));
-const ObjectId = mongoose_1.default.Types.ObjectId;
 const mutations = {
     Mutation: {
         createUser: (_, { input }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,7 +51,7 @@ const mutations = {
         updateAssignedReview: (_, { targetId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
             var _a, _b;
             try {
-                //TODO get current cycle -- repeat code, should refactor
+                //TODO get current cycle is repeated code, should refactor
                 const now = new Date();
                 const cycle = yield Cycle_1.default.findOne({
                     startDate: { $lte: now },
@@ -69,13 +67,16 @@ const mutations = {
                 if (!reviews)
                     throw new Error('Report does not contain reviews property');
                 const reviewerId = input.reviewerId;
+                console.log('😍😍😍 managerId', report.reviews.manager.reviewerId);
+                console.log('😍😍😍 reviewerId', reviewerId);
                 let review;
-                console.log('report self reviewerId:', reviews.self.reviewerId);
                 console.log('input reviewerId:', reviewerId);
                 if (((_a = reviews.self.reviewerId) === null || _a === void 0 ? void 0 : _a.toString()) === reviewerId)
                     review = reviews.self;
-                else if (((_b = reviews.manager.reviewerId) === null || _b === void 0 ? void 0 : _b.toString()) === reviewerId)
+                else if (((_b = reviews.manager.reviewerId) === null || _b === void 0 ? void 0 : _b.toString()) === reviewerId) {
                     review = reviews.manager;
+                    console.log('😡😡😡', 'found manager review');
+                }
                 else {
                     review = reviews.peers.find((r) => { var _a; return ((_a = r.reviewerId) === null || _a === void 0 ? void 0 : _a.toString()) === reviewerId; });
                 }

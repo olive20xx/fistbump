@@ -38,12 +38,23 @@ type UserData = {
   companyName: string
 }
 
+type CycleData = {
+  _id: string
+  title: string
+  startDate: string
+  endDate: string
+  peersPerTarget: number
+  nominationDeadline: string
+  reviewDeadline: string
+  reportDeadline: string
+}
+
 export type {
-\\
   GradeData,
   ReviewData,
   ReviewsData,
   ReportData,
   UserId,
   UserData,
+  CycleData,
 }

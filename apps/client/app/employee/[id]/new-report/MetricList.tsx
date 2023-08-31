@@ -15,9 +15,9 @@ type MetricListProps = {
 }
 
 function MetricList({ targetId, targetName, reviewData }: MetricListProps) {
-  // const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
+  const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
   const { submitted, grades, reviewerId } = reviewData
-
+  console.log('submitted', submitted)
   const [state, setState] = useState(grades)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
 
@@ -50,7 +50,9 @@ function MetricList({ targetId, targetName, reviewData }: MetricListProps) {
 
   const handleSaveDraft = async () => {
     variables.input.grades = state
-    //TODO await updateAssignedReview({ variables })
+    console.log(variables)
+    const result = await updateAssignedReview({ variables })
+    console.log('updated report ID', result)
   }
 
   async function handleSubmit() {
@@ -60,11 +62,10 @@ function MetricList({ targetId, targetName, reviewData }: MetricListProps) {
     }
     variables.input.grades = state
     variables.input.submitted = true
-    //TODO await updateAssignedReview({ variables })
+    const result = await updateAssignedReview({ variables })
+    console.log('updated report ID', result)
     setIsSubmitted(true)
   }
-
-  //const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
 
   return isSubmitted ? (
     <SubmittedReport />

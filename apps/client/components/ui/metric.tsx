@@ -25,7 +25,6 @@ const Metric: FunctionComponent<IMetricProps> = ({
   maxRating,
   placeholder = 'Comments',
 }) => {
-  console.log(name, rating)
   const [selectedKey, setSelectedKey] = useState(rating)
 
   return (

@@ -88,17 +88,17 @@ const mutations: MutationResolvers = {
         const reviewerId = input.reviewerId
 
         let review: ReviewModel | undefined
-        console.log('report self reviewerId:', reviews.self.reviewerId)
         console.log('input reviewerId:', reviewerId)
-        if (reviews.self.reviewerId?.toString() === reviewerId)
-          review = reviews.self
-        else if (reviews.manager.reviewerId?.toString() === reviewerId)
+        if (reviews.manager.reviewerId?.toString() === reviewerId) {
           review = reviews.manager
-        else {
+        } else if (reviews.self.reviewerId?.toString() === reviewerId) {
+          review = reviews.self
+        } else {
           review = reviews.peers.find(
             (r) => r.reviewerId?.toString() === reviewerId
           )
         }
+        console.log('review', review)
         if (!review)
           throw new Error(`Review not found for reviewerId ${reviewerId}`)
 
@@ -111,6 +111,7 @@ const mutations: MutationResolvers = {
         }
 
         await report.save()
+        console.log('updated report', report.reviews.manager)
         return report
       } catch (error: any) {
         console.log(error.message)
