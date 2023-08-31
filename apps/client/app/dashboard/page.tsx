@@ -33,6 +33,9 @@ export default async function Dashboard() {
 
   const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
   const { data: { getUserByName: { _id: loggedUserId } } } = await apolloClient.query({ query: queries.GET_USER_BY_NAME, variables: { fullName: loggedUserFullName } })
+  const { data: { getAssignedReviews: assignedReviews } } = await apolloClient.query({ query: queries.GET_REVIEWS_TO_WRITE, variables: { reviewerId: loggedUserId, cycleId: cycleId } })
+
+
 
 
   return (
@@ -60,6 +63,7 @@ export default async function Dashboard() {
         </div>
         {getUsers.map((user) => (
           <UserItem
+            assignedReviews={assignedReviews}
             key={user.fullName}
             loggedUser={loggedUserFullName}
             user={user}

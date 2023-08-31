@@ -130,6 +130,15 @@ export const queries = {
       }
     }
   }`),
+  GET_REVIEWS_TO_WRITE: gql(`
+  query getAssignedReviews($cycleId: String, $reviewerId: String) {
+    getAssignedReviews(cycleId: $cycleId, reviewerId: $reviewerId) {
+      _id {
+        targetId
+      }
+      status
+    }
+  }`),
 }
 
 export const mutations = {
