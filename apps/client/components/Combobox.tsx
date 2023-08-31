@@ -99,7 +99,7 @@ export default function NominationBox({ users, loggedUserId, cycleId }) {
               </CommandGroup>
             </Command>
           </PopoverContent>
-          <Button disabled={peer.reviewerId !== null} onClick={() => handleNominatePeer(index)}>Confirm</Button>
+          <Button disabled={peer.reviewerId !== null} onClick={() => handleNominatePeer(index)}>Nominate</Button>
         </Popover>
       )))
     ))
