@@ -23,8 +23,6 @@ type ReviewsData = {
   manager: ReviewData
 }
 
-type UserId = string
-
 type ReportData = {
   _id: { targetId: string; cycleId: string }
   summary: string
@@ -32,11 +30,26 @@ type ReportData = {
   reviews: ReviewsData
 }
 
+type UserId = string
+
+type UserData = {
+  _id: UserId
+  email: string
+  fullName: string
+  hashedPw: string
+  title: string
+  isAdmin: boolean
+  photo: string
+  teamName: string
+  companyName: string
+}
+
 export type {
   MetricData,
   GradeData,
   ReviewData,
   ReviewsData,
-  UserId,
   ReportData,
+  UserId,
+  UserData,
 }
