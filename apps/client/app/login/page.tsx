@@ -25,13 +25,11 @@ const FormSchema = z.object({
   password: z
     .string()
     .min(1, 'Password is required')
-
     //change later to 8 charachters
     .min(3, 'Password must have than 8 characters'),
 })
 
 const SignInForm = () => {
-
 
   const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL);
 
@@ -45,16 +43,12 @@ const SignInForm = () => {
     },
   })
 
-
-
-
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     const email = values.email
     const password = values.password
     const variables = { email, password }
 
     const { data: { getUserByEmail } } = await getUser({ variables })
-
 
     if (getUserByEmail.fullName) {
       console.warn('WELCOME', getUserByEmail.fullName)
