@@ -28,8 +28,9 @@ const FormSchema = z
       //!change later to 8 charachters
       .min(3, 'Password must have than 8 characters'),
     confirmPassword: z.string().min(1, 'Password confirmation is required'),
-    companyName: z.string().min(1, 'Name is required').max(30),
-    profilepic: z.instanceof(File)
+    companyName: z.string().min(1, 'Company Name is required').max(30),
+      //!change later to able to upload a pic
+    profilepic: z.string()
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
@@ -49,16 +50,18 @@ const SignUpForm = () => {
       password: '',
       confirmPassword: '',
       companyName: '',
-      profilepic: 
+      profilepic: ''
     },
   })
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    console.log(values)
     const email = values.email
     const hashedPw = values.password
     const fullName = values.fullName
-    const variables = { input: { fullName, email, hashedPw } }
+    const companyName = values.companyName
+    const variables = { input: { fullName, email, hashedPw, companyName } }
+    console.log('--------> values',values)
+    console.log('--------> variables',variables)
 
     try {
       const response = await createUser({ variables })
@@ -81,7 +84,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your company name" />
+                  <Input placeholder="Your company name"  {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
