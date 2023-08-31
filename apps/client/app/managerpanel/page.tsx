@@ -30,9 +30,14 @@ export default async function ManagerPanel() {
 
   return (
     <div className="bg-slate-200 h-screen">
-      <div className="bg-pink-400 flex px-12 gap-2 items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">Manager Panel:</h2>
+      <div className="bg-pink-400 justify-between flex px-12 gap-2 items-center h-24 text-center mx-auto max-w-7xl">
+        <h2 className="text-2xl font-bold">Manager Panel</h2>
         <h2 className="text-3xl font-bold">List of the users</h2>
+        <div>
+        <Link href={'/dashboard'}>
+        <Button>Go to dashboard</Button>
+      </Link>
+      </div>
       </div>
       <div className="rounded-xl max-w-7xl mx-auto">
         <div className="flex gap-10">{cycle.title.split(',')[0]} <p>End date: {cycle.endDate.split('T')[0]}</p></div>

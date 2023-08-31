@@ -16,7 +16,7 @@ export default async function Dashboard() {
   let loggedUserFullName
   let loggedUser
 
-  const userCookie = cookieStore.get('user');
+  const userCookie = cookieStore.get('user')
   if (userCookie === undefined) {
     loggedUser = null
     loggedUserFullName = null
@@ -26,7 +26,9 @@ export default async function Dashboard() {
     loggedUser = true
   }
 
-  const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
+  const loggedUserFirstName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[0]
+    : ''
 
   const users = await getAllUsers()
 
@@ -36,8 +38,11 @@ export default async function Dashboard() {
         <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
           {loggedUser && loggedUserFullName ? (
-            <div>
-              <h2>Hello {loggedUserFirstName}</h2>
+            <div className='flex gap-10 items-baseline'>
+              <h2 className='font-extrabold'>Hello {loggedUserFirstName}</h2>
+              <Link href={'/managerpanel'}>
+                <Button>Go to managerpanel</Button>
+              </Link>
               <Button onClick={handleLogout}> Log out</Button>
             </div>
           ) : (
