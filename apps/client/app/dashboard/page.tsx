@@ -10,6 +10,7 @@ import Targets from '@/components/table/Targets'
 
 
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
+import { redirect } from 'next/navigation'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
@@ -22,9 +23,8 @@ export default async function Dashboard() {
   let loggedUser
 
   const userCookie = cookieStore.get('user');
-  if (userCookie === undefined) {
-    loggedUser = null
-    loggedUserFullName = null
+  if (userCookie === undefined || !userCookie.value) {
+    redirect('/login')
   }
   if (userCookie && userCookie.value) {
     loggedUserFullName = userCookie.value
