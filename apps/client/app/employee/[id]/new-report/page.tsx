@@ -1,8 +1,10 @@
 import { getCurrentCycle, getFullReport, getUserById, getUserFullName } from '@/lib/get-data-api'
-import { ReviewsData, UserData } from '@/types/models'
+import { ReviewData, ReviewsData, UserData } from '@/types/models'
 import SubjectOfReview from './SubjectOfReview'
 import Reviewers from './Reviewers'
 import SummaryTableList from './SummaryTableList'
+import MetricList from './MetricList'
+import { Header2 } from '@/components/typography/header2'
 
 async function ReportPage({ params }) {
   const targetId = params.id
@@ -13,21 +15,23 @@ async function ReportPage({ params }) {
   const targetUser = await getUserById(targetId)
   const targetName = targetUser.fullName
   const fullReport = await getFullReport(targetId, cycleId)
+  const managerReview = fullReport.reviews.manager as ReviewData
 
   const reviewerIdsRaw = fullReport.reviews.peers.map(review => review.reviewerId)
   const reviewerIds = reviewerIdsRaw.filter((id) => id !== null)
 
   return (
     <div className="h-screen flex">
-      <div className='flex flex-col h-full w-1/2'>
+      <div className='w-1/2 h-full flex flex-col '>
         <div className='flex'>
           <SubjectOfReview targetUser={targetUser as UserData} />
           <Reviewers reviewerIds={reviewerIds} />
         </div>
         <SummaryTableList className={'mt-8 px-4'} reviewsData={fullReport.reviews as ReviewsData} targetName={targetName} />
       </div>
-      <div className='bg-blue-300 h-full w-1/2'>
-        Metric List
+      <div className='p-4 w-1/2 h-full items-center flex flex-col'>
+        <Header2>Write your report</Header2>
+        <MetricList targetId={targetUser._id} targetName={targetUser.fullName} reviewData={managerReview} />
       </div>
     </div>
   )

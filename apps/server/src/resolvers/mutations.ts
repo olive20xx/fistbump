@@ -10,8 +10,6 @@ import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
 
-const ObjectId = mongoose.Types.ObjectId
-
 const mutations: MutationResolvers = {
   Mutation: {
     createUser: async (_: any, { input }: { input: UserInput }) => {
@@ -71,7 +69,7 @@ const mutations: MutationResolvers = {
       }
     ) => {
       try {
-        //TODO get current cycle -- repeat code, should refactor
+        //TODO get current cycle is repeated code, should refactor
         const now = new Date()
         const cycle = await Cycle.findOne({
           startDate: { $lte: now },

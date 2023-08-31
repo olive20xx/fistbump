@@ -143,4 +143,9 @@ export const mutations = {
       }
     }
   }`),
+  UPDATE_ASSIGNED_REVIEW: gql(`
+      mutation updateAssignedReview($targetId:String!, $input:ReviewInput!) {
+        updateAssignedReview(targetId:$targetId, input:$input){
+          }
+  }`),
 }

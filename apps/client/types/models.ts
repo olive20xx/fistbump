@@ -1,9 +1,3 @@
-type MetricData = {
-  id: string
-  rating: number
-  comment: string
-}
-
 type GradeData = {
   metric: string
   rating: number
@@ -45,7 +39,7 @@ type UserData = {
 }
 
 export type {
-  MetricData,
+\\
   GradeData,
   ReviewData,
   ReviewsData,
