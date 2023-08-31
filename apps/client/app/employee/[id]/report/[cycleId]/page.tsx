@@ -1,5 +1,5 @@
 import '../../../../global.css'
-import { getFullReport, getUserFullName } from '@/lib/get-data-api'
+import { getFullReport, getManagerId, getUserFullName } from '@/lib/get-data-api'
 
 async function Report({ params }) {
   const targetId = params.id
@@ -7,8 +7,8 @@ async function Report({ params }) {
 
   const fullName = await getUserFullName(targetId)
   const fullReport = await getFullReport(targetId, cycleId)
-  const manager = await getUserFullName(fullReport.reviews.manager.reviewerId)
-  //get a manager review only FE T CH
+  const manager = await getManagerId(targetId, cycleId)
+  const managerName = await getUserFullName(manager)
 
 
 
@@ -23,7 +23,7 @@ async function Report({ params }) {
 
         <div className='border-4 m-2'>
           <h2 className="font-bold">Manager Review by:</h2>
-        <h3 className="text-2xl">{manager}</h3>
+        <h3 className="text-2xl">{managerName}</h3>
           {fullReport.reviews.manager.grades.map((grade, index) => (
             <div className='flex' key={index}>
               <p className='m-2'>Metric: {grade.metric}</p>
