@@ -2,11 +2,11 @@ import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
-import UserItem from '@/components/table/UserItem'
 import { queries } from '@/lib/graphql-queries'
 import { apolloClient } from '@/lib/apollo-client'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
+import Targets from '@/components/table/Targets'
 
 export const fetchCache = 'force-no-store'
 export default async function Dashboard() {
@@ -31,7 +31,7 @@ export default async function Dashboard() {
   const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
 
 
-  const { data: { getUsers } } = await apolloClient.query({ query: queries.GET_USERS })
+  const { data: { getUsers: users } } = await apolloClient.query({ query: queries.GET_USERS })
   const { data: { getUserByName: { _id: loggedUserId } } } = await apolloClient.query({ query: queries.GET_USER_BY_NAME, variables: { fullName: loggedUserFullName } })
   const { data: { getAssignedReviews: assignedReviews } } = await apolloClient.query({ query: queries.GET_REVIEWS_TO_WRITE, variables: { reviewerId: loggedUserId, cycleId: cycleId } })
 
@@ -61,8 +61,8 @@ export default async function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {getUsers.map((user) => (
-          <UserItem
+        {users.map((user) => (
+          <Targets
             assignedReviews={assignedReviews}
             key={user.fullName}
             loggedUser={loggedUserFullName}
@@ -71,7 +71,7 @@ export default async function Dashboard() {
             loggedUserId={loggedUserId}
           />
         ))}
-        <NominationBox getUsers={getUsers} loggedUserId={loggedUserId} cycleId={cycleId}></NominationBox>
+        <NominationBox users={users} loggedUserId={loggedUserId} cycleId={cycleId}></NominationBox>
       </div>
     </div >
   )

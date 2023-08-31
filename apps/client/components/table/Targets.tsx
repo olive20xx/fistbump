@@ -5,7 +5,7 @@ import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
 
 
-export default function UserItem({ loggedUser, user, cycleId, loggedUserId, assignedReviews }) {
+export default function Targets({ loggedUser, user, cycleId, loggedUserId, assignedReviews }) {
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
   async function handleNominatePeer() {
     const mutationVars = {
@@ -23,7 +23,6 @@ export default function UserItem({ loggedUser, user, cycleId, loggedUserId, assi
     <div className="bg-white">
       {assignedReviews.map((review, index) => (
         review._id.targetId === user._id && (
-
           <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">
             <p className="font-semibold col-span-2">{user.title}</p>
             <p className="col-span-2">{user.fullName}</p>

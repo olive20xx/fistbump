@@ -19,7 +19,7 @@ import {
 import { mutations, queries } from "@/lib/graphql-queries"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
-export default function NominationBox({ getUsers, loggedUserId, cycleId }) {
+export default function NominationBox({ users, loggedUserId, cycleId }) {
   const [open, setOpen] = React.useState("")
   const [currentValue, setCurrentValue] = React.useState('')
 
@@ -77,7 +77,7 @@ export default function NominationBox({ getUsers, loggedUserId, cycleId }) {
               <CommandInput placeholder="Find a peer" className="h-9" />
               <CommandEmpty>No peer found</CommandEmpty>
               <CommandGroup>
-                {getUsers.map((user) => (
+                {users.map((user) => (
                   <CommandItem
                     key={user._id}
                     onSelect={(value) => {
