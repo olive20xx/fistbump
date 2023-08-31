@@ -51,6 +51,7 @@ const mutations = {
             }
         }),
         updateAssignedReview: (_, { targetId, input, }) => __awaiter(void 0, void 0, void 0, function* () {
+            var _a, _b;
             try {
                 //TODO get current cycle -- repeat code, should refactor
                 const now = new Date();
@@ -67,14 +68,16 @@ const mutations = {
                 const reviews = report.reviews;
                 if (!reviews)
                     throw new Error('Report does not contain reviews property');
-                const reviewerId = new ObjectId(input.reviewerId);
+                const reviewerId = input.reviewerId;
                 let review;
-                if (reviews.self.reviewerId === reviewerId)
+                console.log('report self reviewerId:', reviews.self.reviewerId);
+                console.log('input reviewerId:', reviewerId);
+                if (((_a = reviews.self.reviewerId) === null || _a === void 0 ? void 0 : _a.toString()) === reviewerId)
                     review = reviews.self;
-                else if (reviews.manager.reviewerId === reviewerId)
+                else if (((_b = reviews.manager.reviewerId) === null || _b === void 0 ? void 0 : _b.toString()) === reviewerId)
                     review = reviews.manager;
                 else {
-                    review = reviews.peers.find((r) => r.reviewerId === reviewerId);
+                    review = reviews.peers.find((r) => { var _a; return ((_a = r.reviewerId) === null || _a === void 0 ? void 0 : _a.toString()) === reviewerId; });
                 }
                 if (!review)
                     throw new Error(`Review not found for reviewerId ${reviewerId}`);

@@ -87,14 +87,19 @@ const mutations: MutationResolvers = {
         if (!reviews)
           throw new Error('Report does not contain reviews property')
 
-        const reviewerId = new ObjectId(input.reviewerId)
+        const reviewerId = input.reviewerId
 
         let review: ReviewModel | undefined
-        if (reviews.self.reviewerId === reviewerId) review = reviews.self
-        else if (reviews.manager.reviewerId === reviewerId)
+        console.log('report self reviewerId:', reviews.self.reviewerId)
+        console.log('input reviewerId:', reviewerId)
+        if (reviews.self.reviewerId?.toString() === reviewerId)
+          review = reviews.self
+        else if (reviews.manager.reviewerId?.toString() === reviewerId)
           review = reviews.manager
         else {
-          review = reviews.peers.find((r) => r.reviewerId === reviewerId)
+          review = reviews.peers.find(
+            (r) => r.reviewerId?.toString() === reviewerId
+          )
         }
         if (!review)
           throw new Error(`Review not found for reviewerId ${reviewerId}`)
