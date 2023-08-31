@@ -3,83 +3,38 @@ import Photo from '@/components/ui/photo'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import UserCard from '@/components/ui/user-card'
 import { apolloClient } from '@/lib/apollo-client'
+import { getCurrentCycle, getFullReport, getUserById, getUserFullName } from '@/lib/get-data-api'
 import { queries } from '@/lib/graphql-queries'
-import { ReviewData } from '@/types/models'
+import { ReviewsData } from '@/types/models'
 
-type MetricSummary = {
+type TableData = {
   metricName: string
-  averageRating: number
-  reviews: FormattedReview[]
+  rows: RowData[]
 }
 
-type FormattedReview = {
+type RowData = {
   reviewerName: string
   rating: number
   comment: string
 }
 
-const MOCK_REVIEW_DATA =
-  [
-    {
-      metricName: 'Crime',
-      averageRating: 2,
-      reviews: [
-        {
-          reviewerName: 'Olga',
-          rating: 3,
-          comment: "I don't like crime",
-        },
-        {
-          reviewerName: 'Rita',
-          rating: 1,
-          comment: 'Olga is terrible at crime',
-        },
-        {
-          reviewerName: 'Craig',
-          rating: 2,
-          comment: "It's like Olga doesn't even like crime!",
-        }
-      ],
-    },
-    {
-      metricName: 'Lunch',
-      averageRating: 4,
-      reviews: [
-        {
-          reviewerName: 'Olga',
-          rating: 4,
-          comment: "I eat lunch most days",
-        },
-        {
-          reviewerName: 'Rita',
-          rating: 3,
-          comment: 'Olga is OK at lunch',
-        },
-        {
-          reviewerName: 'Craig',
-          rating: 5,
-          comment: "It's always great when Olga joins us for lunch!",
-        }
-      ],
-    }
-  ]
-
 async function ReportPage({ params }) {
   const targetId = params.id
 
-  const { data: { getCurrentCycle } } = await apolloClient.query({ query: queries.GET_CURRENT_CYCLE })
-  const cycleId = getCurrentCycle._id
+  const cycle = await getCurrentCycle()
+  const cycleId = cycle._id
 
-  const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: params.id } })
-  const { data: { getReport } } = await apolloClient.query({ query: queries.GET_FULL_REPORT, variables: { targetId: params.id, cycleId } })
+  const targetUser = await getUserById(targetId)
+  const fullReport = await getFullReport(targetId, cycleId)
 
-  //TODO FIX
-  const reviewers = await getReport.reviews.peers.map(async (review) => {
-    if (!review.reviewerId) return
-    console.log(review.reviewerId)
-    const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: review.reviewerId } })
-    return { photo: getUser.photo, fullname: getUser.fullName }
-  })
+  const tableData = await formatTableDataArray(fullReport.reviews as ReviewsData, targetUser.fullName)
+  // //TODO FIX
+  // const reviewers = await fullReport.reviews.peers.map(async (review) => {
+  //   if (!review.reviewerId) return
+  //   console.log(review.reviewerId)
+  //   const { data: { getUser } } = await apolloClient.query({ query: queries.GET_USER_BY_ID, variables: { id: review.reviewerId } })
+  //   return { photo: getUser.photo, fullname: getUser.fullName }
+  // })
 
   return (
     <div className="h-screen flex">
@@ -88,10 +43,10 @@ async function ReportPage({ params }) {
           <div className={`w-[300px] p-4`}>
             <Header2>Subject of review</Header2>
             <UserCard
-              photo={getUser.photo}
-              fullName={`${getUser.fullName}`}
-              title={getUser.title}
-              team={getUser.teamName}
+              photo={targetUser.photo}
+              fullName={`${targetUser.fullName}`}
+              title={targetUser.title}
+              team={targetUser.teamName}
             />
           </div>
           <div className='p-4'>
@@ -103,7 +58,7 @@ async function ReportPage({ params }) {
             <div>Rita</div>
           </div>
         </div>
-        <SummaryTables className={'mt-8 px-4'} formattedReviewData={MOCK_REVIEW_DATA} />
+        <SummaryTables className={'mt-8 px-4'} metricSummaries={tableData} />
       </div>
       <div className='bg-blue-300 h-full w-1/2'>
         Metric List
@@ -122,19 +77,32 @@ function Reviewer({ photo, fullName }) {
   )
 }
 
-function SummaryTables({ className, formattedReviewData }) {
+type SummaryTablesProps = {
+  className: string
+  metricSummaries: TableData[]
+}
+
+function SummaryTables({ className, metricSummaries }: SummaryTablesProps) {
   return (
     <div className={className}>
-      {formattedReviewData.map((metricData, i) => {
-        return <MetricSummaryTable targetFirstName={'Olga'} data={metricData} key={i} />
+      {metricSummaries.map((metricSummary, i) => {
+        return <MetricSummaryTable targetFirstName={'Olga'} data={metricSummary} key={i} />
       })}
     </div>
   )
 }
 
+type SummaryTableProps = {
+  targetFirstName: string
+  data: TableData
+}
+function MetricSummaryTable({ targetFirstName, data }: SummaryTableProps) {
+  const { metricName, rows } = data
 
-function MetricSummaryTable({ targetFirstName, data }) {
-  const { metricName, averageRating, reviews } = data
+  const averageRating = rows.reduce((ac, row) => {
+    return ac + row.rating
+  }, 0) / rows.length
+
   return (
     <div className='mb-8'>
       <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-pink-400'>{metricName}</span> ?</div>
@@ -147,8 +115,8 @@ function MetricSummaryTable({ targetFirstName, data }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {reviews.map((review, i) => {
-            return <MetricRow reviewerName={review.reviewerName} rating={review.rating} comment={review.comment} key={i} />
+          {rows.map((row, i) => {
+            return <MetricRow reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
           })}
         </TableBody>
         <TableFooter className='bg-pink-200 text-black'>
@@ -174,14 +142,80 @@ function MetricRow({ reviewerName, rating, comment }) {
 }
 
 //TODO working here!!
-// async function formatReviewData(reviewData: ReviewData): FormattedReview {
-//   const { reviewerId } = reviewData
-//   const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: reviewerId } })
+async function formatTableDataArray(reviews: ReviewsData, targetName: string): Promise<TableData[]> {
+  const formatted: TableData[] = []
 
-//   const formatted: FormattedReview = {
-//     reviewerName: fullName,
-//     rating: reviewData.grades
+  const selfGrades = reviews.self.grades
+
+  selfGrades.forEach(grade => {
+    const rowData: RowData = {
+      reviewerName: targetName,
+      rating: grade.rating,
+      comment: grade.comment,
+    }
+
+    const tableData: TableData = {
+      metricName: grade.metric,
+      rows: [rowData],
+    }
+
+    formatted.push(tableData)
+  })
+
+  const peerReviews = reviews.peers
+  peerReviews.forEach(async (review) => {
+    const { reviewerId, grades } = review
+    const reviewerName = await getUserFullName(reviewerId)
+    grades.forEach((grade) => {
+      const { rating, comment } = grade
+      const table = formatted.find((t) => t.metricName === grade.metric)
+      const row: RowData = {
+        reviewerName,
+        rating,
+        comment,
+      }
+      table.rows.push(row)
+    })
+  })
+
+  return formatted
+}
+
+
+
+// function addFormattedReviews(metricName: string, summaries: TableData[], reviews: ReviewsModel) {
+
+// }
+
+
+// export type ReviewModel = {
+//   reviewerId: string
+//   isDeclined: boolean
+//   submitted: boolean
+//   grades: array of {
+//     metric
+//     rating
+//     maxRating
+//     comment
 //   }
+// }
+
+// TABLE
+// type TableData = {
+//   metricName
+//   averageRating
+//   rows: array of {
+//     reviewerName
+//     rating
+//     comment
+//   }
+// }
+
+// ROW
+// type RowData = {
+//   reviewerName
+//   rating
+//   comment
 // }
 
 export default ReportPage
