@@ -1,4 +1,4 @@
-import { Cycle, Report, User } from '@/src/__generated__/graphql'
+import { Cycle, Report, Review, User } from '@/src/__generated__/graphql'
 import { queries } from './graphql-queries'
 import { apolloClient } from '@/lib/apollo-client'
 
@@ -70,6 +70,19 @@ export async function getEmployeeReport(
 
   const report = result.data.getReport
   return report
+}
+
+export async function getManagerId(
+  targetId: string,
+  cycleId: string
+): Promise<string> {
+  const query = queries.GET_MANAGER_ID_FROM_CURRENT_REPORT
+  const variables = { targetId, cycleId }
+
+  const result = await apolloClient.query({ query, variables })
+
+  const managerId = result.data.getReport.reviews.manager.reviewerId
+  return managerId
 }
 
 // *** cycles ***

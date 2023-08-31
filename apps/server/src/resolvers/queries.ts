@@ -76,7 +76,7 @@ const queries: QueryResolvers = {
       } catch (error) {
         throw new Error('Error fetching report from the database')
       }
-    },
+    },      
   },
 }
 

@@ -20,6 +20,7 @@ const documents = {
     "query getEmployeeReport($targetId: String!, $cycleId: String!) {\n    getReport(targetId: $targetId, cycleId: $cycleId) {\n      _id {\n        targetId\n        cycleId\n      }\n      summary\n    }\n  }": types.GetEmployeeReportDocument,
     "query getUserByEmail($email: String!, $password: String!) {\n    getUserByEmail(email: $email, password: $password) {\n      fullName\n    }\n  }": types.GetUserByEmailDocument,
     "query getCurrentCycle {\n    getCurrentCycle {\n      _id\n      title\n      startDate\n      endDate\n      peersPerTarget\n      nominationDeadline\n      reviewDeadline\n      reportDeadline\n    }\n  }": types.GetCurrentCycleDocument,
+    " query getManagerId($targetId: String!, $cycleId: String!) {\n    getReport(targetId: $targetId, cycleId: $cycleId) {\n      reviews {\n      manager {\n        reviewerId\n      }\n    }\n    }\n  }": types.GetManagerIdDocument,
     "\n    mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {\n      updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){\n        summary\n        reviews {\n          peers {\n            submitted\n            reviewerId\n            grades {\n              metric\n              rating\n              maxRating\n              comment\n            }\n          }\n          manager {\n            submitted\n            reviewerId\n          grades {\n            metric\n            rating\n            maxRating\n            comment\n          }\n        }\n          self {\n          submitted\n          reviewerId\n        grades {\n          metric\n          rating\n          maxRating\n          comment\n        }\n      }\n      }\n    }\n  }": types.UpdateReportDocument,
 };
 
@@ -65,6 +66,10 @@ export function gql(source: "query getUserByEmail($email: String!, $password: St
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "query getCurrentCycle {\n    getCurrentCycle {\n      _id\n      title\n      startDate\n      endDate\n      peersPerTarget\n      nominationDeadline\n      reviewDeadline\n      reportDeadline\n    }\n  }"): (typeof documents)["query getCurrentCycle {\n    getCurrentCycle {\n      _id\n      title\n      startDate\n      endDate\n      peersPerTarget\n      nominationDeadline\n      reviewDeadline\n      reportDeadline\n    }\n  }"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: " query getManagerId($targetId: String!, $cycleId: String!) {\n    getReport(targetId: $targetId, cycleId: $cycleId) {\n      reviews {\n      manager {\n        reviewerId\n      }\n    }\n    }\n  }"): (typeof documents)[" query getManagerId($targetId: String!, $cycleId: String!) {\n    getReport(targetId: $targetId, cycleId: $cycleId) {\n      reviews {\n      manager {\n        reviewerId\n      }\n    }\n    }\n  }"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

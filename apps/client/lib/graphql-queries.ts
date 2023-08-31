@@ -102,6 +102,16 @@ export const queries = {
       reportDeadline
     }
   }`),
+  GET_MANAGER_ID_FROM_CURRENT_REPORT:
+    gql(` query getManagerId($targetId: String!, $cycleId: String!) {
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      reviews {
+      manager {
+        reviewerId
+      }
+    }
+    }
+  }`),
 }
 
 export const mutations = {
