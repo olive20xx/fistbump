@@ -21,6 +21,18 @@ async function Report({ params }) {
         <h2>Remarks:</h2>
         <p>{fullReport.status}</p>
         <p>{fullReport.summary}</p>
+
+        <div className='border-4 m-2'>
+          <h2 className="font-bold">Manager Review</h2>
+          {fullReport.reviews.manager.grades.map((grade, index) => (
+            <div key={index}>
+              <h2>{getReviewer(fullReport.reviews.manager.reviewerId)}</h2>
+              <p>Metric: {grade.metric}</p>
+              <p>Rating: {grade.rating}/{grade.maxRating}</p>
+              <p>Comment: {grade.comment}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
