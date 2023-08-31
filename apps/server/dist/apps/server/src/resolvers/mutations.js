@@ -90,6 +90,7 @@ const mutations = {
                 return report;
             }
             catch (error) {
+                console.log(error.message);
                 throw new Error('Error updating a review in the database');
             }
         }),

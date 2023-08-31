@@ -63,6 +63,7 @@ function generateEmptyReport(targetId, cycleId, managerId, peersPerTarget, metri
             manager: generateReview(metricCount, maxRating, managerId),
         },
     };
+    report.reviews.self.reviewerId = targetId;
     return report;
 }
 exports.generateEmptyReport = generateEmptyReport;

@@ -109,7 +109,8 @@ const mutations: MutationResolvers = {
 
         await report.save()
         return report
-      } catch (error) {
+      } catch (error: any) {
+        console.log(error.message)
         throw new Error('Error updating a review in the database')
       }
     },

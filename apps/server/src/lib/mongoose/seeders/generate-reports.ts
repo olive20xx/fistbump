@@ -85,6 +85,7 @@ export function generateEmptyReport(
       manager: generateReview(metricCount, maxRating, managerId),
     },
   }
+  report.reviews.self.reviewerId = targetId
   return report
 }
 
