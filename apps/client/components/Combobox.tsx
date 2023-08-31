@@ -19,13 +19,12 @@ import {
 import { mutations, queries } from "@/lib/graphql-queries"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
-export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
+export default function NominationBox({ getUsers, loggedUserId, cycleId }) {
   const [open, setOpen] = React.useState("")
   const [currentValue, setCurrentValue] = React.useState('')
 
   const [popoverStates, setPopoverStates] = React.useState([])
   const [peerId, setPeerId] = React.useState(null)
-  const [confirmationClicked, setConfirmationClicked] = React.useState(false)
   const [peers, setPeers] = React.useState(null)
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
   const [getNominations] = useLazyQuery(queries.GET_PEER_REVIEWS)
@@ -38,13 +37,13 @@ export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
       })
       console.log('nominations===>', peers)
       setPeers(peers)
-      setPopoverStates(peers.map((_, index) => ({ value: '', index })));
+      setPopoverStates(peers.map(() => ({ value: '' })));
     }
     nominations()
   }, [])
 
 
-  async function handleNominatePeer() {
+  async function handleNominatePeer(index) {
     const mutationVars = {
       targetId: loggedUserId,
       cycleId: cycleId,
@@ -53,7 +52,6 @@ export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
     }
     const { data: { updatePeerReview: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
     console.log('reviewerId is changing===>', peers)
-    setConfirmationClicked(true);
   }
 
   return (
@@ -101,7 +99,7 @@ export default function ComboboxDemo({ getUsers, loggedUserId, cycleId }) {
               </CommandGroup>
             </Command>
           </PopoverContent>
-          <Button disabled={peer.reviewerId !== null} onClick={handleNominatePeer}>Confirm</Button>
+          <Button disabled={peer.reviewerId !== null} onClick={() => handleNominatePeer(index)}>Confirm</Button>
         </Popover>
       )))
     ))
