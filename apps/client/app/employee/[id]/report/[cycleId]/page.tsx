@@ -5,19 +5,24 @@ async function Report({ params }) {
   const targetId = params.id
   const cycleId = params.cycleId
 
-  // const { data: { getUser: { fullName } } } = await apolloClient.query({ query: queries.GET_USER_FULLNAME_BY_ID, variables: { id: params.id } })
   const fullName = await getUserFullName(targetId)
   const fullReport = await getFullReport(targetId, cycleId)
+//get a manager review only FE T CH
+
+  async function getReviewer(id) {
+    const fullName = await getUserFullName(id)
+    return fullName
+  }
 
   return (
     <div className='p-4'>
-
       <h1 className="text-2xl">Your Report {fullName}</h1>
       <div>
-        <p>Remarks:</p>
+        <h2>Remarks:</h2>
+        <p>{fullReport.status}</p>
         <p>{fullReport.summary}</p>
       </div>
-    </div >
+    </div>
   )
 }
 
