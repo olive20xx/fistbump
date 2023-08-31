@@ -2,14 +2,12 @@ import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
-import { queries } from '@/lib/graphql-queries'
-import { apolloClient } from '@/lib/apollo-client'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
 import Targets from '@/components/table/Targets'
 
 
-import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
+import { getAllUsers, getCurrentCycle, getAssignedReviews, getUserByName } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 
 export const fetchCache = 'force-no-store'
@@ -33,9 +31,8 @@ export default async function Dashboard() {
 
   const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
 
-
-  const { data: { getUserByName: { _id: loggedUserId } } } = await apolloClient.query({ query: queries.GET_USER_BY_NAME, variables: { fullName: loggedUserFullName } })
-  const { data: { getAssignedReviews: assignedReviews } } = await apolloClient.query({ query: queries.GET_REVIEWS_TO_WRITE, variables: { reviewerId: loggedUserId, cycleId: cycleId } })
+  const loggedUserId = await getUserByName(loggedUserFullName)
+  const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
 
 
   const users = await getAllUsers()

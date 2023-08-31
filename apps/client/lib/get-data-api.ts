@@ -45,6 +45,13 @@ export async function getUserFullName(id: string): Promise<string> {
   return fullName
 }
 
+export async function getUserByName(fullName: string): Promise<string> {
+  const query = queries.GET_USER_BY_NAME
+  const variables = { fullName }
+  const result = await apolloClient.query({ query, variables })
+  const userId = result.data.getUserByName._id
+  return userId
+}
 // *** reports ***
 export async function getFullReport(
   targetId: string,
@@ -70,6 +77,14 @@ export async function getEmployeeReport(
 
   const report = result.data.getReport
   return report
+}
+
+export async function getAssignedReviews(reviewerId: string, cycleId: string) {
+  const query = queries.GET_REVIEWS_TO_WRITE
+  const variables = { reviewerId, cycleId }
+  const result = await apolloClient.query({ query, variables })
+  const assignedReviews = result.data.getAssignedReviews
+  return assignedReviews
 }
 
 // *** cycles ***
