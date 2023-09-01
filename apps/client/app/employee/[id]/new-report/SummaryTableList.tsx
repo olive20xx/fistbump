@@ -54,7 +54,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((row, i) => {
+          {rows?.map((row, i) => {
             return <MetricRow targetName={targetName} reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
           })}
         </TableBody>
@@ -113,7 +113,7 @@ async function formatTableDataArray(reviews: ReviewsData, targetName: string): P
         rating,
         comment,
       }
-      table.rows.push(row)
+      table?.rows?.push(row)
     })
   })
 
