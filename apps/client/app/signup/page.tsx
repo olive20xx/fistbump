@@ -70,8 +70,7 @@ const SignUpForm = () => {
     } catch (error) {
       console.error('Error creating user:', error)
     }
-
-    // push('/dashboard')
+    push('/dashboard')
   }
 
   return (
