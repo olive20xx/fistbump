@@ -52,7 +52,7 @@ export default function NominationBox({ users, loggedUserId, cycleId }) {
       input:
         { newReviewerId: peerId }
     }
-    const { data: { updatePeerReview: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
+    const { data: { updatePeerReviewerId: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
     console.log('reviewerId is changing===>', peers)
     const updatedPopoverStates = [...popoverStates]
     updatedPopoverStates[index] = { ...updatedPopoverStates[index], disabled: true }

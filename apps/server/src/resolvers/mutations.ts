@@ -119,7 +119,7 @@ const mutations: MutationResolvers = {
         throw new Error('Error updating a review in the database')
       }
     },
-    updatePeerReview: async (
+    updatePeerReviewerId: async (
       _: any,
       {
         targetId,
