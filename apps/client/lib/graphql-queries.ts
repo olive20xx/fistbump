@@ -180,6 +180,48 @@ export const mutations = {
       }
     }
   }`),
+  UPDATE_ASSIGNED_REVIEW: gql(`
+    mutation updateAssignedReview($targetId:String!, $input:ReviewInput!) {
+      updateAssignedReview(targetId:$targetId, input:$input){
+        _id {
+          cycleId
+          targetId
+        }
+        reviews {
+          peers {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+          manager {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+          self {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+        }
+      }
+    }
+  `),
   UPDATE_PEER_REVIEWS: gql(`
     mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:PeerUpdateInput!) {
       updatePeerReview(targetId: $targetId, cycleId: $cycleId, input: $input) {
@@ -190,4 +232,5 @@ export const mutations = {
         }
     }
   }`),
+
 }

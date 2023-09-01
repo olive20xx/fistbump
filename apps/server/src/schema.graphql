@@ -15,11 +15,12 @@ type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+  updateAssignedReview(targetId: String!, input: ReviewInput!): Report
   updatePeerReview(targetId: String!, cycleId: String!, input: PeerUpdateInput!) : Report
 }
 
 input UserInput {
-  email: String!
+  email: String! 
   fullName: String
   hashedPw: String
   title: String
@@ -47,7 +48,7 @@ input ReviewsInput {
 }
 
 input ReviewInput {
-  reviewerId: String
+  reviewerId: String!
   isDeclined: Boolean
   submitted: Boolean
   grades: [GradeInput]
