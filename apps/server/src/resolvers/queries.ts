@@ -2,7 +2,9 @@ import { QueryResolvers } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
-
+import mongoose from 'mongoose'
+import { report } from 'process'
+const ObjectId = mongoose.Types.ObjectId
 const queries: QueryResolvers = {
   Query: {
     hello: () => {
@@ -73,6 +75,32 @@ const queries: QueryResolvers = {
           endDate: { $gte: now },
         })
         return cycle
+      } catch (error) {
+        throw new Error('Error fetching report from the database')
+      }
+    },
+    getUserByName: async (_: any, { fullName }: { fullName: string }) => {
+      try {
+        const user = await User.findOne({ fullName })
+        return user
+      } catch (error) {
+        throw new Error('Error fetching users from the database')
+      }
+    },
+    getAssignedReviews: async (
+      _: any,
+      { cycleId, reviewerId }: { cycleId: string; reviewerId: string }
+    ) => {
+      try {
+        const reports = await Report.find({
+          '_id.cycleId': cycleId,
+          'reviews.peers': {
+            $elemMatch: {
+              reviewerId: reviewerId,
+            },
+          },
+        })
+        return reports
       } catch (error) {
         throw new Error('Error fetching report from the database')
       }

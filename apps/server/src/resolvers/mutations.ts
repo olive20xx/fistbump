@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { GradeModel, ReviewModel } from '../../../../packages/types/models'
 import {
   MutationResolvers,
+  PeerUpdateInput,
   ReportInput,
   ReviewInput,
   UserInput,
@@ -116,6 +117,36 @@ const mutations: MutationResolvers = {
       } catch (error: any) {
         console.log(error.message)
         throw new Error('Error updating a review in the database')
+      }
+    },
+    updatePeerReview: async (
+      _: any,
+      {
+        targetId,
+        cycleId,
+        input,
+      }: { targetId: String; cycleId: String; input: PeerUpdateInput }
+    ) => {
+      try {
+        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
+        const report = await Report.findOne(filter)
+        const ObjectId = mongoose.Types.ObjectId
+        if (report) {
+          for (let i = 0; i < report.reviews.peers.length; i++) {
+            const review = report.reviews.peers[i]
+            if (review.reviewerId === null) {
+              review.reviewerId = new ObjectId(input.newReviewerId)
+              await report.save()
+              break
+            }
+          }
+        } else {
+          throw new Error('Report not found')
+        }
+        return report
+      } catch (error) {
+        console.error('Error updating report:', error)
+        throw new Error('Error updating a report in the database')
       }
     },
   },
