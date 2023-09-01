@@ -17,12 +17,8 @@ export default async function Dashboard() {
   let loggedUser
 
   const userCookie = cookieStore.get('user')
-
-    // console.log(JSON.parse(userCookie.value))
-
   const {id, name} = JSON.parse(userCookie.value)
   
-
   if (userCookie === undefined) {
     loggedUser = null
     loggedUserFullName = null
