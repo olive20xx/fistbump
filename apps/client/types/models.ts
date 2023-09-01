@@ -1,9 +1,3 @@
-type MetricData = {
-  id: string
-  rating: number
-  comment: string
-}
-
 type GradeData = {
   metric: string
   rating: number
@@ -17,17 +11,50 @@ type ReviewData = {
   grades: GradeData[]
 }
 
-type UserId = string
+type ReviewsData = {
+  peers: ReviewData[]
+  self: ReviewData
+  manager: ReviewData
+}
 
 type ReportData = {
   _id: { targetId: string; cycleId: string }
   summary: string
   status: string
-  reviews: {
-    peers: ReviewData[]
-    self: ReviewData
-    manager: ReviewData
-  }
+  reviews: ReviewsData
 }
 
-export type { MetricData, GradeData, ReviewData, UserId, ReportData }
+type UserId = string
+
+type UserData = {
+  _id: UserId
+  email: string
+  fullName: string
+  hashedPw: string
+  title: string
+  isAdmin: boolean
+  photo: string
+  teamName: string
+  companyName: string
+}
+
+type CycleData = {
+  _id: string
+  title: string
+  startDate: string
+  endDate: string
+  peersPerTarget: number
+  nominationDeadline: string
+  reviewDeadline: string
+  reportDeadline: string
+}
+
+export type {
+  GradeData,
+  ReviewData,
+  ReviewsData,
+  ReportData,
+  UserId,
+  UserData,
+  CycleData,
+}

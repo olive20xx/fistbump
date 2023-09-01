@@ -23,15 +23,17 @@ export type ReviewModel = {
   grades: GradeModel[]
 }
 
+export type ReviewsModel = {
+  peers: ReviewModel[]
+  self: ReviewModel
+  manager: ReviewModel
+}
+
 export type ReportModel = {
   _id: ReportId
   summary: string
   status: ReportStatus
-  reviews: {
-    peers: ReviewModel[]
-    self: ReviewModel
-    manager: ReviewModel
-  }
+  reviews: ReviewsModel
 }
 
 export type ReportId = {
