@@ -28,7 +28,7 @@ async function UserItem({ user, cycle }) {
         <Button>View Full Report</Button>
       </Link>
       {manager ? (
-        <Link href={`/employee/${user._id}/new-review`}>
+        <Link href={`/employee/${user._id}/new-report`}>
           <Button>Write a report</Button>
         </Link>
       ) : (
