@@ -47,6 +47,7 @@ export type GradeInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
+  updatePeerReview?: Maybe<Report>;
   updateReport?: Maybe<Report>;
   updateUser?: Maybe<User>;
 };
@@ -54,6 +55,13 @@ export type Mutation = {
 
 export type MutationCreateUserArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+
+export type MutationUpdatePeerReviewArgs = {
+  cycleId: Scalars['String']['input'];
+  input: PeerUpdateInput;
+  targetId: Scalars['String']['input'];
 };
 
 
@@ -68,14 +76,26 @@ export type MutationUpdateUserArgs = {
   input?: InputMaybe<UserInput>;
 };
 
+export type PeerUpdateInput = {
+  newReviewerId: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getAssignedReviews?: Maybe<Array<Maybe<Report>>>;
   getCurrentCycle?: Maybe<Cycle>;
   getReport?: Maybe<Report>;
   getUser?: Maybe<User>;
   getUserByEmail?: Maybe<User>;
+  getUserByName?: Maybe<User>;
   getUsers?: Maybe<Array<Maybe<User>>>;
   hello?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type QueryGetAssignedReviewsArgs = {
+  cycleId?: InputMaybe<Scalars['String']['input']>;
+  reviewerId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -93,6 +113,11 @@ export type QueryGetUserArgs = {
 export type QueryGetUserByEmailArgs = {
   email?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetUserByNameArgs = {
+  fullName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Report = {
@@ -123,6 +148,7 @@ export type ReportInput = {
 
 export type Review = {
   __typename?: 'Review';
+  _id?: Maybe<Scalars['String']['output']>;
   grades?: Maybe<Array<Maybe<Grade>>>;
   isDeclined?: Maybe<Scalars['Boolean']['output']>;
   reviewerId?: Maybe<Scalars['String']['output']>;
@@ -221,6 +247,29 @@ export type GetCurrentCycleQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCurrentCycleQuery = { __typename?: 'Query', getCurrentCycle?: { __typename?: 'Cycle', _id?: string | null, title?: string | null, startDate?: any | null, endDate?: any | null, peersPerTarget?: number | null, nominationDeadline?: any | null, reviewDeadline?: any | null, reportDeadline?: any | null } | null };
 
+export type GetUserByNameQueryVariables = Exact<{
+  fullName: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByNameQuery = { __typename?: 'Query', getUserByName?: { __typename?: 'User', _id?: string | null } | null };
+
+export type GetPeerReviewsQueryVariables = Exact<{
+  targetId: Scalars['String']['input'];
+  cycleId: Scalars['String']['input'];
+}>;
+
+
+export type GetPeerReviewsQuery = { __typename?: 'Query', getReport?: { __typename?: 'Report', _id?: { __typename?: 'ReportID', targetId?: string | null, cycleId?: string | null } | null, reviews?: { __typename?: 'Reviews', peers?: Array<{ __typename?: 'Review', _id?: string | null, isDeclined?: boolean | null, reviewerId?: string | null, submitted?: boolean | null, grades?: Array<{ __typename?: 'Grade', comment?: string | null, maxRating?: number | null, metric?: string | null, rating?: number | null } | null> | null } | null> | null } | null } | null };
+
+export type GetAssignedReviewsQueryVariables = Exact<{
+  cycleId?: InputMaybe<Scalars['String']['input']>;
+  reviewerId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAssignedReviewsQuery = { __typename?: 'Query', getAssignedReviews?: Array<{ __typename?: 'Report', status?: string | null, _id?: { __typename?: 'ReportID', targetId?: string | null } | null } | null> | null };
+
 export type UpdateReportMutationVariables = Exact<{
   targetId: Scalars['String']['input'];
   cycleId: Scalars['String']['input'];
@@ -230,6 +279,15 @@ export type UpdateReportMutationVariables = Exact<{
 
 export type UpdateReportMutation = { __typename?: 'Mutation', updateReport?: { __typename?: 'Report', summary?: string | null, reviews?: { __typename?: 'Reviews', peers?: Array<{ __typename?: 'Review', submitted?: boolean | null, reviewerId?: string | null, grades?: Array<{ __typename?: 'Grade', metric?: string | null, rating?: number | null, maxRating?: number | null, comment?: string | null } | null> | null } | null> | null, manager?: { __typename?: 'Review', submitted?: boolean | null, reviewerId?: string | null, grades?: Array<{ __typename?: 'Grade', metric?: string | null, rating?: number | null, maxRating?: number | null, comment?: string | null } | null> | null } | null, self?: { __typename?: 'Review', submitted?: boolean | null, reviewerId?: string | null, grades?: Array<{ __typename?: 'Grade', metric?: string | null, rating?: number | null, maxRating?: number | null, comment?: string | null } | null> | null } | null } | null } | null };
 
+export type UpdatePeerReviewsMutationVariables = Exact<{
+  targetId: Scalars['String']['input'];
+  cycleId: Scalars['String']['input'];
+  input: PeerUpdateInput;
+}>;
+
+
+export type UpdatePeerReviewsMutation = { __typename?: 'Mutation', updatePeerReview?: { __typename?: 'Report', reviews?: { __typename?: 'Reviews', peers?: Array<{ __typename?: 'Review', reviewerId?: string | null } | null> | null } | null } | null };
+
 
 export const GetUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"teamName"}}]}}]}}]} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;
 export const GetFullReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getFullReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"targetId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"targetId"}},{"kind":"Field","name":{"kind":"Name","value":"cycleId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"reviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manager"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isDeclined"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"submitted"}}]}},{"kind":"Field","name":{"kind":"Name","value":"peers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isDeclined"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"submitted"}}]}},{"kind":"Field","name":{"kind":"Name","value":"self"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isDeclined"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"submitted"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetFullReportQuery, GetFullReportQueryVariables>;
@@ -238,4 +296,8 @@ export const GetUserObjectDocument = {"kind":"Document","definitions":[{"kind":"
 export const GetEmployeeReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getEmployeeReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"targetId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"targetId"}},{"kind":"Field","name":{"kind":"Name","value":"cycleId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"summary"}}]}}]}}]} as unknown as DocumentNode<GetEmployeeReportQuery, GetEmployeeReportQueryVariables>;
 export const GetUserByEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserByEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserByEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}}]}}]} as unknown as DocumentNode<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
 export const GetCurrentCycleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCurrentCycle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentCycle"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"peersPerTarget"}},{"kind":"Field","name":{"kind":"Name","value":"nominationDeadline"}},{"kind":"Field","name":{"kind":"Name","value":"reviewDeadline"}},{"kind":"Field","name":{"kind":"Name","value":"reportDeadline"}}]}}]}}]} as unknown as DocumentNode<GetCurrentCycleQuery, GetCurrentCycleQueryVariables>;
+export const GetUserByNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserByName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fullName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserByName"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fullName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fullName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<GetUserByNameQuery, GetUserByNameQueryVariables>;
+export const GetPeerReviewsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPeerReviews"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"targetId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"targetId"}},{"kind":"Field","name":{"kind":"Name","value":"cycleId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"reviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"peers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}}]}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"isDeclined"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"submitted"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetPeerReviewsQuery, GetPeerReviewsQueryVariables>;
+export const GetAssignedReviewsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAssignedReviews"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"reviewerId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAssignedReviews"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}},{"kind":"Argument","name":{"kind":"Name","value":"reviewerId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"reviewerId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"targetId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetAssignedReviewsQuery, GetAssignedReviewsQueryVariables>;
 export const UpdateReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ReportInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"targetId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"summary"}},{"kind":"Field","name":{"kind":"Name","value":"reviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"peers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"submitted"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"manager"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"submitted"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"self"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"submitted"}},{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}},{"kind":"Field","name":{"kind":"Name","value":"grades"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metric"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"maxRating"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateReportMutation, UpdateReportMutationVariables>;
+export const UpdatePeerReviewsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updatePeerReviews"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeerUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePeerReview"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"targetId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"targetId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cycleId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cycleId"}}},{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"peers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reviewerId"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdatePeerReviewsMutation, UpdatePeerReviewsMutationVariables>;

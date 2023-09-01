@@ -7,12 +7,15 @@ type Query {
   getReport(targetId: String!, cycleId: String!): Report
   getUserByEmail(email: String, password: String): User
   getCurrentCycle: Cycle
+  getUserByName(fullName:String): User
+  getAssignedReviews(cycleId: String, reviewerId: String): [Report]
 }
 
 type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
+  updatePeerReview(targetId: String!, cycleId: String!, input: PeerUpdateInput!) : Report
 }
 
 input UserInput {
@@ -31,6 +34,10 @@ input ReportInput {
   summary: String
   status: String
   reviews: ReviewsInput
+}
+
+input PeerUpdateInput {
+  newReviewerId: String!
 }
 
 input ReviewsInput {
@@ -93,6 +100,7 @@ type Review {
   isDeclined: Boolean
   submitted: Boolean
   grades: [Grade]
+  _id: String
 }
 
 type Grade {
