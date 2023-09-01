@@ -3,7 +3,7 @@ import { ReviewData, ReviewsData, UserData } from '@/types/models'
 import SubjectOfReview from './SubjectOfReview'
 import Reviewers from './Reviewers'
 import SummaryTableList from './SummaryTableList'
-import MetricList from './MetricList'
+import MetricList from '../../../../components/review/MetricList'
 import { Header2 } from '@/components/typography/header2'
 
 export const revalidate = 0
@@ -36,7 +36,7 @@ async function ReportPage({ params }) {
       </div>
       <div className='p-4 w-1/2 h-full items-center flex flex-col'>
         <Header2>Write your report</Header2>
-        <MetricList targetId={targetId} targetName={targetName} reviewData={managerReview} />
+        <MetricList targetId={targetId} targetName={targetName} reviewData={managerReview} isManagerReport />
       </div>
     </div>
   )

@@ -60,10 +60,15 @@ export async function getFullReport(
   targetId: string,
   cycleId: string
 ): Promise<Report> {
+  //! Clearing the entire cache until we figure out how to work better with cache
+  await apolloClient.clearStore()
   const query = queries.GET_FULL_REPORT
   const variables = { targetId, cycleId }
 
-  const result = await apolloClient.query({ query, variables })
+  const result = await apolloClient.query({
+    query,
+    variables,
+  })
   if (!result.data.getReport)
     throw new Error(`❌ getFullReport: report not found`)
 

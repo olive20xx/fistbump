@@ -4,20 +4,24 @@ import { mutations } from '@/lib/graphql-queries'
 import { ReviewData } from '@/types/models'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
-import SubmittedReport from './SubmittedReport'
-import Metric from '@/components/ui/metric'
+import Submitted from './Submitted'
+import Metric from '@/components/review/metric'
 import { Button } from '@/components/ui/button'
+
+export const revalidate = 0
+export const fetchCache = 'force-no-cache'
 
 type MetricListProps = {
   targetId: string
   targetName: string
   reviewData: ReviewData
+  isManagerReport?: boolean
 }
 
-function MetricList({ targetId, targetName, reviewData }: MetricListProps) {
+function MetricList({ targetId, targetName, reviewData, isManagerReport = false }: MetricListProps) {
   const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
   const { submitted, grades, reviewerId } = reviewData
-  console.log('submitted', submitted)
+
   const [state, setState] = useState(grades)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
 
@@ -68,7 +72,7 @@ function MetricList({ targetId, targetName, reviewData }: MetricListProps) {
   }
 
   return isSubmitted ? (
-    <SubmittedReport />
+    <Submitted isManagerReport={isManagerReport} />
   ) : (
     <div className="p-4">
       {state.map((datum) => {

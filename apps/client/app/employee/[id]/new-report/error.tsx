@@ -11,6 +11,7 @@ function Error({ error, reset }: { error: Error, reset: () => void }) {
   return (
     <div>
       <h2>Error...</h2>
+      <div>{error.message}</div>
       <Button onClick={() => reset()}>Try again</Button>
     </div>
   )

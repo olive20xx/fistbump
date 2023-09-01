@@ -6,7 +6,7 @@ import UserItem from '@/components/table/UserItem'
 import handleLogout from '@/components/Logout'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 
-export const fetchCache = 'force-no-store'
+
 export default async function Dashboard() {
   const cookieStore = cookies()
 
