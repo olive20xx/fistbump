@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 
-import UserItem from '@/components/table/UserItem'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
 import Targets from '@/components/table/Targets'
@@ -11,7 +10,6 @@ import { getAllUsers, getCurrentCycle, getAssignedReviews, getUserByName } from 
 import { redirect } from 'next/navigation'
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
-
 
 export default async function Dashboard() {
   const cookieStore = cookies()
@@ -33,14 +31,10 @@ export default async function Dashboard() {
 
   const loggedUserFirstName = loggedUserFullName ? loggedUserFullName.split(' ')[0] : '';
 
-
   const users = await getAllUsers()
   const loggedUserId = await getUserByName(loggedUserFullName)
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
 
-
-
-  const users = await getAllUsers()
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
@@ -65,7 +59,6 @@ export default async function Dashboard() {
           <p className="col-span-2">Team Name</p>
         </div>
         {users.map((user) => (
-          <UserItem
           <Targets
             assignedReviews={assignedReviews}
             key={user.fullName}

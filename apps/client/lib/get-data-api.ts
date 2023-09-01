@@ -11,9 +11,7 @@ export async function getAllUsers(): Promise<User[]> {
 
   const result = await apolloClient.query({ query })
 
-
   if (!result.data.getUsers) throw new Error(`❌ getAllUsers: users not found`)
-
 
   const users = result.data.getUsers
   return users
@@ -35,7 +33,6 @@ export async function getUserByEmail(email: string): Promise<string> {
 
   const result = await apolloClient.query({ query, variables })
 
-
   if (!result.data.getUserByEmail)
     throw new Error(`❌ getUserByEmail: user not found, email ${email}`)
 
@@ -49,13 +46,10 @@ export async function getUserFullName(id: string): Promise<string> {
 
   const result = await apolloClient.query({ query, variables })
   const fullName = result.data.getUser.fullName
-  return fullName
-}
 
   if (!result.data.getUser)
     throw new Error(`❌ getUserFullName: user not found, id ${id}`)
 
-  const fullName = result.data.getUser?.fullName
   return fullName
 }
 
@@ -119,7 +113,6 @@ export async function getCurrentCycle(): Promise<Cycle> {
 
   if (!result.data.getCurrentCycle)
     throw new Error(`❌ getCurrentCycle: cycle not found`)
-
 
   const cycle = result.data.getCurrentCycle
   return cycle
