@@ -1,5 +1,6 @@
 'use client'
 
+import '@/app/global.css'
 import { useForm } from 'react-hook-form'
 import {
   Form,
@@ -29,8 +30,8 @@ const FormSchema = z
       .min(3, 'Password must have than 8 characters'),
     confirmPassword: z.string().min(1, 'Password confirmation is required'),
     companyName: z.string().min(1, 'Company Name is required').max(30),
-      //!change later to able to upload a pic
-    profilepic: z.string()
+    //!change later to able to upload a pic
+    profilepic: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
@@ -50,7 +51,7 @@ const SignUpForm = () => {
       password: '',
       confirmPassword: '',
       companyName: '',
-      profilepic: ''
+      profilepic: '',
     },
   })
 
@@ -60,8 +61,8 @@ const SignUpForm = () => {
     const fullName = values.fullName
     const companyName = values.companyName
     const variables = { input: { fullName, email, hashedPw, companyName } }
-    console.log('--------> values',values)
-    console.log('--------> variables',variables)
+    console.log('--------> values', values)
+    console.log('--------> variables', variables)
 
     try {
       const response = await createUser({ variables })
@@ -84,7 +85,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your company name"  {...field} />
+                  <Input placeholder="Your company name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
