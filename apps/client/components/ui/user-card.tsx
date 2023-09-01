@@ -5,15 +5,17 @@ function UserCard({ photo, fullName, title, team }) {
   return (
     <Card>
       <CardHeader className="pb-0">
-        <CardTitle className="flex gap-4 items-center">
-          <Photo width={80} height={90} photo={photo} alt={'Motorcycle'} />
-          {fullName}
-        </CardTitle>
+
       </CardHeader>
-      <CardContent className="ml-24 flex gap-4">
+      <CardContent className="flex gap-4">
         <div>
-          <p>Title: {title}</p>
-          <p>Team: {team}</p>
+          <Photo width={80} height={90} photo={photo} alt={'Motorcycle'} />
+        </div>
+        <div className='flex flex-col gap-2 justify-center'>
+          <CardTitle>
+            {fullName}
+          </CardTitle>
+          <p>{title}</p>
         </div>
       </CardContent>
     </Card>

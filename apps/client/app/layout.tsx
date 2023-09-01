@@ -1,3 +1,4 @@
+import '@/app/global.css'
 import { ApolloWrapper } from '@/lib/apollo-wrapper'
 import { apolloClient } from '@/lib/apollo-client'
 export default function RootLayout({
