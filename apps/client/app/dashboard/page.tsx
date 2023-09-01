@@ -10,7 +10,8 @@ import Targets from '@/components/table/Targets'
 import { getAllUsers, getCurrentCycle, getAssignedReviews, getUserByName } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 
-export const fetchCache = 'force-no-store'
+export const revalidate = 0
+export const fetchCache = 'force-no-cache'
 export default async function Dashboard() {
   const cookieStore = cookies()
 
@@ -66,7 +67,6 @@ export default async function Dashboard() {
             loggedUser={loggedUserFullName}
             user={user}
             cycleId={cycleId}
-            loggedUserId={loggedUserId}
           />
         ))}
         <NominationBox users={users} loggedUserId={loggedUserId} cycleId={cycleId}></NominationBox>

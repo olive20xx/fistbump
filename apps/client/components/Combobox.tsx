@@ -19,6 +19,8 @@ import {
 import { mutations, queries } from "@/lib/graphql-queries"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 
+export const revalidate = 0
+export const fetchCache = 'force-no-cache'
 export default function NominationBox({ users, loggedUserId, cycleId }) {
   const [open, setOpen] = React.useState("")
   const [currentValue, setCurrentValue] = React.useState('')

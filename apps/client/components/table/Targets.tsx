@@ -1,24 +1,9 @@
 'use client'
 import { Button, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
-import { mutations } from '@/lib/graphql-queries'
-import { useMutation } from '@apollo/client'
 
 
-export default function Targets({ loggedUser, user, cycleId, loggedUserId, assignedReviews }) {
-  const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-  async function handleNominatePeer() {
-    const mutationVars = {
-      targetId: loggedUserId,
-      cycleId: cycleId,
-      input:
-        { newReviewerId: user._id }
-    }
-    const { data: { updatePeerReview: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
-    console.log('reviewerId is changing===>', peers)
-  }
-
-
+export default function Targets({ loggedUser, user, cycleId, assignedReviews }) {
   return (
     <div className="bg-white">
       {assignedReviews.map((review, index) => (
