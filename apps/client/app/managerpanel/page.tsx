@@ -4,14 +4,17 @@ import { Button } from '@/components/ui/button'
 import { UserModel } from '../../../../packages/types/models'
 import { getAllUsers, getCurrentCycle, getFullReport } from '@/lib/get-data-api'
 import { cookies } from 'next/headers'
-
-
+import { redirect } from 'next/navigation'
 
 async function UserItem({ user, cycle }) {
-
   const cookieStore = cookies()
   const userCookie = cookieStore.get('user')
-  const {id, name} = JSON.parse(userCookie.value)
+
+  if (!userCookie) {
+    redirect('/login')
+  }
+
+  const { id, name } = JSON.parse(userCookie.value)
 
   const report = await getFullReport(user._id, cycle._id)
   const manager = report.reviews.manager.reviewerId === id
@@ -24,9 +27,13 @@ async function UserItem({ user, cycle }) {
       <Link href={`/employee/${user._id}/manager-report/${cycle.cycleId}`}>
         <Button>View Full Report</Button>
       </Link>
-      {manager ? <Link href={`/employee/${user._id}/new-review`}>
-        <Button>Write a report</Button>
-      </Link> : ''}
+      {manager ? (
+        <Link href={`/employee/${user._id}/new-review`}>
+          <Button>Write a report</Button>
+        </Link>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -41,13 +48,16 @@ export default async function ManagerPanel() {
         <h2 className="text-2xl font-bold">MANAGER PANEL</h2>
         <p>List of the users</p>
         <div>
-        <Link href={'/dashboard'}>
-        <Button>Go to dashboard</Button>
-      </Link>
-      </div>
+          <Link href={'/dashboard'}>
+            <Button>Go to dashboard</Button>
+          </Link>
+        </div>
       </div>
       <div className="rounded-xl max-w-7xl mx-auto">
-        <div className="flex gap-10">{cycle.title.split(',')[0]} <p>End date: {cycle.endDate.split('T')[0]}</p></div>
+        <div className="flex gap-10">
+          {cycle.title.split(',')[0]}{' '}
+          <p>End date: {cycle.endDate.split('T')[0]}</p>
+        </div>
         <div className="grid grid-cols-10 gap-4 font-bold border-b p-2 bg-slate-400">
           <p className="col-span-2">Title</p>
           <p className="col-span-2">Full Name</p>
