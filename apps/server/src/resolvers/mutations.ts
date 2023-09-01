@@ -128,22 +128,26 @@ const mutations: MutationResolvers = {
       }: { targetId: String; cycleId: String; input: PeerUpdateInput }
     ) => {
       try {
-        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
+        const filter = {
+          '_id.targetId': targetId,
+          '_id.cycleId': cycleId,
+          'reviews.peers': { $elemMatch: { reviewerId: null } },
+        }
         const report = await Report.findOne(filter)
         const ObjectId = mongoose.Types.ObjectId
+
         if (report) {
-          for (let i = 0; i < report.reviews.peers.length; i++) {
-            const review = report.reviews.peers[i]
-            if (review.reviewerId === null) {
-              review.reviewerId = new ObjectId(input.newReviewerId)
-              await report.save()
-              break
-            }
+          const peerReviewToUpdate = report.reviews.peers.find(
+            (review) => review.reviewerId === null
+          )
+          if (peerReviewToUpdate) {
+            peerReviewToUpdate.reviewerId = new ObjectId(input.newReviewerId)
           }
+          await report.save()
+          return report
         } else {
           throw new Error('Report not found')
         }
-        return report
       } catch (error) {
         console.error('Error updating report:', error)
         throw new Error('Error updating a report in the database')
