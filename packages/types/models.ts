@@ -58,7 +58,6 @@ export type TeamModel = {
 }
 
 export type CycleModel = {
-  _id: string
   title: string
   startDate: Date
   endDate: Date
