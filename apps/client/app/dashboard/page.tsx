@@ -2,6 +2,7 @@ import '@/app/global.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import UserItem from '@/components/table/UserItem'
 import handleLogout from '@/components/Logout'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
@@ -17,8 +18,13 @@ export default async function Dashboard() {
   let loggedUser
 
   const userCookie = cookieStore.get('user')
-  const {id, name} = JSON.parse(userCookie.value)
-  
+
+  if (!userCookie) {
+    redirect('/login')
+  }
+
+  const { id, name } = JSON.parse(userCookie.value)
+
   if (userCookie === undefined) {
     loggedUser = null
     loggedUserFullName = null
@@ -37,11 +43,12 @@ export default async function Dashboard() {
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">DASHBOARD</h2><p>List of the users</p>
+        <h2 className="text-3xl font-bold">DASHBOARD</h2>
+        <p>List of the users</p>
         <div>
           {loggedUser && loggedUserFullName ? (
-            <div className='flex gap-10 items-baseline'>
-              <h2 className='font-extrabold'>Hello {name}</h2>
+            <div className="flex gap-10 items-baseline">
+              <h2 className="font-extrabold">Hello {name}</h2>
               <Link href={'/managerpanel'}>
                 <Button>Go to managerpanel</Button>
               </Link>
