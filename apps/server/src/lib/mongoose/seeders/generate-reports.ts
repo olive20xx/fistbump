@@ -7,34 +7,35 @@ import {
 } from '../../../../../../packages/types/models'
 import { UserDoc, ObjectId } from './types'
 
+const NUMBER_OF_METRICS = 3
+
+const METRICS = faker.helpers.arrayElements(
+  [
+    'Karate Kicks',
+    'Coding',
+    'Cooking',
+    'Volleyball',
+    'Skating',
+    'Crime',
+    'Being From Cuba',
+    'Power',
+    'Agility',
+    'Endurance',
+    'Charm',
+    'Spellcasting',
+    'Storytelling',
+    'Futbol',
+    'Handstands',
+  ],
+  NUMBER_OF_METRICS
+)
+
 function generateGrades(count: number, maxRating: number, isFilled: boolean) {
   const grades: GradeModel[] = []
-  const metrics = faker.helpers.arrayElements(
-    [
-      'Looks',
-      'Coding',
-      'Punctuality',
-      'Cooking',
-      'Volleyball',
-      'Skating',
-      'Crime',
-      'Being From Cuba',
-      'Power',
-      'Agility',
-      'Endurance',
-      'Danger',
-      'Charm',
-      'Spellcasting',
-      'Storytelling',
-      'Futbol',
-      'Handstands',
-    ],
-    count
-  )
 
   for (let i = 0; i < count; i++) {
     const grade: GradeModel = {
-      metric: metrics[i],
+      metric: METRICS[i],
       rating: isFilled ? faker.number.int({ min: 1, max: maxRating }) : 0,
       maxRating: maxRating,
       comment: isFilled ? faker.lorem.lines({ min: 1, max: 3 }) : '',
