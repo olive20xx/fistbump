@@ -101,6 +101,43 @@ export const queries = {
       reportDeadline
     }
   }`),
+  GET_USER_BY_NAME: gql(`query getUserByName($fullName: String!) {
+    getUserByName(fullName: $fullName) {
+      _id
+    }
+  }`),
+  GET_PEER_REVIEWS:
+    gql(` query getPeerReviews($targetId: String!, $cycleId: String!) {
+    getReport(targetId: $targetId, cycleId: $cycleId) {
+      _id {
+        targetId
+        cycleId
+      }
+      reviews {
+        peers {
+          grades {
+            comment
+            maxRating
+            metric
+            rating
+          }
+          _id
+          isDeclined
+          reviewerId
+          submitted
+        }
+      }
+    }
+  }`),
+  GET_REVIEWS_TO_WRITE: gql(`
+  query getAssignedReviews($cycleId: String, $reviewerId: String) {
+    getAssignedReviews(cycleId: $cycleId, reviewerId: $reviewerId) {
+      _id {
+        targetId
+      }
+      status
+    }
+  }`),
 }
 
 export const mutations = {
@@ -150,4 +187,57 @@ export const mutations = {
         hashedPw
       }
   }`),
+  UPDATE_ASSIGNED_REVIEW: gql(`
+    mutation updateAssignedReview($targetId:String!, $input:ReviewInput!) {
+      updateAssignedReview(targetId:$targetId, input:$input){
+        _id {
+          cycleId
+          targetId
+        }
+        reviews {
+          peers {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+          manager {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+          self {
+            submitted
+            reviewerId
+            grades {
+              metric
+              rating
+              maxRating
+              comment
+            }
+          }
+        }
+      }
+    }
+  `),
+  UPDATE_PEER_REVIEWS: gql(`
+    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:PeerUpdateInput!) {
+      updatePeerReview(targetId: $targetId, cycleId: $cycleId, input: $input) {
+        reviews {
+          peers {
+            reviewerId
+          }
+        }
+    }
+  }`),
+
 }

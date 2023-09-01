@@ -11,6 +11,10 @@ export async function getAllUsers(): Promise<User[]> {
 
   const result = await apolloClient.query({ query })
 
+
+  if (!result.data.getUsers) throw new Error(`❌ getAllUsers: users not found`)
+
+
   const users = result.data.getUsers
   return users
 }
@@ -18,9 +22,9 @@ export async function getAllUsers(): Promise<User[]> {
 export async function getUserById(id: string): Promise<User> {
   const query = queries.GET_USER_BY_ID
   const variables = { id }
-
   const result = await apolloClient.query({ query, variables })
-
+  if (!result.data.getUser)
+    throw new Error(`❌ getUserById: user not found, id ${id}`)
   const user = result.data.getUser
   return user
 }
@@ -31,6 +35,10 @@ export async function getUserByEmail(email: string): Promise<string> {
 
   const result = await apolloClient.query({ query, variables })
 
+
+  if (!result.data.getUserByEmail)
+    throw new Error(`❌ getUserByEmail: user not found, email ${email}`)
+
   const fullName = result.data.getUserByEmail.fullName
   return fullName
 }
@@ -40,20 +48,40 @@ export async function getUserFullName(id: string): Promise<string> {
   const variables = { id }
 
   const result = await apolloClient.query({ query, variables })
-
   const fullName = result.data.getUser.fullName
   return fullName
 }
 
+  if (!result.data.getUser)
+    throw new Error(`❌ getUserFullName: user not found, id ${id}`)
+
+  const fullName = result.data.getUser?.fullName
+  return fullName
+}
+
+export async function getUserByName(fullName: string): Promise<string> {
+  const query = queries.GET_USER_BY_NAME
+  const variables = { fullName }
+  const result = await apolloClient.query({ query, variables })
+  const userId = result.data.getUserByName._id
+  return userId
+}
 // *** reports ***
 export async function getFullReport(
   targetId: string,
   cycleId: string
 ): Promise<Report> {
+  //! Clearing the entire cache until we figure out how to work better with cache
+  await apolloClient.clearStore()
   const query = queries.GET_FULL_REPORT
   const variables = { targetId, cycleId }
 
-  const result = await apolloClient.query({ query, variables })
+  const result = await apolloClient.query({
+    query,
+    variables,
+  })
+  if (!result.data.getReport)
+    throw new Error(`❌ getFullReport: report not found`)
 
   const report = result.data.getReport
   return report
@@ -68,8 +96,19 @@ export async function getEmployeeReport(
 
   const result = await apolloClient.query({ query, variables })
 
+  if (!result.data.getReport)
+    throw new Error(`❌ getEmployeeReport: report not found`)
+
   const report = result.data.getReport
   return report
+}
+
+export async function getAssignedReviews(reviewerId: string, cycleId: string) {
+  const query = queries.GET_REVIEWS_TO_WRITE
+  const variables = { reviewerId, cycleId }
+  const result = await apolloClient.query({ query, variables })
+  const assignedReviews = result.data.getAssignedReviews
+  return assignedReviews
 }
 
 // *** cycles ***
@@ -77,6 +116,10 @@ export async function getCurrentCycle(): Promise<Cycle> {
   const query = queries.GET_CURRENT_CYCLE
 
   const result = await apolloClient.query({ query })
+
+  if (!result.data.getCurrentCycle)
+    throw new Error(`❌ getCurrentCycle: cycle not found`)
+
 
   const cycle = result.data.getCurrentCycle
   return cycle
