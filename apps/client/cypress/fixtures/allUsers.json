@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "user1_id",
+    "title": "Software Engineer",
+    "fullName": "Muto Otum",
+    "teamName": "Team 1"
+  },
+  {
+    "_id": "user2_id",
+    "title": "Software Engineer",
+    "fullName": "Craig Giarg",
+    "teamName": "Team 2"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "email":"valid@example.com",
+  "password":"321",
+  "getUserByEmail": {
+    "id": "123",
+    "fullName": "Indian Scout",
+    "email": "valid@example.com"
+}
+}

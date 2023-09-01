@@ -12,7 +12,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "types": ["cypress"]
   },
   "include": [
     "next-env.d.ts",
