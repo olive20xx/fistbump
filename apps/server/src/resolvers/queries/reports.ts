@@ -1,5 +1,8 @@
 import Report from '../../lib/mongoose/models/Report'
 import Cycle from '../../lib/mongoose/models/Cycle'
+import { ApolloContext } from '@/types'
+import { REPORT_STATUS } from '../../../../../packages/types/models'
+import User from '../../lib/mongoose/models/User'
 
 export async function resolveReport(
   _: any,
@@ -9,7 +12,8 @@ export async function resolveReport(
   }: {
     targetId: String
     cycleId: String
-  }
+  },
+  context: ApolloContext
 ) {
   // what if cycleId is undefined?
   if (!cycleId) {
@@ -18,13 +22,54 @@ export async function resolveReport(
     cycleId = cycle._id.toString()
   }
 
-  try {
-    const report = await Report.findOne({
-      '_id.targetId': targetId,
-      '_id.cycleId': cycleId,
-    })
-    return report
-  } catch (error) {
-    throw new Error('Error fetching report from the database')
+  const report = await Report.findOne({
+    '_id.targetId': targetId,
+    '_id.cycleId': cycleId,
+  })
+  const target = await User.findOne({ _id: targetId })
+  if (!report) throw new Error('No report found')
+
+  const isSelf = context.user?.id === targetId
+  const isManager =
+    context.user?.id === report.reviews.manager.reviewerId?.toString()
+  const isReviewer = report.reviews.peers.some(
+    (peer) => peer.reviewerId?.toString() === context.user?.id
+  )
+
+  if (!isSelf && !isManager && !isReviewer) throw new Error('Unauthorized')
+
+  const reportBase = {
+    _id: report._id,
+    status: report.status,
+  }
+  if (isManager) return report
+  if (isSelf) {
+    if (report.status === REPORT_STATUS.COMPLETE) {
+      return {
+        ...reportBase,
+        summary: report.summary,
+        reviews: {
+          manager: report.reviews.manager,
+          self: report.reviews.self,
+        },
+      }
+    } else {
+      return {
+        ...reportBase,
+        reviews: {
+          self: report.reviews.self,
+        },
+      }
+    }
+  }
+  if (isReviewer) {
+    return {
+      ...reportBase,
+      reviews: {
+        peers: report.reviews.peers.filter(
+          (peer) => peer.reviewerId?.toString() === context.user?.id
+        ),
+      },
+    }
   }
 }

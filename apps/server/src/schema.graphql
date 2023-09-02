@@ -92,6 +92,7 @@ type Report {
   summary: String
   status: String
   reviews: Reviews
+  target: User
 }
 
 type Reviews {

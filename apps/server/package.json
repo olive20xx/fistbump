@@ -7,7 +7,7 @@
     "generate": "graphql-codegen --config codegen.yml",
     "compile": "npm run generate && tsc",
     "start": "node .dist/apps/server/index.js",
-    "dev": "nodemon index.ts",
+    "dev": "nodemon index.ts & yarn run generate",
     "seed": "ts-node src/seed.ts"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "fs": "^0.0.1-security",
     "graphql": "^16.8.0",
     "graphql-scalars": "^1.22.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.4.3"
   },
   "mdSeed": {
@@ -33,6 +34,7 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@types/jsonwebtoken": "^9.0.2",
     "babel-eslint": "^10.1.0",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
