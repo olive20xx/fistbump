@@ -4,10 +4,10 @@ type Query {
   hello: String
   getUsers: [User]
   getUser(id: String): User
-  getReport(targetId: String!, cycleId: String!): Report
+  getUserByName(fullName: String): User
   getUserByEmail(email: String, password: String): User
+  getReport(targetId: String!, cycleId: String): Report
   getCurrentCycle: Cycle
-  getUserByName(fullName:String): User
   getAssignedReviews(cycleId: String, reviewerId: String): [Report]
 }
 
@@ -16,11 +16,15 @@ type Mutation {
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String!, input: ReportInput): Report
   updateAssignedReview(targetId: String!, input: ReviewInput!): Report
-  updatePeerReviewerId(targetId: String!, cycleId: String!, input: PeerUpdateInput!) : Report
+  updatePeerReviewerId(
+    targetId: String!
+    cycleId: String!
+    input: PeerUpdateInput!
+  ): Report
 }
 
 input UserInput {
-  email: String! 
+  email: String!
   fullName: String
   hashedPw: String
   title: String
