@@ -73,14 +73,14 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <div className="space-y-2">
+        <div className="space-y-4">
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="John Doe" {...field} />
+                  <Input placeholder="Full Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,7 +104,7 @@ const SignUpForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="mail@example.com" {...field} />
+                  <Input placeholder="Email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -116,11 +116,7 @@ const SignUpForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter your password"
-                    {...field}
-                  />
+                  <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,7 +129,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Re-Enter your password"
+                    placeholder="Re-Enter Password"
                     type="password"
                     {...field}
                   />
@@ -143,13 +139,13 @@ const SignUpForm = () => {
             )}
           />
         </div>
-        <Button className="mx-auto block w-1/3 mt-6" type="submit">
+        <Button className="mx-auto block w-full mt-14" type="submit">
           Sign up
         </Button>
       </form>
       <p className="text-center text-sm text-gray-600 mt-2">
-        If you have an account, please&nbsp;
-        <Link className="text-emerald-300 hover:underline" href="/">
+        Already have an account, please&nbsp;
+        <Link className="text-emerald-200 hover:underline" href="/">
           Log in
         </Link>
       </p>
