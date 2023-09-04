@@ -37,6 +37,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
       const filteredPeers = peers.filter((peer) => peer.reviewerId === null)
       setPeers(filteredPeers)
       console.log('nominations===>', peers)
+
     }
     nominations()
   }, [report.reviews.peers])
@@ -69,6 +70,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
               {value
                 ? value
                 : "Select a peer"}
+
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -84,6 +86,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
                       setPeerId(user._id)
                       setValue(value === user.fullName ? "" : value)
                       setOpen(false)
+
                     }}
                   >
                     {user.fullName}
@@ -91,6 +94,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
                       className={cn(
                         "ml-auto h-4 w-4",
                         currentValue === user.fullName ? "opacity-100" : "opacity-0"
+
                       )}
                     />
                   </CommandItem>
@@ -102,5 +106,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
         </Popover>
       </div>
 
+
     ))
+  )
 }
