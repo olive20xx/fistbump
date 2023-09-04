@@ -1,27 +1,28 @@
 'use client'
-
-import { Button } from '@/components/ui/button'
+import Wave from 'react-wavify'
 import '@/app/global.css'
-import Link from 'next/link'
 import SignInForm from '@/components/form/SignInForm'
 
 export default function Page() {
   return (
-    <div className="bg-backgroundlogin flex flex-col items-center h-screen gap-10 justify-center">
-      <div className="flex flex-col items-center w-[299px] h-[540px]">
+    <div className="border-neutral-50 justify-center bg-backgroundlogin h-screen flex flex-col items-center">
+      <div className="border-neutral-50 flex flex-col items-center w-[299px]">
         <h1 className="text-5xl text-white gap-4 mb-7">Log In</h1>
-        <p className="text-darkturqouise mb-8">Welcome back we missed you!</p>
+        <p className="text-darkturqouise mb-10">Welcome back we missed you!</p>
         <SignInForm />
       </div>
-
-      <div className="flex gap-5">
-        <Link href={'/dashboard'}>
-          <Button>Go to dashboard</Button>
-        </Link>
-        <Link href={'/managerpanel'}>
-          <Button>Go to managerpanel</Button>
-        </Link>
-      </div>
+      <Wave
+        className="opacity-30 absolute bottom-0"
+        fill="#03BCA7"
+        paused={false}
+        style={{ display: 'flex' }}
+        options={{
+          height: 20,
+          amplitude: 20,
+          speed: 0.25,
+          points: 3,
+        }}
+      />
     </div>
   )
 }
