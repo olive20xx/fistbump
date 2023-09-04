@@ -7,6 +7,7 @@ import { useState } from 'react'
 import Submitted from './Submitted'
 import Metric from '@/components/review/metric'
 import { Button } from '@/components/ui/button'
+import ErrorHandler from '../ErrorHandler'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -21,6 +22,7 @@ type MetricListProps = {
 function MetricList({ targetId, targetName, reviewData, isManagerReport = false }: MetricListProps) {
   const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
   const { submitted, grades, reviewerId } = reviewData
+  const [error, setError] = useState(null);
 
   const [state, setState] = useState(grades)
   const [isSubmitted, setIsSubmitted] = useState(submitted)
@@ -61,20 +63,29 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
 
   async function handleSubmit() {
     for (let i = 0; i < state.length; i++) {
-      const gradeData = state[i]
-      if (gradeData.rating === 0 || gradeData.comment === '') return
+      const gradeData = state[i];
+      if (gradeData.rating === 0 || gradeData.comment === '') {
+        setError({ message: 'Please fill out all ratings and comments.', code: 'Validation Error' });
+        return;
+      }
     }
-    variables.input.grades = state
-    variables.input.submitted = true
-    const result = await updateAssignedReview({ variables })
-    console.log('updated report ID', result)
-    setIsSubmitted(true)
+
+    try {
+      variables.input.grades = state;
+      variables.input.submitted = true;
+      const result = await updateAssignedReview({ variables });
+      console.log('updated report ID', result);
+      setIsSubmitted(true);
+    } catch (error) {
+      setError({ message: 'An error occurred while submitting the review.', code: 'Submission Error' });
+    }
   }
 
   return isSubmitted ? (
     <Submitted isManagerReport={isManagerReport} />
   ) : (
     <div className="p-4">
+      {error && <ErrorHandler error={error} onClose={() => setError(null)} />}
       {state.map((datum) => {
         return (
           <Metric
