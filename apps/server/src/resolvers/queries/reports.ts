@@ -56,10 +56,16 @@ export async function resolveReport(
         },
       }
     } else {
+      const peerIds = report.reviews.peers.map((peer) => {
+        return {
+          reviewerId: peer.reviewerId,
+        }
+      })
       return {
         ...reportBase,
         reviews: {
           self: report.reviews.self,
+          peers: peerIds,
         },
       }
     }
