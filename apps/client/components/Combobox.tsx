@@ -105,8 +105,5 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
           <Button disabled={peers.length === 0} onClick={handleNominatePeer}>Nominate</Button>
         </Popover>
       </div>
-
-
     ))
-  )
 }
