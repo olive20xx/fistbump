@@ -16,15 +16,14 @@ import Link from 'next/link'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
-import { useLazyQuery } from '@apollo/client'
+import { mutations } from '@/lib/graphql-queries'
+import { useLazyQuery, useMutation } from '@apollo/client'
+
 const FormSchema = z
   .object({
+    fullName: z.string().min(1, 'Name is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    fullName: z.string().min(3, 'Name is required').email('Invalid name'),
-    companyName: z
-      .string()
-      .min(3, 'Company Name is required')
-      .email('Invalid company name'),
+    companyName: z.string().min(1, 'Company Name is required').max(100),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -40,6 +39,8 @@ const FormSchema = z
 const SignUpForm = () => {
   const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL)
 
+  const [createUser] = useMutation(mutations.CREATE_USER)
+
   const { push } = useRouter()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -53,18 +54,22 @@ const SignUpForm = () => {
   })
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    const email = values.email
-    const password = values.password
-    const variables = { email, password }
+    const variables = {
+      input: {
+        email: values.email,
+        hashedPw: values.password,
+        fullName: values.fullName,
+        companyName: values.companyName,
+      },
+    }
 
-    const {
-      data: { getUserByEmail },
-    } = await getUser({ variables })
-
-    if (getUserByEmail.fullName) {
-      console.warn('WELCOME', getUserByEmail.fullName)
-      setCookie('user', getUserByEmail.fullName)
+    try {
+      const response = await createUser({ variables })
+      console.log(response)
+      setCookie('user', variables.input.fullName)
       push('/dashboard')
+    } catch (error) {
+      console.error('Error creating user:', error.message)
     }
   }
 
