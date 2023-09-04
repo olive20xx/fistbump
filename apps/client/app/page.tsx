@@ -12,7 +12,7 @@ export default function Page() {
         WELCOME TO 360 REVIEW{' '}
       </h2>
       <div className="w-[550px] mx-auto p-20 border-slate-200 border-2 rounded-xl shadow-lg">
-        <SignInForm></SignInForm>
+        <SignInForm />
       </div>
       <div className="flex gap-10">
         <Link href={'/dashboard'}>
