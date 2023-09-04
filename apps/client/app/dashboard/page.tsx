@@ -5,8 +5,9 @@ import { cookies } from 'next/headers'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
 import Targets from '@/components/table/Targets'
-import { getAllUsers, getCurrentCycle, getAssignedReviews, getUserById } from '@/lib/get-data-api'
+import { getAllUsers, getCurrentCycle, getAssignedReviews, getUserById, getFullReport } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
+import { queries } from '@/lib/graphql-queries'
 
 
 export const revalidate = 0
@@ -70,7 +71,7 @@ export default async function Dashboard() {
             cycleId={cycleId}
           />
         ))}
-        <NominationBox users={users} loggedUserId={loggedUserId} cycleId={cycleId}></NominationBox>
+        <NominationBox users={users} loggedUserId={loggedUserId} report={report} cycleId={cycleId}></NominationBox>
       </div>
     </div >
   )
