@@ -2,6 +2,7 @@
 
 import '@/app/global.css'
 import SignUpForm from '@/components/form/SignUpForm'
+import Wave from 'react-wavify'
 
 export default function SignUp() {
   return (
@@ -11,6 +12,18 @@ export default function SignUp() {
         <p className="text-darkturqouise mb-8">Welcome to Fist-Bump!</p>
         <SignUpForm />
       </div>
+      <Wave
+        className="opacity-30 absolute bottom-0"
+        fill="#03BCA7"
+        paused={false}
+        style={{ display: 'flex' }}
+        options={{
+          height: 20,
+          amplitude: 20,
+          speed: 0.25,
+          points: 3,
+        }}
+      />
     </div>
   )
 }
