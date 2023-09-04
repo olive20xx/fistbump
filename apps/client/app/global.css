@@ -4,6 +4,15 @@
  
 @layer base {
   :root {
+    /* custom FistBump palette */
+    --light-yellow: 46 100% 88%;
+    --dark-yellow: 46 98% 56%;
+
+    --light-green: 173 66% 91%;
+    --dark-green: 173 96% 33%;
+
+
+    /* shadcn defaults */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
