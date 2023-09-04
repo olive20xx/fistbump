@@ -1,7 +1,9 @@
 'use client'
-import SignInForm from '@/components/form/SingInForm'
 
-export default function Login() {
+import '@/app/global.css'
+import SignUpForm from '@/components/form/SingUpForm'
+
+export default function SignUp() {
   return (
     <div className="mt-32 flex flex-col h-screen">
       <div className="w-[550px] mx-auto p-20 border-slate-200 border-2 rounded-xl shadow-lg">
@@ -12,7 +14,7 @@ export default function Login() {
           🤜💥🤛 Fistbump
         </h1>
 
-        <SignInForm></SignInForm>
+        <SignUpForm></SignUpForm>
       </div>
     </div>
   )
