@@ -5,11 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center rounded-[30px] font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        //TODO hover colors need work
+        light: "bg-green-light text-green-dark hover:brightness-95",
+        heavy: "bg-green-dark text-white hover:bg-green-dark/80",
+        write: "bg-black text-primary-foreground hover:bg-primary/90",
+        draft: "bg-yellow-light text-yellow-dark hover:bg-yellow-dark/40",
+
+        // ⬇️ included for backwards compatibility, don't use these for anything new
         destructive:
           "bg-green-600 text-destructive-foreground hover:bg-green-800",
         outline:
@@ -20,14 +26,17 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "text-[10px]  w-[96px] h-[36px]",
+        tall: "   text-[10px]  w-[96px] h-[36px]",
+        big: "    text-[13px] w-[112px] h-[32px] drop-shadow-lg",
+        // ⬇️ included for backwards compability, don't use these for anything new
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "light",
       size: "default",
     },
   }
