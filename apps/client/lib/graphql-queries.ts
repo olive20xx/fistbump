@@ -11,7 +11,7 @@ export const queries = {
   }`),
 
   GET_FULL_REPORT:
-    gql(` query getFullReport($targetId: String!, $cycleId: String!) {
+    gql(` query getFullReport($targetId: String!, $cycleId: String) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
       _id {
         targetId

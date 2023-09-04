@@ -38,6 +38,14 @@ export default async function Dashboard() {
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
 
 
+  const reportVars = {
+    targetId: id.value,
+  }
+
+  const report = await getFullReport(reportVars.targetId)
+
+
+
   const users = await getAllUsers()
   return (
     <div className="bg-slate-200 h-screen">

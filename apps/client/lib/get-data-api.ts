@@ -65,7 +65,7 @@ export async function getUserByName(fullName: string): Promise<string> {
 // *** reports ***
 export async function getFullReport(
   targetId: string,
-  cycleId: string
+  cycleId?: string
 ): Promise<Report> {
   //! Clearing the entire cache until we figure out how to work better with cache
   await apolloClient.clearStore()
