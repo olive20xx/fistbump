@@ -22,6 +22,10 @@ const authLink = setContext((_, { headers }) => {
 
   if (typeof window !== undefined) {
     const cookieStore = cookies()
+    const storedToken = cookieStore.get('token')
+    if (!storedToken) {
+      return
+    }
     token = cookieStore.get('token').value
   }
   // return the headers to the context so httpLink can read them
