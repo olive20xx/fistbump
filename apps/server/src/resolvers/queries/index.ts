@@ -43,6 +43,9 @@ const queries: QueryResolvers = {
         })
 
         const id = user?._id
+        if (!id) {
+          throw new Error('User not found')
+        }
 
         const token = jwt.sign({ id, email }, JWT_SECRET, {
           expiresIn: '1h',
