@@ -83,10 +83,10 @@ export const queries = {
     }
   }`),
 
-  GET_USER_BY_EMAIL:
-    gql(`query getUserByEmail($email: String!, $password: String!) {
-    getUserByEmail(email: $email, password: $password) {
-      fullName
+  LOGIN: gql(`query login($email: String!, $password: String!) {
+      login(email: $email, password: $password) {
+        token
+        id
     }
   }`),
 

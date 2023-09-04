@@ -29,17 +29,17 @@ export async function getUserById(id: string): Promise<User> {
   return user
 }
 
-export async function getUserByEmail(email: string): Promise<string> {
-  const query = queries.GET_USER_BY_EMAIL
-  const variables = { email }
+export async function login(email: string, password: string): Promise<object> {
+  const query = queries.LOGIN
+  const variables = { email, password }
 
   const result = await apolloClient.query({ query, variables })
 
-  if (!result.data.getUserByEmail)
-    throw new Error(`❌ getUserByEmail: user not found, email ${email}`)
+  if (!result.data.login)
+    throw new Error(`❌ Login: wrong credentials, email ${email}`)
 
-  const fullName = result.data.getUserByEmail.fullName
-  return fullName
+  const response = result.data.login
+  return response
 }
 
 export async function getUserFullName(id: string): Promise<string> {
