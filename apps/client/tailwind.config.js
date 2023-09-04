@@ -17,6 +17,10 @@ module.exports = {
     },
     extend: {
       colors: {
+        gray: {
+          light: 'hsl(var(--light-gray))',
+          lighter: 'hsl(var(--lighter-gray))',
+        },
         yellow: {
           light: 'hsl(var(--light-yellow))',
           dark: 'hsl(var(--dark-yellow))',
@@ -24,6 +28,7 @@ module.exports = {
         green: {
           light: 'hsl(var(--light-green))',
           dark: 'hsl(var(--dark-green))',
+          darker: 'hsl(var(--darker-green))',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
