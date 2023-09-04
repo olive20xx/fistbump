@@ -6,6 +6,8 @@ import { Header2 } from '@/components/typography/header2'
 import MetricList from '@/components/review/MetricList'
 import { ReportData, ReviewData, UserData } from '@/types/models'
 import { getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
+import { cookies } from 'next/headers'
+
 
 // regular variables
 const panelPadding = 'p-4'
@@ -13,8 +15,12 @@ const panelPadding = 'p-4'
 export default async function Review({ params }: { params: any }) {
   const targetId = params.id
 
-  //! Hard coded self-review until this is merged, and we can get loggedUserId from cookies
-  const reviewerId = targetId // change this to getUserIdFromCookie() (pseudocode)
+
+  const cookieStore = cookies()
+  const id = cookieStore.get('userId')
+
+
+  const reviewerId = id.value
 
   const cycle = await getCurrentCycle()
   const cycleId = cycle._id
@@ -22,10 +28,12 @@ export default async function Review({ params }: { params: any }) {
   const targetUser = await getUserById(targetId) as UserData
   const targetName = targetUser.fullName
 
-  const fullReport = await getFullReport(targetId, cycleId) as ReportData
+  const fullReport = await getFullReport(targetId) as ReportData
 
 
-  const review = findReviewByReviewerId(fullReport, reviewerId)
+  let review: ReviewData | undefined
+  review = fullReport.reviews.peers[0]
+
 
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">
@@ -47,19 +55,3 @@ export default async function Review({ params }: { params: any }) {
   )
 }
 
-function findReviewByReviewerId(report: ReportData, reviewerId: string): ReviewData {
-  const { reviews } = report
-  let review: ReviewData | undefined
-
-  if (reviews.manager.reviewerId?.toString() === reviewerId) {
-    review = reviews.manager
-  } else if (reviews.self.reviewerId?.toString() === reviewerId) {
-    review = reviews.self
-  } else {
-    review = reviews.peers.find(
-      (r) => r.reviewerId?.toString() === reviewerId
-    )
-  }
-
-  return review
-}

@@ -1,10 +1,10 @@
-import { QueryResolvers } from '../__generated__/resolvers-types'
-import Report from '../lib/mongoose/models/Report'
-import User from '../lib/mongoose/models/User'
-import Cycle from '../lib/mongoose/models/Cycle'
-import mongoose from 'mongoose'
-import { report } from 'process'
-const ObjectId = mongoose.Types.ObjectId
+import { QueryResolvers } from '@/__generated__/resolvers-types'
+import Cycle from '../../lib/mongoose/models/Cycle'
+import Report from '../../lib/mongoose/models/Report'
+import User from '../../lib/mongoose/models/User'
+import { resolveReport } from './reports'
+import jwt from 'jsonwebtoken'
+import { JWT_SECRET } from '../../lib/constants'
 const queries: QueryResolvers = {
   Query: {
     hello: () => {
@@ -26,7 +26,7 @@ const queries: QueryResolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    getUserByEmail: async (
+    login: async (
       _: any,
       {
         email,
@@ -41,43 +41,23 @@ const queries: QueryResolvers = {
           email,
           hashedPw: password,
         })
-        return user
+
+        const id = user?._id
+        if (!id) {
+          throw new Error('User not found')
+        }
+
+        const token = jwt.sign({ id, email }, JWT_SECRET, {
+          expiresIn: '1h',
+        })
+        return { token, id }
       } catch (error) {
         throw new Error('Error fetching users from the database')
       }
     },
-    getReport: async (
-      _: any,
-      {
-        targetId,
-        cycleId,
-      }: {
-        targetId: String
-        cycleId: String
-      }
-    ) => {
-      try {
-        const report = await Report.findOne({
-          '_id.targetId': targetId,
-          '_id.cycleId': cycleId,
-        })
-        return report
-      } catch (error) {
-        throw new Error('Error fetching report from the database')
-      }
-    },
+    getReport: resolveReport,
     getCurrentCycle: async (_: any) => {
-      try {
-        const now = new Date()
-
-        const cycle = await Cycle.findOne({
-          startDate: { $lte: now },
-          endDate: { $gte: now },
-        })
-        return cycle
-      } catch (error) {
-        throw new Error('Error fetching report from the database')
-      }
+      return await Cycle.getCurrentCycle()
     },
     getUserByName: async (_: any, { fullName }: { fullName: string }) => {
       try {

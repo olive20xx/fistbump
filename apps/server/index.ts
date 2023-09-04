@@ -3,10 +3,13 @@ import mongoose from 'mongoose'
 import { MONGODB_URL } from './src/lib/constants'
 import router from './src/router'
 import cors from 'cors'
-import { ApolloServer } from '@apollo/server'
+import { ApolloConfig, ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
 import resolvers from './src/resolvers'
 import { readFileSync } from 'fs'
+import jwtMiddleware from './src/lib/middlewares/jwt'
+import { ApolloContext } from './src/types'
+import { IncomingMessage } from 'http'
 
 const typeDefs = readFileSync('./src/schema.graphql', 'utf-8')
 
@@ -19,9 +22,9 @@ app.use(router)
 mongoose.connect(MONGODB_URL)
 const db = mongoose.connection
 
-const apolloServer = new ApolloServer({
+const apolloServer = new ApolloServer<ApolloContext>({
   typeDefs,
-  resolvers
+  resolvers,
 })
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
@@ -35,11 +38,12 @@ const server = app.listen(8080, () => {
 
   console.log('360 review server is listening on port 8080! 🤜🤛')
 })
-startStandaloneServer(apolloServer, { listen: { port: 4000 } }).then(
-  ({ url }) => {
-    console.log('🚀 Server ready at', url)
-  }
-)
+startStandaloneServer(apolloServer, {
+  listen: { port: 4000 },
+  context: jwtMiddleware,
+}).then(({ url }) => {
+  console.log('🚀 Server ready at', url)
+})
 
 function shutdown() {
   console.log('for craig hello')

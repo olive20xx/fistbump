@@ -21,80 +21,56 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
-export default function NominationBox({ users, loggedUserId, cycleId }) {
-  const [open, setOpen] = React.useState('')
+export default function NominationBox({ users, loggedUserId, cycleId, report }) {
+  const [open, setOpen] = React.useState(false)
   const [currentValue, setCurrentValue] = React.useState('')
-
-  const [popoverStates, setPopoverStates] = React.useState([])
+  const [value, setValue] = React.useState('')
   const [peerId, setPeerId] = React.useState(null)
   const [peers, setPeers] = React.useState(null)
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-  const [getNominations] = useLazyQuery(queries.GET_PEER_REVIEWS)
-  console.log(popoverStates)
+  const [getNominationData] = useLazyQuery(queries.GET_PEER_REVIEWS)
+
 
   React.useEffect(() => {
     async function nominations() {
-      const response = await getNominations({
-        variables: { targetId: loggedUserId, cycleId },
-      })
+      const peers = report.reviews.peers
+      const filteredPeers = peers.filter((peer) => peer.reviewerId === null)
+      setPeers(filteredPeers)
+      console.log('nominations===>', peers)
 
-      const peers = response?.data?.getReport?.reviews?.peers
-
-      if (peers && peers.length > 0) {
-        console.log('nominations===>', peers)
-        setPeers(peers)
-        setPopoverStates(peers.map(() => ({ value: '', disabled: false })))
-      } else {
-        setPeers(null)
-      }
     }
     nominations()
-  }, [])
+  }, [report.reviews.peers])
 
-  async function handleNominatePeer(index) {
+
+  async function handleNominatePeer() {
     const mutationVars = {
       targetId: loggedUserId,
       cycleId: cycleId,
       input: { newReviewerId: peerId },
     }
-    const {
-      data: {
-        updatePeerReviewerId: {
-          reviews: { peers },
-        },
-      },
-    } = await updatePeerReviews({ variables: mutationVars })
-    console.log('reviewerId is changing===>', peers)
-    const updatedPopoverStates = [...popoverStates]
-    updatedPopoverStates[index] = {
-      ...updatedPopoverStates[index],
-      disabled: true,
-    }
-    setPopoverStates(updatedPopoverStates)
+    const { data: { updatePeerReviewerId: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
+    const filteredPeers = peers.filter((peer) => peer.reviewerId === null)
+    setPeers(filteredPeers)
   }
 
-  return !peers ? (
-    <p>Loading</p>
-  ) : (
-    peers?.map((peer, index) => (
-      <div className="pt-12" key={peer._id}>
-        <Popover
-          open={open === peer._id}
-          onOpenChange={() => setOpen(peer._id)}
-        >
+  return (
+    (!peers ? <p>Loading</p> :
+
+      <div className="pt-12" >
+        <Popover open={open} onOpenChange={() => setOpen(!open)} >
           <PopoverTrigger asChild>
             <Button
-              disabled={
-                peer.reviewerId !== null || popoverStates[index].disabled
-              }
+              disabled={peers.length === 0}
               variant="outline"
               role="combobox"
-              aria-expanded={open === peer._id}
+              aria-expanded={open}
               className="w-[200px] justify-between"
             >
-              {popoverStates[index].value
-                ? popoverStates[index].value
-                : 'Select a peer'}
+              {value
+                ? value
+                : "Select a peer"}
+
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -108,19 +84,17 @@ export default function NominationBox({ users, loggedUserId, cycleId }) {
                     key={user._id}
                     onSelect={(value) => {
                       setPeerId(user._id)
-                      const updatedStates = [...popoverStates]
-                      updatedStates[index].value =
-                        value === user.fullName ? '' : value
-                      setOpen('')
+                      setValue(value === user.fullName ? "" : value)
+                      setOpen(false)
+
                     }}
                   >
                     {user.fullName}
                     <CheckIcon
                       className={cn(
-                        'ml-auto h-4 w-4',
-                        currentValue === user.fullName
-                          ? 'opacity-100'
-                          : 'opacity-0'
+                        "ml-auto h-4 w-4",
+                        currentValue === user.fullName ? "opacity-100" : "opacity-0"
+
                       )}
                     />
                   </CommandItem>
@@ -128,14 +102,8 @@ export default function NominationBox({ users, loggedUserId, cycleId }) {
               </CommandGroup>
             </Command>
           </PopoverContent>
-          <Button
-            disabled={peer.reviewerId !== null || popoverStates[index].disabled}
-            onClick={() => handleNominatePeer(index)}
-          >
-            Nominate
-          </Button>
+          <Button disabled={peers.length === 0} onClick={handleNominatePeer}>Nominate</Button>
         </Popover>
       </div>
     ))
-  )
 }
