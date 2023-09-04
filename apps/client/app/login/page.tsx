@@ -62,7 +62,7 @@ const SignInForm = () => {
     const login = data.data.login
     if (login.token && login.id) {
       setCookie('token', login.token)
-      setCookie('user', login.id)
+      setCookie('userId', login.id)
     }
 
     push('/dashboard')
