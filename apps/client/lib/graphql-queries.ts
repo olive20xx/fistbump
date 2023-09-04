@@ -232,4 +232,18 @@ export const mutations = {
         }
     }
   }`),
+  CREATE_USER: gql(`
+    mutation createUser($input: UserInput!){
+      createUser(input: $input){
+          email
+          fullName
+          hashedPw 
+          title 
+          isAdmin 
+          photo 
+          teamName 
+          companyName 
+      }
+    }
+  `),
 }

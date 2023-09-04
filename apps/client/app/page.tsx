@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import '@/app/global.css'
 import Link from 'next/link'
-import SignInForm from '@/components/form/SingInForm'
+import SignInForm from '@/components/form/SignInForm'
 
 export default function Page() {
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import '@/app/global.css'
-import SignUpForm from '@/components/form/SingUpForm'
+import SignUpForm from '@/components/form/SignUpForm'
 
 export default function SignUp() {
   return (
