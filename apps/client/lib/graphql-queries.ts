@@ -85,8 +85,8 @@ export const queries = {
 
   LOGIN: gql(`query login($email: String!, $password: String!) {
       login(email: $email, password: $password) {
-        token
         id
+        token
     }
   }`),
 
