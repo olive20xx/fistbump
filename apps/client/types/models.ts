@@ -9,6 +9,7 @@ type ReviewData = {
   submitted: boolean
   reviewerId: string
   grades: GradeData[]
+  isDeclined: boolean
 }
 
 type ReviewsData = {
