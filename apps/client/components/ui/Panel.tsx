@@ -8,7 +8,7 @@ const panelVariants = cva(
   {
     variants: {
       size: {
-        horizontal: '',
+        horizontal: 'min-w-[400px]',
         vertical: 'w-[416px]',
         page: 'w-[863px]',
       },
@@ -38,5 +38,43 @@ const Panel = React.forwardRef<
 })
 // This is for debugging. It's also required when you create a component using 'forwardRef()'
 Panel.displayName = 'Panel'
+
+const headerVariants = cva('',
+  {
+    variants: {
+      variant: {
+        white: 'bg-white ',
+        grey: '',
+        highlight: 'w-[863px]',
+      },
+    },
+    defaultVariants: {
+      variant: 'grey',
+    },
+  }
+)
+
+// ============ HEADER ============
+
+export interface PanelHeaderProps extends
+  React.HTMLAttributes<HTMLDivElement>,
+  VariantProps<typeof headerVariants> { }
+
+// forwardRef<ElementType, PropsType>()
+const PanelHeader = React.forwardRef<
+  HTMLDivElement,
+  PanelHeaderProps
+>(({ className, variant, ...props }, ref) => {
+  return (
+    <div
+      className={cn(headerVariants({ variant, className }))}
+      ref={ref}
+      {...props}
+    />
+  )
+})
+PanelHeader.displayName = 'PanelHeader'
+
+
 
 export default Panel
