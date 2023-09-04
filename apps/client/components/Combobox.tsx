@@ -1,23 +1,23 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from 'react'
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { mutations, queries } from "@/lib/graphql-queries"
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
+} from '@/components/ui/popover'
+import { mutations, queries } from '@/lib/graphql-queries'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -46,8 +46,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }) 
     const mutationVars = {
       targetId: loggedUserId,
       cycleId: cycleId,
-      input:
-        { newReviewerId: peerId }
+      input: { newReviewerId: peerId },
     }
     const { data: { updatePeerReviewerId: { reviews: { peers } } } } = await updatePeerReviews({ variables: mutationVars })
     const filteredPeers = peers.filter((peer) => peer.reviewerId === null)
