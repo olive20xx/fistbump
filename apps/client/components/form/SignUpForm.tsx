@@ -15,15 +15,14 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
-import { queries } from '@/lib/graphql-queries'
 import { mutations } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 
 const FormSchema = z
   .object({
     fullName: z.string().min(1, 'Name is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    companyName: z.string().min(1, 'Company Name is required').max(100),
+    companyName: z.string().min(0, 'Company Name is required').max(100),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -37,8 +36,6 @@ const FormSchema = z
   })
 
 const SignUpForm = () => {
-  const [getUser] = useLazyQuery(queries.GET_USER_BY_EMAIL)
-
   const [createUser] = useMutation(mutations.CREATE_USER)
 
   const { push } = useRouter()
@@ -59,7 +56,7 @@ const SignUpForm = () => {
         email: values.email,
         hashedPw: values.password,
         fullName: values.fullName,
-        companyName: values.companyName,
+        companyName: 'Arol.Dev',
       },
     }
 
@@ -97,7 +94,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Arol Dev" {...field} />
+                  <Input disabled placeholder="Arol Dev" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
