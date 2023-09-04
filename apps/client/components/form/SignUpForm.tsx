@@ -79,7 +79,6 @@ const SignUpForm = () => {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
                 <FormControl>
                   <Input placeholder="John Doe" {...field} />
                 </FormControl>
@@ -92,7 +91,6 @@ const SignUpForm = () => {
             name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Name</FormLabel>
                 <FormControl>
                   <Input disabled placeholder="Arol Dev" {...field} />
                 </FormControl>
@@ -105,7 +103,6 @@ const SignUpForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="mail@example.com" {...field} />
                 </FormControl>
@@ -118,7 +115,6 @@ const SignUpForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -135,7 +131,6 @@ const SignUpForm = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Re-Enter your password</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Re-Enter your password"
@@ -152,12 +147,9 @@ const SignUpForm = () => {
           Sign up
         </Button>
       </form>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
       <p className="text-center text-sm text-gray-600 mt-2">
         If you have an account, please&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/">
+        <Link className="text-emerald-300 hover:underline" href="/">
           Log in
         </Link>
       </p>
