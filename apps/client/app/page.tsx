@@ -14,7 +14,7 @@ export default function Page() {
         <SignInForm />
       </div>
 
-      <div className="flex gap-10">
+      <div className="flex gap-5">
         <Link href={'/dashboard'}>
           <Button>Go to dashboard</Button>
         </Link>
