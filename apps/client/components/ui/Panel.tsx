@@ -3,8 +3,9 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
+// 'overflow-hidden' makes the children respect the 'rounded' property
 const panelVariants = cva(
-  'rounded-md shadow-md h-full',
+  'rounded-md shadow-md h-full bg-white overflow-hidden',
   {
     variants: {
       size: {
@@ -39,17 +40,17 @@ const Panel = React.forwardRef<
 // This is for debugging. It's also required when you create a component using 'forwardRef()'
 Panel.displayName = 'Panel'
 
-const headerVariants = cva('',
+const headerVariants = cva('py-[15px] px-[20px]',
   {
     variants: {
       variant: {
-        white: 'bg-white ',
-        grey: '',
-        highlight: 'w-[863px]',
+        white: 'bg-white text-green-dark border-b-gray-light border-b-2',
+        gray: 'bg-gray-light text-green-darker',
+        highlight: 'bg-green-dark text-white',
       },
     },
     defaultVariants: {
-      variant: 'grey',
+      variant: 'gray',
     },
   }
 )
@@ -76,5 +77,37 @@ const PanelHeader = React.forwardRef<
 PanelHeader.displayName = 'PanelHeader'
 
 
+const PanelTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h2
+    ref={ref}
+    className={cn(
+      'font-bold text-[20px] leading-none',
+      className
+    )}
+    {...props}
+  />
+))
+PanelTitle.displayName = 'PanelTitle'
 
-export default Panel
+
+const PanelContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <h2
+    ref={ref}
+    className={cn(
+      'bg-white',
+      className
+    )}
+    {...props}
+  />
+))
+PanelContent.displayName = 'PanelContent'
+
+
+
+export { Panel, PanelHeader, PanelTitle, PanelContent }
