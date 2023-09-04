@@ -5,7 +5,7 @@ type Query {
   getUsers: [User]
   getUser(id: String): User
   getUserByName(fullName: String): User
-  getUserByEmail(email: String, password: String): User
+  login(email: String, password: String): Token
   getReport(targetId: String!, cycleId: String): Report
   getCurrentCycle: Cycle
   getAssignedReviews(cycleId: String, reviewerId: String): [Report]
@@ -21,6 +21,11 @@ type Mutation {
     cycleId: String!
     input: PeerUpdateInput!
   ): Report
+}
+
+type Token {
+  token: String
+  id: String
 }
 
 input UserInput {

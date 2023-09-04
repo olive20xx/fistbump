@@ -3,7 +3,8 @@ import Cycle from '../../lib/mongoose/models/Cycle'
 import Report from '../../lib/mongoose/models/Report'
 import User from '../../lib/mongoose/models/User'
 import { resolveReport } from './reports'
-
+import jwt from 'jsonwebtoken'
+import { JWT_SECRET } from '../../lib/constants'
 const queries: QueryResolvers = {
   Query: {
     hello: () => {
@@ -25,7 +26,7 @@ const queries: QueryResolvers = {
         throw new Error('Error fetching users from the database')
       }
     },
-    getUserByEmail: async (
+    login: async (
       _: any,
       {
         email,
@@ -40,7 +41,13 @@ const queries: QueryResolvers = {
           email,
           hashedPw: password,
         })
-        return user
+
+        const id = user?._id
+
+        const token = jwt.sign({ id, email }, JWT_SECRET, {
+          expiresIn: '1h',
+        })
+        return { token, id }
       } catch (error) {
         throw new Error('Error fetching users from the database')
       }
