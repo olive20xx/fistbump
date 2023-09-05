@@ -54,8 +54,6 @@ async function seedArolDevData() {
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
 
-    users.forEach((user) => (user._id = generateMongoId()))
-
     const arol = users.find((user) => {
       return user.title === 'CTO'
     })
