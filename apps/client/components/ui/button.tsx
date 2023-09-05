@@ -14,6 +14,7 @@ const buttonVariants = cva(
         heavy: "bg-green-dark text-white hover:bg-green-dark/80",
         write: "bg-black text-primary-foreground hover:bg-primary/90",
         draft: "bg-yellow-light text-yellow-dark hover:bg-yellow-dark/40",
+        gray: "bg-gray-light text-gray",
 
         // ⬇️ included for backwards compatibility, don't use these for anything new
         destructive:
@@ -29,6 +30,7 @@ const buttonVariants = cva(
         default: "text-[10px]  w-[96px] h-[36px]",
         tall: "   text-[10px]  w-[96px] h-[36px]",
         big: "    text-[13px] w-[112px] h-[32px] drop-shadow-lg",
+        metric: " text-[14px]  w-[30px] h-[30px] rounded-md shadow-sm",
         // ⬇️ included for backwards compability, don't use these for anything new
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
