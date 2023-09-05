@@ -8,10 +8,10 @@ function DashboardTop({ firstName, lastName, title, photo }) {
       </h1>
       <div className="flex col-span-2 justify-around">
         <div className="">
-          <h2 className="text-3xl text-green-mediumgreen font-extrabold">
+          <h2 className="text-3xl text-darkturqouise font-extrabold">
             Hello {firstName}
           </h2>
-          <h2 className="text-3xl text-green-mediumgreen font-extrabold">
+          <h2 className="text-3xl text-darkturqouise font-extrabold">
             {lastName}
           </h2>
           <p className="text-sm text-gray-300">{title}</p>

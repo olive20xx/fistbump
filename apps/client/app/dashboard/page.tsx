@@ -1,7 +1,7 @@
 import '@/app/global.css'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { cookies } from 'next/headers'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
 import Targets from '@/components/table/Targets'
@@ -13,8 +13,8 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import Photo from '@/components/ui/photo'
 import DashboardTop from '@/components/ui/DashboardTop'
+import DashboardPanel from '@/components/ui/DashboardPanel'
 
 export const revalidate = 0
 
@@ -55,10 +55,7 @@ export default async function Dashboard() {
         title={user.title}
         photo={user.photo}
       />
-      <div className="mt-10 grid grid-cols-3 border-2 max-w-screen lg:h-[34rem] max-xl:h-[42rem]">
-        <div className="col-span-2 h-full border-2 max-w-screen"></div>
-        <div className="col-span-1 border-2 h-full max-w-screen"></div>
-      </div>
+      <DashboardPanel />
     </div>
   )
 }
