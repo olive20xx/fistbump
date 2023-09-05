@@ -35,7 +35,6 @@ export default async function Dashboard() {
 
   let loggedUserFirstName = user.fullName.split(' ')[0]
   let loggedUserLastName = user.fullName.split(' ')[1]
-  let loggedUser = true
   let loggedUserId = id.value
 
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
@@ -49,38 +48,29 @@ export default async function Dashboard() {
   const users = await getAllUsers()
   return (
     <div className="bg-neutral-100 p-20 h-screen">
+      <div className="absolute top-0 flex gap-10">
+        <Button onClick={handleLogout}> Log out</Button>
+        <Link href={'/'}>
+          <Button>Log in</Button>
+        </Link>
+        <NominationBox
+          users={users}
+          loggedUserId={loggedUserId}
+          report={report}
+          cycleId={cycleId}
+        ></NominationBox>
+      </div>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
         title={user.title}
         photo={user.photo}
       />
-      <DashboardPanel />
+      <DashboardPanel
+        assignedReviews={assignedReviews}
+        cycleId={cycleId}
+        loggedUserFirstName={loggedUserFirstName}
+      />
     </div>
   )
 }
-
-/*
-?that was in the div box
-        {users.map((user) => (
-          <Targets
-            assignedReviews={assignedReviews}
-            key={user.fullName}
-            loggedUser={loggedUserFirstName}
-            user={user}
-            cycleId={cycleId}
-          />
-        ))}
-?LOG IN LOG OUT
-      <Button onClick={handleLogout}> Log out</Button>
-      <Link href={'/'}>
-        <Button>Log in</Button>
-      </Link>
-?NOMINATIONBOX
-      <NominationBox
-        users={users}
-        loggedUserId={loggedUserId}
-        report={report}
-        cycleId={cycleId}
-      ></NominationBox>
-*/
