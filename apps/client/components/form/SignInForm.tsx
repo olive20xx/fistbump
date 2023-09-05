@@ -22,6 +22,7 @@ import { useLazyQuery } from '@apollo/client'
 import ErrorHandler from '../ErrorHandler'
 import { useEffect, useState } from 'react'
 
+ 
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -33,9 +34,11 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
+
   const [errorMessage, setErrorMessage] = useState(null)
 
   const [loginUser] = useLazyQuery(queries.LOGIN, { fetchPolicy: "no-cache", })
+
 
   const { push } = useRouter()
 
@@ -81,6 +84,7 @@ const SignInForm = () => {
       }
 
       push('/dashboard')
+
     }
     catch (error) {
       console.error('An unexpected error occurred:', error);
@@ -132,6 +136,7 @@ const SignInForm = () => {
       <p className="text-center text-sm text-gray-600 mt-2">
         If you don&apos;t have an account, please&nbsp;
         <Link className="text-blue-500 hover:underline" href="/signup">
+
           Sign up
         </Link>
       </p>

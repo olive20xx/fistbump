@@ -7,7 +7,7 @@ module.exports = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}'
   ],
   theme: {
     container: {
@@ -23,6 +23,7 @@ module.exports = {
       },
       colors: {
         gray: {
+          DEFAULT: 'hsl(var(--normal-gray))',
           light: 'hsl(var(--light-gray))',
           lighter: 'hsl(var(--lighter-gray))',
         },
