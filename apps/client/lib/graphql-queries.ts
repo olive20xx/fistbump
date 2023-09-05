@@ -7,6 +7,7 @@ export const queries = {
       fullName
       title
       teamName
+      email
     }
   }`),
 
