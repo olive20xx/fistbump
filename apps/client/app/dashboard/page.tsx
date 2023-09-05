@@ -16,7 +16,6 @@ import { redirect } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
 
 export const revalidate = 0
-export const fetchCache = 'force-no-cache'
 
 export default async function Dashboard() {
   const cookieStore = cookies()

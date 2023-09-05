@@ -7,7 +7,6 @@ import MetricList from '../../../../components/review/MetricList'
 import { Header2 } from '@/components/typography/header2'
 
 export const revalidate = 0
-export const fetchCache = 'force-no-cache'
 
 async function ReportPage({ params }) {
   const targetId = params.id

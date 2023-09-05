@@ -5,6 +5,9 @@ import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 import { modelTypes } from '@/fistbump-types'
+
+export const dynamic = 'force-dynamic'
+
 function UserItem({ user, cycleId }) {
   return (
     <div className="grid grid-cols-8 gap-4 border-b p-2 bg-white items-center">

@@ -8,7 +8,7 @@ export default function Targets({ loggedUser, user, cycleId, assignedReviews }) 
     <div className="bg-white">
       {assignedReviews.map((review, index) => (
         review._id.targetId === user._id && (
-          <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">
+          <div key={index} className="grid grid-cols-8 gap-4 border-b p-2 items-center">
             <p className="font-semibold col-span-2">{user.title}</p>
             <p className="col-span-2">{user.fullName}</p>
             <p className="col-span-2">{user.teamName}</p>
