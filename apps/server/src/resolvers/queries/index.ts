@@ -3,21 +3,17 @@ import Cycle from '../../lib/mongoose/models/Cycle'
 import Report from '../../lib/mongoose/models/Report'
 import User from '../../lib/mongoose/models/User'
 import { resolveReport } from './reports'
+import { resolveUsers } from './users'
+
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../../lib/constants'
+
 const queries: QueryResolvers = {
   Query: {
     hello: () => {
       return 'Hello world!'
     },
-    getUsers: async () => {
-      try {
-        const users = await User.find()
-        return users
-      } catch (error) {
-        throw new Error('Error fetching users from the database')
-      }
-    },
+    getUsers: resolveUsers,
     getUser: async (_: any, { id }: { id: String }) => {
       try {
         const user = await User.findById(id)
