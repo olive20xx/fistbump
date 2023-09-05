@@ -15,10 +15,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { setCookie } from 'cookies-next'
-import { useRouter } from 'next/navigation'
+import { getCookie, setCookie } from 'cookies-next'
+import { redirect, useRouter } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -30,10 +31,22 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
-  const [loginUser, { error }] = useLazyQuery(queries.LOGIN);
- 
+  const [showErrorMessage, setShowErrorMessage] = useState({
+    state: false,
+    message: ''
+  });
+  const [loginUser] = useLazyQuery(queries.LOGIN, { fetchPolicy: "no-cache", })
 
   const { push } = useRouter()
+
+  useEffect(() => {
+    const token = getCookie('token')
+    const userId = getCookie('userId')
+    if (token && userId) {
+      //it redirects to the dashboard, but what if the user is a manager?
+      redirect('/dashboard')
+    }
+  }, [])
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -48,20 +61,38 @@ const SignInForm = () => {
     const password = values.password
     const variables = { email, password }
 
-    if (error) return `Error! ${error}`
-    const data = await loginUser({ variables })
-    if (!data.data) {
-      console.log('Invalid credentials')
-      return
-    }
+    try {
 
-    const login = data.data.login
-    if (login.token && login.id) {
-      setCookie('token', login.token)
-      setCookie('userId', login.id)
-    }
+      const { loading, data, error } = await loginUser({ variables })
 
-    push('/dashboard')
+      if (error) {
+        setShowErrorMessage({ state: true, message: error.message });
+        setTimeout(() => {
+          setShowErrorMessage({ state: false, message: "" });
+        }, 5000);
+
+        form.reset({ email: '', password: '' })
+        return `Error! ${error}`;
+      }
+
+
+      if (loading) return 'Loading...';
+      const login = data.login
+      if (login.token && login.id) {
+        setCookie('token', login.token)
+        setCookie('userId', login.id)
+      }
+
+      push('/dashboard')
+    }
+    catch (error) {
+      console.error('An unexpected error occurred:', error);
+      form.reset({ email: '', password: '' })
+      setShowErrorMessage({ state: true, message: 'An error occured. Please try again.' });
+      setTimeout(() => {
+        setShowErrorMessage({ state: false, message: "" });
+      }, 5000);
+    }
   }
 
   return (
@@ -103,6 +134,11 @@ const SignInForm = () => {
           Sign in
         </Button>
       </form>
+      {showErrorMessage && (
+        <div className="text-red-500 mt-4 text-center ">
+          {showErrorMessage.message}
+        </div>
+      )}
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
         or
       </div>
