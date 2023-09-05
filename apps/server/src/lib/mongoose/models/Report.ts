@@ -1,11 +1,7 @@
 import { Schema, model } from 'mongoose'
-import {
-  GradeModel,
-  ReviewModel,
-  ReportModel,
-} from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 
-const GradeSchema = new Schema<GradeModel>({
+const GradeSchema = new Schema<modelTypes.GradeModel>({
   metric: String,
   // rating === 0 when not graded
   rating: Number,
@@ -15,7 +11,7 @@ const GradeSchema = new Schema<GradeModel>({
 
 // In the schema, use 'Schema.Types.ObjectId' when defining a property
 // but in a type declaration, use 'mongoose.Types.ObjectId'
-const ReviewSchema = new Schema<ReviewModel>(
+const ReviewSchema = new Schema<modelTypes.ReviewModel>(
   {
     reviewerId: Schema.Types.ObjectId,
     submitted: Boolean,
@@ -25,7 +21,7 @@ const ReviewSchema = new Schema<ReviewModel>(
   { timestamps: true }
 )
 
-const ReportSchema = new Schema<ReportModel>(
+const ReportSchema = new Schema<modelTypes.ReportModel>(
   {
     _id: { targetId: Schema.Types.ObjectId, cycleId: Schema.Types.ObjectId },
     summary: String,
@@ -40,6 +36,6 @@ const ReportSchema = new Schema<ReportModel>(
   { timestamps: true }
 )
 
-const Report = model<ReportModel>('Report', ReportSchema)
+const Report = model<modelTypes.ReportModel>('Report', ReportSchema)
 
 export default Report

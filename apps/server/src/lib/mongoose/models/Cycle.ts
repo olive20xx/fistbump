@@ -1,7 +1,7 @@
 import { HydratedDocument, Model, Schema, model } from 'mongoose'
-import { CycleModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 
-const cycleSchema = new Schema<CycleModel>({
+const cycleSchema = new Schema<modelTypes.CycleModel>({
   title: String,
   startDate: Date,
   endDate: Date,
@@ -12,9 +12,9 @@ const cycleSchema = new Schema<CycleModel>({
 })
 
 interface CycleMethods {}
-type CycleInstance = HydratedDocument<CycleModel, CycleMethods>
+type CycleInstance = HydratedDocument<modelTypes.CycleModel, CycleMethods>
 
-interface UserModel extends Model<CycleModel> {
+interface UserModel extends Model<modelTypes.CycleModel> {
   getCurrentCycle(): CycleInstance
 }
 
@@ -32,6 +32,6 @@ cycleSchema.static('getCurrentCycle', async function getCurrentCycle() {
   }
 })
 
-const Cycle = model<CycleModel, UserModel>('Cycle', cycleSchema)
+const Cycle = model<modelTypes.CycleModel, UserModel>('Cycle', cycleSchema)
 
 export default Cycle

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { UserModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 
-const userSchema = new Schema<UserModel>({
+const userSchema = new Schema<modelTypes.UserModel>({
   email: String,
   fullName: String,
   hashedPw: String,
@@ -12,6 +12,6 @@ const userSchema = new Schema<UserModel>({
   companyName: String,
 })
 
-const User = model<UserModel>('User', userSchema)
+const User = model<modelTypes.UserModel>('User', userSchema)
 
 export default User

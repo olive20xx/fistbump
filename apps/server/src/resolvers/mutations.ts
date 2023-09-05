@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { GradeModel, ReviewModel } from '../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import {
   MutationResolvers,
   PeerUpdateInput,
@@ -88,7 +88,7 @@ const mutations: MutationResolvers = {
 
         const reviewerId = input.reviewerId
 
-        let review: ReviewModel | undefined
+        let review: modelTypes.ReviewModel | undefined
         console.log('input reviewerId:', reviewerId)
         if (reviews.manager.reviewerId?.toString() === reviewerId) {
           review = reviews.manager
@@ -103,7 +103,8 @@ const mutations: MutationResolvers = {
         if (!review)
           throw new Error(`Review not found for reviewerId ${reviewerId}`)
 
-        if (input.grades) review.grades = input.grades as GradeModel[]
+        if (input.grades)
+          review.grades = input.grades as modelTypes.GradeModel[]
         if (input.isDeclined !== undefined && input.isDeclined !== null) {
           review.isDeclined = input.isDeclined
         }
