@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+ 
 @layer base {
   :root {
     /* custom FistBump palette */
@@ -10,6 +11,10 @@
 
     --light-green: 173 66% 91%;
     --dark-green: 173 96% 33%;
+    --darker-green: 173 57% 23%;
+
+    --light-gray: 0 0% 96%;
+    --lighter-gray: 0 0% 96% 0.8;
 
     --darkturqouise: 191, 54%, 23%, 1;
     --backgroundlogin: 191, 55%, 16%, 1;

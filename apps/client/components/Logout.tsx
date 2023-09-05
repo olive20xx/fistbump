@@ -3,6 +3,7 @@
 import { setCookie } from 'cookies-next'
 
 export default function handleLogout() {
-  setCookie('user', '')
+  setCookie('token', '')
+  setCookie('userId', '')
   window.location.href = '/'
 }

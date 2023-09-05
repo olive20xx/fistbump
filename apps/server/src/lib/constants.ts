@@ -10,3 +10,5 @@ function ensureEnvVarExist(name: string) {
   }
   return value
 }
+
+export const JWT_SECRET = ensureEnvVarExist('JWT_SECRET')

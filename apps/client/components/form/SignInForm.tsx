@@ -30,7 +30,8 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
-  const [getUser, { error }] = useLazyQuery(queries.GET_USER_BY_EMAIL)
+  const [loginUser, { error }] = useLazyQuery(queries.LOGIN);
+ 
 
   const { push } = useRouter()
 
@@ -48,16 +49,19 @@ const SignInForm = () => {
     const variables = { email, password }
 
     if (error) return `Error! ${error}`
-
-    const {
-      data: { getUserByEmail },
-    } = await getUser({ variables })
-
-    if (getUserByEmail.fullName) {
-      console.warn('WELCOME', getUserByEmail.fullName)
-      setCookie('user', getUserByEmail.fullName)
-      push('/dashboard')
+    const data = await loginUser({ variables })
+    if (!data.data) {
+      console.log('Invalid credentials')
+      return
     }
+
+    const login = data.data.login
+    if (login.token && login.id) {
+      setCookie('token', login.token)
+      setCookie('userId', login.id)
+    }
+
+    push('/dashboard')
   }
 
   return (
