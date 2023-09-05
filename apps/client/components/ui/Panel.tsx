@@ -97,7 +97,7 @@ const PanelContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <h2
+  <div
     ref={ref}
     className={cn(
       'bg-white',
@@ -107,7 +107,5 @@ const PanelContent = React.forwardRef<
   />
 ))
 PanelContent.displayName = 'PanelContent'
-
-
 
 export { Panel, PanelHeader, PanelTitle, PanelContent }
