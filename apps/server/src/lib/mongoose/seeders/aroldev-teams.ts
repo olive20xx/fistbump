@@ -1,4 +1,3 @@
-import { TeamModel } from '../../../../../../packages/types/models'
 import { generateTeam } from './generate-teams'
 import { ObjectId } from './types'
 

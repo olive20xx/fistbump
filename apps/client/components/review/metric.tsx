@@ -1,7 +1,6 @@
 'use client'
 import React, { FunctionComponent, useState } from 'react'
 import { Button } from '../ui/button'
-import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 
 interface IMetricProps {
@@ -27,6 +26,9 @@ const Metric: FunctionComponent<IMetricProps> = ({
 }) => {
   const [selectedKey, setSelectedKey] = useState(rating)
 
+  const hover = 'hover:bg-green-dark/80 hover:text-gray-light'
+  const hoverSelected = 'hover:bg-green-dark hover:text-white'
+
   return (
     <div className="flex flex-col gap-6 mb-4 justify-center items-center">
       <h4 className="flex gap-2 justify-center items-center">{question}</h4>
@@ -38,8 +40,9 @@ const Metric: FunctionComponent<IMetricProps> = ({
               onClick(n, name)
               setSelectedKey(n)
             }}
-            size="sm"
-            variant={n === selectedKey ? 'default' : 'secondary'}
+            variant={n === selectedKey ? 'heavy' : 'gray'}
+            size="metric"
+            className={n === selectedKey ? hoverSelected : hover}
           >
             {n}
           </Button>

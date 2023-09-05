@@ -1,4 +1,4 @@
-import { ReportModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import Cycle from '../models/Cycle'
 import User from '../models/User'
 import generateCycle from './generate-cycle'
@@ -39,6 +39,8 @@ async function seedDb() {
     mongoose.connection.close()
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 
@@ -70,7 +72,7 @@ async function seedArolDevData() {
     console.log(`${teams.length} teams have been added to the database`)
     console.log(teams)
 
-    const reportInput: ReportModel[] = []
+    const reportInput: modelTypes.ReportModel[] = []
 
     users.forEach((user) => {
       let managerId: ObjectId
@@ -98,6 +100,8 @@ async function seedArolDevData() {
     console.log('😱 first report 😱 —> ', reports[0])
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 

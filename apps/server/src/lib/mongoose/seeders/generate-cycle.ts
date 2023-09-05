@@ -1,4 +1,4 @@
-import { CycleModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import { addDays } from '../../utils'
 
 export default function generateCycle(startDate: Date, peersPerTarget: number) {
@@ -8,7 +8,7 @@ export default function generateCycle(startDate: Date, peersPerTarget: number) {
   const reportDeadline = addDays(startDate, 21)
   const endDate = addDays(startDate, 28)
 
-  const cycle: CycleModel = {
+  const cycle: modelTypes.CycleModel = {
     title,
     startDate,
     endDate,

@@ -1,10 +1,5 @@
 import faker from './faker'
-import {
-  GradeModel,
-  ReviewModel,
-  ReportModel,
-  REPORT_STATUS,
-} from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import { UserDoc, ObjectId } from './types'
 
 const NUMBER_OF_METRICS = 3
@@ -31,10 +26,10 @@ const METRICS = faker.helpers.arrayElements(
 )
 
 function generateGrades(count: number, maxRating: number, isFilled: boolean) {
-  const grades: GradeModel[] = []
+  const grades: modelTypes.GradeModel[] = []
 
   for (let i = 0; i < count; i++) {
-    const grade: GradeModel = {
+    const grade: modelTypes.GradeModel = {
       metric: METRICS[i],
       rating: isFilled ? faker.number.int({ min: 1, max: maxRating }) : 0,
       maxRating: maxRating,
@@ -53,7 +48,7 @@ function generateReview(
   reviewerId: ObjectId | null = null,
   isGraded: boolean = false
 ) {
-  const review: ReviewModel = {
+  const review: modelTypes.ReviewModel = {
     reviewerId,
     isDeclined: false,
     submitted: isGraded,
@@ -70,13 +65,13 @@ export function generateEmptyReport(
   metricCount: number,
   maxRating: number
 ) {
-  const peers: ReviewModel[] = []
+  const peers: modelTypes.ReviewModel[] = []
   for (let i = 0; i < peersPerTarget; i++) {
     const review = generateReview(metricCount, maxRating)
     peers.push(review)
   }
 
-  const report: ReportModel = {
+  const report: modelTypes.ReportModel = {
     _id: { targetId, cycleId },
     summary: '',
     status: 'Nomination',
@@ -99,7 +94,7 @@ export function generateRandomReport(
   maxRating: number,
   areReviewsEmpty: boolean
 ) {
-  const peerReviews: ReviewModel[] = []
+  const peerReviews: modelTypes.ReviewModel[] = []
   for (let i = 0; i < reviewers.length; i++) {
     const reviewerId = reviewers[i]
     const review = generateReview(
@@ -111,10 +106,10 @@ export function generateRandomReport(
     peerReviews.push(review)
   }
 
-  const report: ReportModel = {
+  const report: modelTypes.ReportModel = {
     _id: { targetId, cycleId },
     summary: faker.lorem.paragraph({ min: 2, max: 4 }),
-    status: faker.helpers.objectValue(REPORT_STATUS),
+    status: faker.helpers.objectValue(modelTypes.REPORT_STATUS),
     reviews: {
       peers: peerReviews,
       self: generateReview(metricCount, maxRating, targetId),

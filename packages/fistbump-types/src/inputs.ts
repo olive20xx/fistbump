@@ -20,19 +20,19 @@ export type ReportInput = {
   }
 }
 
-type ReportIdInput = {
+export type ReportIdInput = {
   targetId: string
   cycleId: string
 }
 
-type ReviewInput = {
+export type ReviewInput = {
   reviewerId: string
   isDeclined?: boolean
   submitted?: boolean
   grades?: GradeInput[]
 }
 
-type GradeInput = {
+export type GradeInput = {
   metric: string
   rating?: number
   maxRating?: number

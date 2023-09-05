@@ -1,4 +1,4 @@
-import { UserModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import { generateSpecificUserModel } from './generate-users'
 import { TEAMS } from './aroldev-teams'
 
@@ -97,7 +97,7 @@ const muto = generateSpecificUserModel(
   COMPANY_NAME
 )
 
-const userInput: UserModel[] = [
+const userInput: modelTypes.UserModel[] = [
   olga,
   arol,
   julia,

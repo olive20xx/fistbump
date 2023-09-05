@@ -1,10 +1,10 @@
-import { TeamModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import mongoose from 'mongoose'
 
 type ObjectId = mongoose.Types.ObjectId
 
 export function generateTeam(name: string, managerId: ObjectId) {
-  const team: TeamModel = { name, managerId }
+  const team: modelTypes.TeamModel = { name, managerId }
 
   return team
 }
@@ -13,10 +13,10 @@ export function generateTeamsWithSameManager(
   teamNames: string[],
   managerId: ObjectId
 ) {
-  const teams: TeamModel[] = []
+  const teams: modelTypes.TeamModel[] = []
 
   teamNames.forEach((name) => {
-    const team: TeamModel = {
+    const team: modelTypes.TeamModel = {
       name,
       managerId,
     }

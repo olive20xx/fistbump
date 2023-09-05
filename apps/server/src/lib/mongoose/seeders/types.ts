@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import { UserModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 
 export type UserDoc = mongoose.MergeType<
-  mongoose.Document<unknown, {}, UserModel> &
-    UserModel & {
+  mongoose.Document<unknown, {}, modelTypes.UserModel> &
+    modelTypes.UserModel & {
       _id: mongoose.Types.ObjectId
     },
-  Omit<UserModel, '_id'>
+  Omit<modelTypes.UserModel, '_id'>
 >
 
 export type ObjectId = mongoose.Types.ObjectId
