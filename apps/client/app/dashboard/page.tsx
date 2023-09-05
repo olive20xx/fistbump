@@ -36,9 +36,7 @@ export default async function Dashboard() {
   let loggedUser = true
   let loggedUserId = id.value
 
-  const loggedUserFirstName = loggedUserFullName
-    ? loggedUserFullName.split(' ')[0]
-    : ''
+  const loggedUserFirstName = loggedUserFullName ? loggedUserFullName : ''
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
 
   const reportVars = {
@@ -49,15 +47,19 @@ export default async function Dashboard() {
 
   const users = await getAllUsers()
   return (
-    <div className="bg-slate-200 h-screen">
-      <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">List of the users</h2>
-        <div>
+    <div className="bg-neutral-100 p-10 h-screen">
+      <div className="bg-neutral-100 justify-between items-center border-2 h-24 grid grid-cols-6">
+        <h1 className="text-3xl text-green-mediumgreen font-extrabold col-span-4">
+          Team member Panel
+        </h1>
+        <div className="border-2 col-span-2">
           {loggedUser && loggedUserFullName ? (
-            <div>
-              <h2>Hello {loggedUserFirstName}</h2>
+            <>
+              <h2 className="text-3xl text-green-mediumgreen font-extrabold">
+                Hello {loggedUserFirstName}
+              </h2>
               <Button onClick={handleLogout}> Log out</Button>
-            </div>
+            </>
           ) : (
             <Link href={'/login'}>
               <Button>Log in</Button>
