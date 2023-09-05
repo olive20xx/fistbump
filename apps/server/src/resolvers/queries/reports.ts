@@ -1,7 +1,7 @@
 import Report from '../../lib/mongoose/models/Report'
 import Cycle from '../../lib/mongoose/models/Cycle'
 import { ApolloContext } from '@/types'
-import { REPORT_STATUS } from '../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import User from '../../lib/mongoose/models/User'
 
 export async function resolveReport(
@@ -46,7 +46,7 @@ export async function resolveReport(
   }
   if (isManager) return report
   if (isSelf) {
-    if (report.status === REPORT_STATUS.COMPLETE) {
+    if (report.status === modelTypes.REPORT_STATUS.COMPLETE) {
       return {
         ...reportBase,
         summary: report.summary,

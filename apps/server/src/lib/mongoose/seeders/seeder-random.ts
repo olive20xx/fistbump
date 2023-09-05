@@ -4,7 +4,7 @@ import 'dotenv/config'
 import User from '../models/User'
 import { generateRandomReport, pickRandomReviewers } from './generate-reports'
 import Report from '../models/Report'
-import { ReportModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 import { ObjectId, UserDoc } from './types'
 import generateCycle from './generate-cycle'
 import Cycle from '../models/Cycle'
@@ -50,7 +50,7 @@ async function seedData(count: number) {
 
     const fakeManager = new mongoose.Types.ObjectId()
     console.log(`💜 CYCLE ID: '${cycle._id}' 💜`)
-    const reportInput: ReportModel[] = []
+    const reportInput: modelTypes.ReportModel[] = []
 
     users.forEach((user, index) => {
       const reviewers = pickRandomReviewers(

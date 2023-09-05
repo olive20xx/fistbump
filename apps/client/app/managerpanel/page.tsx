@@ -3,10 +3,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { apolloClient } from '@/lib/apollo-client'
 import { queries } from '@/lib/graphql-queries'
-import { UserModel } from '../../../../packages/types/models'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
-
-
+import { modelTypes } from '@/fistbump-types'
 function UserItem({ user, cycleId }) {
   return (
     <div className="grid grid-cols-8 gap-4 border-b p-2 bg-white items-center">
@@ -40,7 +38,7 @@ export default async function ManagerPanel() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user: UserModel) => (
+        {users.map((user: modelTypes.UserModel) => (
           <UserItem key={user.fullName} user={user} cycleId={cycleId} />
         ))}
       </div>

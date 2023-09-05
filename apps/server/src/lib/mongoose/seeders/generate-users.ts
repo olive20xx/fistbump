@@ -1,10 +1,10 @@
 import faker from './faker'
-import { UserModel } from '../../../../../../packages/types/models'
+import { modelTypes } from '@/fistbump-types'
 
 const PASSWORD = '321'
 
 export function generateRandomUserModels(count: number, companyName: string) {
-  const users: UserModel[] = []
+  const users: modelTypes.UserModel[] = []
   for (let i = 0; i < count; i++) {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
@@ -35,7 +35,7 @@ export function generateSpecificUserModel(
   teamName: string,
   companyName: string
 ) {
-  const user: UserModel = {
+  const user: modelTypes.UserModel = {
     email: `${firstName.toLowerCase()}@${companyName.toLowerCase()}`,
     fullName: `${firstName} ${lastName}`,
     hashedPw: PASSWORD,
