@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Button } from './ui/button'
+import { Button } from './button'
 
 export function UserItem({ user, cycleId }) {
   return (

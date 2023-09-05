@@ -1,5 +1,5 @@
 import '@/app/global.css'
-import { UserItem } from '@/components/UserItem'
+import { UserItem } from '@/components/ui/UserItem'
 import { modelTypes } from '@/fistbump-types/'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
 export default async function ManagerPanel() {
