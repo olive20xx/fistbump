@@ -11,6 +11,7 @@ import { ObjectId } from './types'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import { addDays } from '../../utils'
+import generateMongoId from './generate-id'
 
 // CYCLE CONFIG
 const yesterday = addDays(new Date(), -1)
@@ -52,6 +53,8 @@ async function seedArolDevData() {
     if (!users) throw new Error('User.insertMany() failed')
     console.log(`${users.length} users have been added to the database`)
     console.log(users)
+
+    users.forEach((user) => (user._id = generateMongoId()))
 
     const arol = users.find((user) => {
       return user.title === 'CTO'
