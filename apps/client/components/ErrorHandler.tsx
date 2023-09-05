@@ -32,10 +32,8 @@ const ErrorHandler: React.FC<ErrorHandlerProps> = ({ error, onClose }) => {
   }, [onClose])
   return (
     <div className="error-container bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-      <h2 className="error-title font-bold text-xl mb-2">Error</h2>
       <div className="error-details">
-        <p className="error-code">Code: {error.code}</p>
-        <p className="error-message">Message: {error.message}</p>
+        <p className="error-message">{error.message}</p>
       </div>
     </div>
   )

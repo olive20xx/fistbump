@@ -52,7 +52,9 @@ const queries: QueryResolvers = {
         })
         return { token, id }
       } catch (error) {
-        throw new Error('Error fetching users from the database')
+        throw new Error(
+          'Invalid credentials. Please double check your email and password'
+        )
       }
     },
     getReport: resolveReport,
