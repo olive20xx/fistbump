@@ -13,9 +13,8 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { queries } from '@/lib/graphql-queries'
 import Photo from '@/components/ui/photo'
-import UserCard from '@/components/ui/UserCard'
+import DashboardTop from '@/components/ui/DashboardTop'
 
 export const revalidate = 0
 
@@ -34,17 +33,11 @@ export default async function Dashboard() {
 
   const user = await getUserById(id.value)
 
-  let loggedUserFullName = user.fullName.split(' ')[0]
+  let loggedUserFirstName = user.fullName.split(' ')[0]
   let loggedUserLastName = user.fullName.split(' ')[1]
   let loggedUser = true
   let loggedUserId = id.value
 
-  let userPhoto = user.photo
-  let userTitle = user.title
-
-  console.log(userPhoto)
-
-  const loggedUserFirstName = loggedUserFullName ? loggedUserFullName : ''
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
 
   const reportVars = {
@@ -56,23 +49,12 @@ export default async function Dashboard() {
   const users = await getAllUsers()
   return (
     <div className="bg-neutral-100 p-20 h-screen">
-      <div className="bg-neutral-100 justify-between items-center h-24 grid grid-cols-6">
-        <h1 className="text-3xl text-green-mediumgreen font-extrabold col-span-4">
-          Team member Panel
-        </h1>
-        <div className="flex col-span-2 justify-around">
-          <div className="">
-            <h2 className="text-3xl text-green-mediumgreen font-extrabold">
-              Hello {loggedUserFirstName}
-            </h2>
-            <h2 className="text-3xl text-green-mediumgreen font-extrabold">
-              {loggedUserLastName}
-            </h2>
-            <p className="text-sm text-gray-300">{userTitle}</p>
-          </div>
-          <Photo width={92} height={92} photo={userPhoto} />
-        </div>
-      </div>
+      <DashboardTop
+        firstName={loggedUserFirstName}
+        lastName={loggedUserLastName}
+        title={user.title}
+        photo={user.photo}
+      />
       <div className="rounded-xl max-w-7xl mx-auto">
         <div className="grid grid-cols-8 gap-4 font-bold border-b bg-slate-400">
           <p className="col-span-2">Title</p>
@@ -83,7 +65,7 @@ export default async function Dashboard() {
           <Targets
             assignedReviews={assignedReviews}
             key={user.fullName}
-            loggedUser={loggedUserFullName}
+            loggedUser={loggedUserFirstName}
             user={user}
             cycleId={cycleId}
           />
