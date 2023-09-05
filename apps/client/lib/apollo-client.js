@@ -36,11 +36,25 @@ const authLink = setContext((_, { headers }) => {
     },
   }
 })
+
+// ? options no to cache
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+}
+
 const { getClient } = registerApolloClient(() => {
   const removeTypenameLink = removeTypenameFromVariables()
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(options),
     link: authLink.concat(httpLink),
+    defaultOptions: defaultOptions,
   })
 })
 
