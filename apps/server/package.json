@@ -4,6 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
+    "prestart": "kill-port 4000",
     "generate": "graphql-codegen --config codegen.yml",
     "compile": "npm run generate && tsc",
     "start": "node .dist/apps/server/index.js",
