@@ -39,6 +39,8 @@ async function seedDb() {
     mongoose.connection.close()
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 
@@ -98,6 +100,8 @@ async function seedArolDevData() {
     console.log('😱 first report 😱 —> ', reports[0])
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 

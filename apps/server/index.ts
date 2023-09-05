@@ -34,3 +34,15 @@ startStandaloneServer(apolloServer, {
 }).then(({ url }) => {
   console.log('🚀 Server ready at', url)
 })
+
+process.on('SIGINT', async () => {
+  console.log('Received SIGINT. Shutting down...')
+  await apolloServer.stop()
+  process.exit(0)
+})
+
+process.on('SIGTERM', async () => {
+  console.log('Received SIGTERM. Shutting down...')
+  await apolloServer.stop()
+  process.exit(0)
+})

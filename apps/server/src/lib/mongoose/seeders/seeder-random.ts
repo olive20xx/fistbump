@@ -33,6 +33,8 @@ async function seedDb() {
     mongoose.connection.close()
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 
@@ -80,6 +82,8 @@ async function seedData(count: number) {
     console.log(reports[0])
   } catch (error: any) {
     console.log(error.message)
+  } finally {
+    mongoose.connection.close()
   }
 }
 
