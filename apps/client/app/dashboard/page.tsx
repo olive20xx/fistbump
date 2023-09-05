@@ -55,12 +55,16 @@ export default async function Dashboard() {
         title={user.title}
         photo={user.photo}
       />
-      <div className="rounded-xl max-w-7xl mx-auto">
-        <div className="grid grid-cols-8 gap-4 font-bold border-b bg-slate-400">
-          <p className="col-span-2">Title</p>
-          <p className="col-span-2">Full Name</p>
-          <p className="col-span-2">Team Name</p>
-        </div>
+      <div className="mt-10 grid grid-cols-3 border-2 max-w-screen lg:h-[34rem] max-xl:h-[42rem]">
+        <div className="col-span-2 h-full border-2 max-w-screen"></div>
+        <div className="col-span-1 border-2 h-full max-w-screen"></div>
+      </div>
+    </div>
+  )
+}
+
+/*
+?that was in the div box
         {users.map((user) => (
           <Targets
             assignedReviews={assignedReviews}
@@ -70,17 +74,16 @@ export default async function Dashboard() {
             cycleId={cycleId}
           />
         ))}
-        <NominationBox
-          users={users}
-          loggedUserId={loggedUserId}
-          report={report}
-          cycleId={cycleId}
-        ></NominationBox>
-      </div>
+?LOG IN LOG OUT
       <Button onClick={handleLogout}> Log out</Button>
       <Link href={'/'}>
         <Button>Log in</Button>
       </Link>
-    </div>
-  )
-}
+?NOMINATIONBOX
+      <NominationBox
+        users={users}
+        loggedUserId={loggedUserId}
+        report={report}
+        cycleId={cycleId}
+      ></NominationBox>
+*/
