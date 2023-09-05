@@ -16,7 +16,11 @@
     --light-gray: 0 0% 96%;
     --lighter-gray: 0 0% 96% 0.8;
 
+<<<<<<< HEAD
     --darkturqouise: 191, 54%, 38%, 1;
+=======
+    --darkturqouise: 191, 54%, 23%, 1;
+>>>>>>> e2e329f036d128492dcb3c566cb988314d97ef79
     --backgroundlogin: 191, 55%, 16%, 1;
 
     /* shadcn defaults */
