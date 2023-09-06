@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
-import Targets from '@/components/table/Targets'
 import {
   getAllUsers,
   getCurrentCycle,
@@ -13,8 +12,8 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import DashboardTop from '@/components/ui/DashboardTop'
-import DashboardPanel from '@/components/ui/DashboardPanel'
+import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
+import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 
 export const revalidate = 0
 
@@ -48,7 +47,7 @@ export default async function Dashboard() {
   const users = await getAllUsers()
   return (
     <div className="bg-neutral-100 p-20 h-screen">
-      <div className="absolute top-0 flex gap-10">
+      <div className="absolute top-5 flex gap-10">
         <Button onClick={handleLogout}> Log out</Button>
         <Link href={'/'}>
           <Button>Log in</Button>
@@ -66,11 +65,7 @@ export default async function Dashboard() {
         title={user.title}
         photo={user.photo}
       />
-      <DashboardPanel
-        assignedReviews={assignedReviews}
-        cycleId={cycleId}
-        loggedUserFirstName={loggedUserFirstName}
-      />
+      <DashboardContent />
     </div>
   )
 }

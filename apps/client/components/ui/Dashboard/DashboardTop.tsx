@@ -1,4 +1,4 @@
-import Photo from './photo'
+import Photo from '../photo'
 
 function DashboardTop({ firstName, lastName, title, photo }) {
   return (
