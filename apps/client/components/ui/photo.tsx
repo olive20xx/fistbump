@@ -11,18 +11,10 @@ interface IPhoto {
 const Photo: FunctionComponent<IPhoto> = ({
   photo,
   alt,
-  width = 90,
-  height = 100,
+  width = 50,
+  height = 50,
 }) => {
-  return (
-    <Image
-      width={width}
-      height={height}
-      src={photo}
-      alt={alt}
-      style={{ borderRadius: '80px', border: '0.5px solid blue' }}
-    />
-  )
+  return <Image width={width} height={height} src={photo} alt={alt} />
 }
 
 export default Photo

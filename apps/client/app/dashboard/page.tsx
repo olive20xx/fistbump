@@ -59,16 +59,17 @@ export default async function Dashboard() {
   const report = await getFullReport(reportVars.targetId)
 
   return (
-    <div className="bg-neutral-100 p-20 h-screen">
-      <Link href={'/testpage'}>TESTPAGE</Link>
-      <DashboardTop
-        firstName={loggedUserFirstName}
-        lastName={loggedUserLastName}
-        title={loggedUser.title}
-        photo={loggedUser.photo}
-      />
-      <DashboardContent />
-    </div >
-
+    <>
+      <NavBar />
+      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">
+        <DashboardTop
+          firstName={loggedUserFirstName}
+          lastName={loggedUserLastName}
+          title={user.title}
+          photo={user.photo}
+        />
+        <DashboardContent />
+      </div>
+    </>
   )
 }
