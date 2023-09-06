@@ -11,6 +11,7 @@ import { ObjectId } from './types'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import { addDays } from '../../utils'
+import generateMongoId from './generate-id'
 
 // CYCLE CONFIG
 const yesterday = addDays(new Date(), -1)
