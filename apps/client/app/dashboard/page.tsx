@@ -14,6 +14,7 @@ import {
 import { redirect } from 'next/navigation'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
+import NavBar from '@/components/ui/Dashboard/Navbar'
 
 export const revalidate = 0
 
