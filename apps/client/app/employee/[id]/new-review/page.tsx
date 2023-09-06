@@ -25,10 +25,15 @@ export default async function Review({ params }: { params: any }) {
   const targetUser = (await getUserById(targetId)) as UserData
   const targetName = targetUser.fullName
 
-  const fullReport = (await getFullReport(targetId)) as ReportData
-
+  const fullReport = await getFullReport(targetId) as ReportData
   let review: ReviewData | undefined
-  review = fullReport.reviews.peers[0]
+  if (fullReport.reviews.self && fullReport.reviews.self.reviewerId === targetId) {
+    review = fullReport.reviews.self
+  }
+
+  if (fullReport.reviews.peers && fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)) {
+    review = fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)
+  }
 
   return (
     <div className="flex  mx-auto max-w-6xl h-screen ">

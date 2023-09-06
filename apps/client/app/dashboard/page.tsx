@@ -30,18 +30,25 @@ export default async function Dashboard() {
     redirect('/')
   }
 
-  const user = await getUserById(id.value)
+  const loggedUser = await getUserById(id.value)
 
-  let loggedUserFirstName = user.fullName.split(' ')[0]
-  let loggedUserLastName = user.fullName.split(' ')[1]
+  let loggedUserFullName = loggedUser.fullName
+  let isLogged = true
   let loggedUserId = id.value
+  const loggedUserFirstName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[0]
+    : ''
 
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
-  const users = await getAllUsers()
+  const assignedUsers = await Promise.all(
+    assignedReviews.map(async (review) => await getUserById(review._id.targetId))
+  )
 
   const reportVars = {
     targetId: id.value,
   }
+  const loggedUserReport = await getFullReport(reportVars.targetId)
+  const peers = await getAllUsers()
 
   const report = await getFullReport(reportVars.targetId)
 
