@@ -14,6 +14,7 @@ import {
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import SelfReview from '@/components/review/Self'
+import { User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 
@@ -73,9 +74,9 @@ export default async function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {assignedUsers.map((user) => (
+        {assignedUsers.map((user: User) => (
           <Targets
-            key={user.fullName}
+            key={user._id}
             user={user}
           />
         ))}
