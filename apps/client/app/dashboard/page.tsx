@@ -47,18 +47,6 @@ export default async function Dashboard() {
 
   return (
     <div className="bg-neutral-100 p-20 h-screen">
-      <div className="absolute top-5 flex gap-10">
-        <Button onClick={handleLogout}> Log out</Button>
-        <Link href={'/'}>
-          <Button>Log in</Button>
-        </Link>
-        <NominationBox
-          users={users}
-          loggedUserId={loggedUserId}
-          report={report}
-          cycleId={cycleId}
-        ></NominationBox>
-      </div>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -69,16 +57,3 @@ export default async function Dashboard() {
     </div>
   )
 }
-
-/*
-?TARGETS
-        {users.map((user) => (
-          <Targets
-            assignedReviews={assignedReviews}
-            key={user.fullName}
-            loggedUser={loggedUserFirstName}
-            user={user}
-            cycleId={cycleId}
-          />
-        ))}
-*/
