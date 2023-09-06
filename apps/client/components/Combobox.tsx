@@ -18,22 +18,26 @@ import {
 } from '@/components/ui/popover'
 import { mutations, queries } from '@/lib/graphql-queries'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { Report, User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
-export default function NominationBox({
-  users,
-  loggedUserId,
-  cycleId,
-  report,
-}) {
+ 
+interface NominationBoxProps {
+  users: User[]
+  loggedUserId: string
+  cycleId: string
+  report: Report
+}
+
+export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
+ 
   const [open, setOpen] = React.useState(false)
   const [currentValue, setCurrentValue] = React.useState('')
   const [value, setValue] = React.useState('')
   const [peerId, setPeerId] = React.useState(null)
   const [peers, setPeers] = React.useState(null)
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-  const [getNominationData] = useLazyQuery(queries.GET_PEER_REVIEWS)
 
   React.useEffect(() => {
     async function nominations() {

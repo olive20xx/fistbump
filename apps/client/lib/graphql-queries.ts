@@ -69,6 +69,7 @@ export const queries = {
       teamName
       title
       fullName
+      _id
     }
   }`),
 
