@@ -121,5 +121,23 @@ export async function resolveUpdateReport(
       },
     }
   }
-  //still missing isManager
+  if (isManager) {
+    let review: modelTypes.ReviewModel | undefined
+    review = report.reviews.manager
+
+    if (input.reviews?.manager?.grades) {
+      review.grades = input.reviews.manager.grades as modelTypes.GradeModel[]
+    }
+    if (
+      input.reviews?.manager?.isDeclined !== undefined &&
+      input.reviews?.manager?.isDeclined !== null
+    ) {
+      review.isDeclined = input.reviews.manager.isDeclined
+    }
+    if (input.reviews?.manager?.submitted) {
+      review.submitted = input.reviews.manager.submitted
+    }
+  }
+  await report.save()
+  return report
 }
