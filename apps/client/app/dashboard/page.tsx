@@ -14,6 +14,7 @@ import {
 import { redirect } from 'next/navigation'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
+import NavBar from '@/components/ui/Dashboard/Navbar'
 
 export const revalidate = 0
 
@@ -46,14 +47,17 @@ export default async function Dashboard() {
   const report = await getFullReport(reportVars.targetId)
 
   return (
-    <div className="bg-neutral-100 p-20 h-screen">
-      <DashboardTop
-        firstName={loggedUserFirstName}
-        lastName={loggedUserLastName}
-        title={user.title}
-        photo={user.photo}
-      />
-      <DashboardContent />
-    </div>
+    <>
+      <NavBar />
+      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">
+        <DashboardTop
+          firstName={loggedUserFirstName}
+          lastName={loggedUserLastName}
+          title={user.title}
+          photo={user.photo}
+        />
+        <DashboardContent />
+      </div>
+    </>
   )
 }
