@@ -41,12 +41,11 @@ input ReportInput {
   summary: String
   status: String
   reviews: ReviewsInput
-  newReviewerId: String
 }
 
 input ReviewsInput {
   self: ReviewInput
-  peers: [ReviewInput]
+  peers: ReviewInput
   manager: ReviewInput
 }
 

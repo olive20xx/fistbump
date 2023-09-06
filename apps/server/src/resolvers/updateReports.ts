@@ -43,14 +43,14 @@ export async function resolveUpdateReport(
   // //if myself -> i can mutate self review or nominate peers!
   if (isSelf) {
     if (report.status === modelTypes.REPORT_STATUS.NOMINATION) {
-      if (input.newReviewerId) {
+      if (input.reviews?.peers?.reviewerId) {
         const peersToNominate = report.reviews.peers.find(
           (peer) => peer.reviewerId === null
         )
         if (peersToNominate) {
-          if (input.newReviewerId)
+          if (input.reviews.peers.reviewerId)
             peersToNominate.reviewerId = new modelTypes.ObjectId(
-              input.newReviewerId
+              input.reviews.peers.reviewerId
             )
         }
         await report.save()
@@ -73,10 +73,6 @@ export async function resolveUpdateReport(
           report.reviews.self.grades = input.reviews?.self
             ?.grades as modelTypes.GradeModel[]
         }
-        console.log({
-          grades: input.reviews?.self?.grades,
-          submitted: input.reviews?.self?.submitted,
-        })
         if (
           input.reviews?.self?.submitted !== undefined &&
           input.reviews?.self?.submitted !== null
@@ -84,7 +80,6 @@ export async function resolveUpdateReport(
           report.reviews.self.submitted = input.reviews?.self?.submitted
         }
         await report.save()
-        console.log(report.reviews.self)
         return {
           reviews: {
             self: report.reviews.self,
@@ -93,16 +88,38 @@ export async function resolveUpdateReport(
       }
     }
   }
+  //if reviewer->  review the peer
+  if (isReviewer) {
+    let review: modelTypes.ReviewModel | undefined
+    review = report.reviews.peers.find(
+      (review) => review.reviewerId?.toString() === context.user?.id
+    )
+
+    if (review) {
+      if (input.reviews?.peers?.grades) {
+        review.grades = input.reviews.peers.grades as modelTypes.GradeModel[]
+      }
+      if (
+        input.reviews?.peers?.isDeclined !== undefined &&
+        input.reviews?.peers?.isDeclined !== null
+      ) {
+        review.isDeclined = input.reviews.peers.isDeclined
+      }
+      if (input.reviews?.peers?.submitted) {
+        review.submitted = input.reviews.peers.submitted
+      }
+    }
+    await report.save()
+
+    const peerReview = report.reviews.peers.find((peer) => {
+      return peer.reviewerId?.toString() === context?.user?.id
+    })
+
+    return {
+      reviews: {
+        peers: [peerReview],
+      },
+    }
+  }
+  //still missing isManager
 }
-
-//if reviewer->  review the peer
-
-//   const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
-//   const updatedReport = await Report.findOneAndUpdate(filter, input, {
-//     new: true,
-//   })
-//   return updatedReport
-// } catch (error) {
-//   throw new Error('Error updating a report in the database')
-// }
-// }
