@@ -13,7 +13,7 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { queries } from '@/lib/graphql-queries'
+import SelfReview from '@/components/review/Self'
 
 export const revalidate = 0
 
@@ -30,30 +30,32 @@ export default async function Dashboard() {
     redirect('/')
   }
 
-  const user = await getUserById(id.value)
+  const loggedUser = await getUserById(id.value)
 
-  let loggedUserFullName = user.fullName
-  let loggedUser = true
+  let loggedUserFullName = loggedUser.fullName
+  let isLogged = true
   let loggedUserId = id.value
-
   const loggedUserFirstName = loggedUserFullName
     ? loggedUserFullName.split(' ')[0]
     : ''
+
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
+  const assignedUsers = await Promise.all(
+    assignedReviews.map(async (review) => await getUserById(review._id.targetId))
+  )
 
   const reportVars = {
     targetId: id.value,
   }
+  const loggedUserReport = await getFullReport(reportVars.targetId)
+  const peers = await getAllUsers()
 
-  const report = await getFullReport(reportVars.targetId)
-
-  const users = await getAllUsers()
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold">List of the users</h2>
         <div>
-          {loggedUser && loggedUserFullName ? (
+          {isLogged && loggedUserFullName ? (
             <div>
               <h2>Hello {loggedUserFirstName}</h2>
               <Button onClick={handleLogout}> Log out</Button>
@@ -71,19 +73,17 @@ export default async function Dashboard() {
           <p className="col-span-2">Full Name</p>
           <p className="col-span-2">Team Name</p>
         </div>
-        {users.map((user) => (
+        {assignedUsers.map((user) => (
           <Targets
-            assignedReviews={assignedReviews}
             key={user.fullName}
-            loggedUser={loggedUserFullName}
             user={user}
-            cycleId={cycleId}
           />
         ))}
+        <SelfReview user={loggedUser}></SelfReview>
         <NominationBox
-          users={users}
+          users={peers}
           loggedUserId={loggedUserId}
-          report={report}
+          report={loggedUserReport}
           cycleId={cycleId}
         ></NominationBox>
       </div>
