@@ -7,3 +7,4 @@ generates:
     config:
       useIndexSignature: true
       withHooks: true
+watch: true
