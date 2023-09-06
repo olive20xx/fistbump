@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 import handleLogout from '@/components/Logout'
-import NominationBox from '@/components/Combobox'
+import NominationBox from '@/components/NominationBox'
 import Targets from '@/components/table/Targets'
 import {
   getAllUsers,
@@ -14,6 +14,7 @@ import {
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import { queries } from '@/lib/graphql-queries'
+import { ReportData, UserData } from '@/types/models'
 
 export const revalidate = 0
 
@@ -30,7 +31,7 @@ export default async function Dashboard() {
     redirect('/')
   }
 
-  const user = await getUserById(id.value)
+  const user = await getUserById(id.value) as UserData
 
   let loggedUserFullName = user.fullName
   let loggedUser = true
@@ -45,9 +46,9 @@ export default async function Dashboard() {
     targetId: id.value,
   }
 
-  const report = await getFullReport(reportVars.targetId)
+  const report = await getFullReport(reportVars.targetId) as ReportData
 
-  const users = await getAllUsers()
+  const users = await getAllUsers() as UserData[]
   return (
     <div className="bg-slate-200 h-screen">
       <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
@@ -85,7 +86,7 @@ export default async function Dashboard() {
           loggedUserId={loggedUserId}
           report={report}
           cycleId={cycleId}
-        ></NominationBox>
+        />
       </div>
     </div>
   )

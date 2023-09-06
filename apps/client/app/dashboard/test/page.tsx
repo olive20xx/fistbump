@@ -1,8 +1,9 @@
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 import CallToAction from '../(user)/CallToAction'
-import NominationBox from '@/components/Combobox'
+import NominationBox from '@/components/NominationBox'
 import { getAllUsers, getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
 import { cookies } from 'next/headers'
+import { ReportData, UserData } from '@/types/models'
 
 
 async function Page() {
@@ -14,11 +15,12 @@ async function Page() {
   const cycleId = cycle._id
 
   const user = await getUserById(loggedUserId)
-  const users = await getAllUsers()
-  const report = await getFullReport(loggedUserId)
+  const users = await getAllUsers() as UserData[]
+  const report = await getFullReport(loggedUserId) as ReportData
 
   return (
     <div className='p-20 w-[900px]'>
+      <div>{user.fullName}</div>
       <Panel size='horizontal'>
         <PanelHeader variant='gray'>
           <PanelTitle>Test Panel</PanelTitle>
