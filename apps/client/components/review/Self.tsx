@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 
 export default function SelfReview({ user }) {
   return (
@@ -8,15 +8,12 @@ export default function SelfReview({ user }) {
         <p className="font-semibold col-span-2">{user.title}</p>
         <p className="col-span-2">{user.fullName}</p>
         <p className="col-span-2">{user.teamName}</p>
-
-        <Link
+        <Button
           href={`/employee/${user._id}/new-review`}
-          className={`${buttonVariants({
-            variant: 'outline',
-          })} bg-green-500 text-white`}
-        >
-          Write a self review
-        </Link>
+          variant='outline'
+          className='bg-blue-500 text-white'>
+          Write a review
+        </Button>
       </div>
     </div>
   )
