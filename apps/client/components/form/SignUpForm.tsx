@@ -23,6 +23,7 @@ import { queries } from '@/lib/graphql-queries'
 import { useState } from 'react'
 import ErrorHandler from '../ErrorHandler'
 
+
 const FormSchema = z
   .object({
     fullName: z.string().min(1, 'Name is required').max(100),
@@ -42,7 +43,6 @@ const FormSchema = z
 
 const SignUpForm = () => {
   const [createUser] = useMutation(mutations.CREATE_USER)
-  const [getAllUsers, { error }] = useLazyQuery(queries.GET_USERS);
   const { push } = useRouter()
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -65,15 +65,10 @@ const SignUpForm = () => {
         companyName: 'Arol.Dev',
       },
     }
-    const users = await getAllUsers()
-    const foundUser = users.data.getUsers.some(user => user.email === variables.input.email)
-    if (foundUser) {
-      setErrorMessage({ message: 'Email already exists', code: 'Email Conflict' })
-      return
-    }
+
     try {
       const response = await createUser({ variables })
-      console.log(response)
+      if (!response.data.createUser.email) setErrorMessage({ message: "Email already exists", code: "409" })
       setCookie('user', variables.input.fullName)
       push('/dashboard')
     } catch (error) {

@@ -14,7 +14,9 @@ import Cycle from '../lib/mongoose/models/Cycle'
 const mutations: MutationResolvers = {
   Mutation: {
     createUser: async (_: any, { input }: { input: UserInput }) => {
+      const user = await User.findOne({ email: input.email })
       try {
+        if (user) return { error: "Email already exists" }
         const newUser = new User(input)
         const savedUser = await newUser.save()
         return savedUser
