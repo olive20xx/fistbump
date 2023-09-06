@@ -16,10 +16,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { mutations, queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { mutations } from '@/lib/graphql-queries'
+import { useMutation } from '@apollo/client'
 import usePeerReviews from '@/app/dashboard/(user)/usePeerReviews'
-import { ReportData, ReviewData, UserData } from '@/types/models'
+import { ReportData, UserData } from '@/types/models'
 import { capitalizeName } from '@/lib/utils'
 
 export const revalidate = 0
@@ -38,19 +38,14 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
   const [open, setOpen] = React.useState<boolean>(false)
   const [name, setName] = React.useState<string>()
   const [peerId, setPeerId] = React.useState<string>()
-  // const [nominatedIds, setNominatedIds] = React.useState<string[]>()
-  const [openPeerReviews, setOpenPeerReviews] = React.useState<ReviewData[]>()
 
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-  const [getNominationData] = useLazyQuery(queries.GET_PEER_REVIEWS)
 
   React.useEffect(() => {
     async function nominations() {
       const peerReviews = report.reviews.peers
       const reviewsWithoutReviewer = peerReviews.filter((peer) => peer.reviewerId === null)
-      // const reviewsWithReviewer = peerReviews.filter((peer) => peer.reviewerId !== null)
-      // setNominatedIds(reviewsWithReviewer.map(review => review.reviewerId))
-      setOpenPeerReviews(reviewsWithoutReviewer)
+
       console.log('open peer reviews ===> ', reviewsWithoutReviewer)
       console.log('nominations (unfiltered peer reviews) ===>', peerReviews)
     }
@@ -65,10 +60,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
       input: { newReviewerId: peerId },
     }
     const { data: { updatePeerReviewerId: { reviews: { peers } } } } = await updatePeerReviews({ variables })
-    console.log(peers)
-    // const filteredPeerReviews = peers.filter((peer) => peer.reviewerId === null)
     setPeerReviews(peers)
-    // setOpenPeerReviews(filteredPeerReviews as ReviewData[])
     setPeerId('')
     setName('')
   }
