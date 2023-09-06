@@ -49,7 +49,7 @@ export default async function Dashboard() {
   return (
     <>
       <NavBar />
-      <div className="bg-neutral-100 p-20 h-screen">
+      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">
         <DashboardTop
           firstName={loggedUserFirstName}
           lastName={loggedUserLastName}
