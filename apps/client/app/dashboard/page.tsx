@@ -15,8 +15,8 @@ import { redirect } from 'next/navigation'
 import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
-import DashboardContent from '@/components/ui/Dashboard/       '
-
+import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
+import Targets from '@/components/table/Targets'
 
 export const revalidate = 0
 
@@ -35,7 +35,7 @@ export default async function Dashboard() {
 
   const loggedUser = await getUserById(id.value)
 
- 
+
   let loggedUserFullName = loggedUser.fullName
   let isLogged = true
   let loggedUserId = id.value
@@ -43,11 +43,16 @@ export default async function Dashboard() {
     ? loggedUserFullName.split(' ')[0]
     : ''
 
+
+  const loggedUserLastName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[1]
+    : ''
+
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
   const assignedUsers = await Promise.all(
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
   )
- 
+
 
   const reportVars = {
     targetId: id.value,
@@ -56,49 +61,16 @@ export default async function Dashboard() {
   const peers = await getAllUsers()
 
   return (
-    <div className="bg-slate-200 h-screen">
-      <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">List of the users</h2>
-        <div>
-          {isLogged && loggedUserFullName ? (
-            <div>
-              <h2>Hello {loggedUserFirstName}</h2>
-              <Button onClick={handleLogout}> Log out</Button>
-            </div>
-          ) : (
-            <Link href={'/login'}>
-              <Button>Log in</Button>
-            </Link>
-          )}
-        </div>
-      </div>
-      <div className="rounded-xl max-w-7xl mx-auto">
-        <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">
-          <p className="col-span-2">Title</p>
-          <p className="col-span-2">Full Name</p>
-          <p className="col-span-2">Team Name</p>
-        </div>
-        {assignedUsers.map((user: User) => (
-          <Targets
-            key={user._id}
-            user={user}
-          />
-        ))}
-        <SelfReview user={loggedUser}></SelfReview>
-        <NominationBox
-          users={peers}
-          loggedUserId={loggedUserId}
-          report={loggedUserReport}
-          cycleId={cycleId}
-        ></NominationBox>
-         <DashboardTop
+    <div className="bg-neutral-100 p-20 h-screen">
+      <Link href={'/testpage'}>TESTPAGE</Link>
+      <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
-        title={user.title}
-        photo={user.photo}
+        title={loggedUser.title}
+        photo={loggedUser.photo}
       />
       <DashboardContent />
-      </div>
     </div>
+
   )
 }
