@@ -12,16 +12,3 @@ async function NominationPhase() {
 }
 
 export default NominationPhase
-
-/*
-?TARGETS
-        {users.map((user) => (
-          <Targets
-            assignedReviews={assignedReviews}
-            key={user.fullName}
-            loggedUser={loggedUserFirstName}
-            user={user}
-            cycleId={cycleId}
-          />
-        ))}
-*/
