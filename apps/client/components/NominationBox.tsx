@@ -17,7 +17,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { mutations, queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import usePeerReviews from '@/app/dashboard/(user)/usePeerReviews'
 import { ReportData, ReviewData, UserData } from '@/types/models'
 import { capitalizeName } from '@/lib/utils'
 
@@ -32,10 +33,12 @@ export type NominationBoxProps = {
 }
 
 export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
+  const peerReviews = report.reviews.peers
+  const [toNominate, nominatedIds, setPeerReviews] = usePeerReviews(peerReviews)
   const [open, setOpen] = React.useState<boolean>(false)
   const [name, setName] = React.useState<string>()
   const [peerId, setPeerId] = React.useState<string>()
-  const [nominatedIds, setNominatedIds] = React.useState<string[]>()
+  // const [nominatedIds, setNominatedIds] = React.useState<string[]>()
   const [openPeerReviews, setOpenPeerReviews] = React.useState<ReviewData[]>()
 
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
@@ -45,8 +48,8 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
     async function nominations() {
       const peerReviews = report.reviews.peers
       const reviewsWithoutReviewer = peerReviews.filter((peer) => peer.reviewerId === null)
-      const reviewsWithReviewer = peerReviews.filter((peer) => peer.reviewerId !== null)
-      setNominatedIds(reviewsWithReviewer.map(review => review.reviewerId))
+      // const reviewsWithReviewer = peerReviews.filter((peer) => peer.reviewerId !== null)
+      // setNominatedIds(reviewsWithReviewer.map(review => review.reviewerId))
       setOpenPeerReviews(reviewsWithoutReviewer)
       console.log('open peer reviews ===> ', reviewsWithoutReviewer)
       console.log('nominations (unfiltered peer reviews) ===>', peerReviews)
@@ -63,20 +66,21 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
     }
     const { data: { updatePeerReviewerId: { reviews: { peers } } } } = await updatePeerReviews({ variables })
     console.log(peers)
-    const filteredPeerReviews = peers.filter((peer) => peer.reviewerId === null)
-    setOpenPeerReviews(filteredPeerReviews as ReviewData[])
+    // const filteredPeerReviews = peers.filter((peer) => peer.reviewerId === null)
+    setPeerReviews(peers)
+    // setOpenPeerReviews(filteredPeerReviews as ReviewData[])
     setPeerId('')
     setName('')
   }
 
   return (
-    (!openPeerReviews ? <p>Loading</p> :
+    (toNominate <= 0 ? <div className="pt-12">Nominations complete!</div> :
 
       <div className="pt-12 flex gap-2">
         <Popover open={open} onOpenChange={() => setOpen(!open)} >
           <PopoverTrigger asChild>
             <Button
-              disabled={openPeerReviews.length === 0}
+              disabled={toNominate <= 0}
               variant="outline"
               role="combobox"
               aria-expanded={open}
@@ -94,31 +98,34 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
               <CommandInput placeholder="Find a peer" className="h-9" />
               <CommandEmpty>No peer found</CommandEmpty>
               <CommandGroup>
-                {users.map((user) => (
-                  <CommandItem
-                    key={user._id}
-                    className={peerId === user._id ? 'bg-slate-50' : ''}
-                    onSelect={(currentName) => {
-                      const capitalized = capitalizeName(currentName)
-                      setName(capitalized)
-                      setPeerId(user._id)
-                      setOpen(false)
-                    }}
-                  >
-                    {user.fullName}
-                    <CheckIcon
-                      className={cn(
-                        "ml-auto h-4 w-4 opacity-100",
-                        name === user.fullName ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
+                {users.map((user) => {
+                  if (nominatedIds?.includes(user._id)) return
+                  return (
+                    <CommandItem
+                      key={user._id}
+                      className={peerId === user._id ? 'bg-slate-50' : ''}
+                      onSelect={(currentName) => {
+                        const capitalized = capitalizeName(currentName)
+                        setName(capitalized)
+                        setPeerId(user._id)
+                        setOpen(false)
+                      }}
+                    >
+                      {user.fullName}
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4 opacity-100",
+                          name === user.fullName ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  )
+                })}
               </CommandGroup>
             </Command>
           </PopoverContent>
         </Popover>
-        <Button disabled={openPeerReviews.length === 0} onClick={handleNominatePeer}>Nominate</Button>
+        <Button disabled={toNominate <= 0} onClick={handleNominatePeer}>Nominate</Button>
       </div>
     ))
 }
