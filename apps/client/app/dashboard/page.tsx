@@ -37,6 +37,7 @@ export default async function Dashboard() {
   let loggedUserId = id.value
 
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
+  const users = await getAllUsers()
 
   const reportVars = {
     targetId: id.value,
@@ -44,7 +45,6 @@ export default async function Dashboard() {
 
   const report = await getFullReport(reportVars.targetId)
 
-  const users = await getAllUsers()
   return (
     <div className="bg-neutral-100 p-20 h-screen">
       <div className="absolute top-5 flex gap-10">
@@ -52,6 +52,12 @@ export default async function Dashboard() {
         <Link href={'/'}>
           <Button>Log in</Button>
         </Link>
+        <NominationBox
+          users={users}
+          loggedUserId={loggedUserId}
+          report={report}
+          cycleId={cycleId}
+        ></NominationBox>
       </div>
       <DashboardTop
         firstName={loggedUserFirstName}
@@ -59,13 +65,20 @@ export default async function Dashboard() {
         title={user.title}
         photo={user.photo}
       />
-      <DashboardContent
-        assignedReviews={assignedReviews}
-        users={users}
-        cycleId={cycleId}
-        loggedUserId={loggedUserId}
-        report={report}
-      />
+      <DashboardContent />
     </div>
   )
 }
+
+/*
+?TARGETS
+        {users.map((user) => (
+          <Targets
+            assignedReviews={assignedReviews}
+            key={user.fullName}
+            loggedUser={loggedUserFirstName}
+            user={user}
+            cycleId={cycleId}
+          />
+        ))}
+*/
