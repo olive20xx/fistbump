@@ -19,6 +19,7 @@ import {
 import { mutations, queries } from '@/lib/graphql-queries'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { ReportData, UserData } from '@/types/models'
+import { capitalizeName } from '@/lib/utils'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -78,7 +79,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
               className="px-2 w-[200px] justify-between rounded-sm"
             >
               {value
-                ? value
+                ? capitalizeName(value)
                 : "Select a peer"}
 
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -104,7 +105,6 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
                       className={cn(
                         "ml-auto h-4 w-4",
                         currentValue === user.fullName ? "opacity-100" : "opacity-0"
-
                       )}
                     />
                   </CommandItem>
