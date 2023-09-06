@@ -1,5 +1,5 @@
 import { HydratedDocument, Model, Schema, model } from 'mongoose'
-import { modelTypes } from '@/fistbump-types'
+import { modelTypes } from '@fistbump/fistbump-types'
 
 const cycleSchema = new Schema<modelTypes.CycleModel>({
   title: String,

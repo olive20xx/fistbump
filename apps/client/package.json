@@ -36,8 +36,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
     "zod": "^3.22.2",
-    "@/fistbump-types": "*"
-
+    "@fistbump/fistbump-types": "*"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

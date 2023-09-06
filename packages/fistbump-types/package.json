@@ -1,5 +1,5 @@
 {
-  "name": "@/fistbump-types",
+  "name": "@fistbump/fistbump-types",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "version": "1.0.0",
@@ -7,4 +7,3 @@
     "typescript": "latest"
   }
 }
-

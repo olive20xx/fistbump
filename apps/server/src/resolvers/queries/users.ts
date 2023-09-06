@@ -1,5 +1,5 @@
 import User from '../../lib/mongoose/models/User'
-import { modelTypes } from '@/fistbump-types'
+import { modelTypes } from '@fistbump/fistbump-types'
 import { ApolloContext } from '@/types'
 import { Types } from 'mongoose'
 
