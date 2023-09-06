@@ -14,7 +14,7 @@ type Query {
 type Mutation {
   createUser(input: UserInput): User
   updateUser(input: UserInput): User
-  updateReport(targetId: String!, cycleId: String, input: FullReportInput): Report
+  updateReport(targetId: String!, cycleId: String, input: ReportInput): Report
   updateAssignedReview(targetId: String!, input: ReviewInput!): Report
 }
 
@@ -34,21 +34,14 @@ input UserInput {
   companyName: String
 }
 
-input FullReportInput {
-  ReportInput: ReportInput
-  PeerUpdateInput: PeerUpdateInput
-  ReviewInput: ReviewInput
-}
+ 
 
 input ReportInput {
   _id: ReportIdInput
   summary: String
   status: String
   reviews: ReviewsInput
-}
-
-input PeerUpdateInput {
-  newReviewerId: String!
+  newReviewerId: String
 }
 
 input ReviewsInput {
