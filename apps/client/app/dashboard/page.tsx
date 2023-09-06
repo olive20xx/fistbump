@@ -12,6 +12,8 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
+import SelfReview from '@/components/review/Self'
+import { User } from '@/src/__generated__/graphql'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 import NavBar from '@/components/ui/Dashboard/Navbar'
@@ -55,9 +57,7 @@ export default async function Dashboard() {
   }
   const loggedUserReport = await getFullReport(reportVars.targetId)
   const peers = await getAllUsers()
-
-  const report = await getFullReport(reportVars.targetId)
-
+ 
   return (
     <>
       <NavBar />

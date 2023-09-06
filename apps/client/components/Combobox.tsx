@@ -23,6 +23,7 @@ import { Report, ReportInput, User } from '@/src/__generated__/graphql'
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
 
+
 interface NominationBoxProps {
   users: User[]
   loggedUserId: string
@@ -38,6 +39,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
   const [peerId, setPeerId] = React.useState(null)
   const [peers, setPeers] = React.useState(null)
   const [updatePeerReviews] = useMutation(mutations.UPDATE_REPORT)
+
 
 
   React.useEffect(() => {

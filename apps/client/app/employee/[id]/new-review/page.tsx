@@ -26,11 +26,13 @@ export default async function Review({ params }: { params: any }) {
   const targetName = targetUser.fullName
 
   const fullReport = await getFullReport(targetId) as ReportData
+
   let review: ReviewData | undefined
   if (fullReport.reviews.self && fullReport.reviews.self.reviewerId === targetId) {
     review = fullReport.reviews.self
   }
 
+ 
   if (fullReport.reviews.peers && fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)) {
     review = fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)
   }
