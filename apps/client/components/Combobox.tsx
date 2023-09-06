@@ -16,8 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { mutations, queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { mutations } from '@/lib/graphql-queries'
+import { useMutation } from '@apollo/client'
+import { FullReportInput, ReportInput, ReviewInput } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -32,8 +33,8 @@ export default function NominationBox({
   const [value, setValue] = React.useState('')
   const [peerId, setPeerId] = React.useState(null)
   const [peers, setPeers] = React.useState(null)
-  const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-  const [getNominationData] = useLazyQuery(queries.GET_PEER_REVIEWS)
+  const [updatePeerReviews] = useMutation(mutations.UPDATE_REPORT)
+
 
   React.useEffect(() => {
     async function nominations() {
@@ -47,15 +48,17 @@ export default function NominationBox({
 
   async function handleNominatePeer() {
     const mutationVars = {
-      targetId: loggedUserId,
-      cycleId: cycleId,
-      input: { newReviewerId: peerId },
+      targetId: loggedUserId as string,
+      cycleId: cycleId as string,
+      input: { newReviewerId: peerId } as FullReportInput,
     }
     const {
       data: {
-        updatePeerReviewerId: {
-          reviews: { peers },
-        },
+        updateReport: {
+          reviews: {
+            peers
+          }
+        }
       },
     } = await updatePeerReviews({ variables: mutationVars })
     const filteredPeers = peers.filter((peer) => peer.reviewerId === null)

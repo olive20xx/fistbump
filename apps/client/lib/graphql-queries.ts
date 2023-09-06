@@ -143,7 +143,7 @@ export const queries = {
 
 export const mutations = {
   UPDATE_REPORT: gql(`
-    mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+    mutation updateReport($targetId:String!, $cycleId:String, $input:FullReportInput) {
       updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
         summary
         reviews {

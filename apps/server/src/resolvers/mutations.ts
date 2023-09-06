@@ -10,6 +10,7 @@ import {
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
+import { resolveUpdateReport } from './updateReports'
 
 const mutations: MutationResolvers = {
   Mutation: {
@@ -37,28 +38,7 @@ const mutations: MutationResolvers = {
       }
     },
 
-    updateReport: async (
-      _: any,
-      {
-        targetId,
-        cycleId,
-        input,
-      }: {
-        targetId: String
-        cycleId: String
-        input: ReportInput
-      }
-    ) => {
-      try {
-        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
-        const updatedReport = await Report.findOneAndUpdate(filter, input, {
-          new: true,
-        })
-        return updatedReport
-      } catch (error) {
-        throw new Error('Error updating a report in the database')
-      }
-    },
+    updateReport: resolveUpdateReport,
     updateAssignedReview: async (
       _: any,
       {
