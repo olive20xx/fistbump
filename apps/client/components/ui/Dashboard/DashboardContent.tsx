@@ -1,14 +1,24 @@
 import Targets from '@/components/table/Targets'
 import { Panel, PanelContent, PanelHeader } from '../Panel'
-import { getAllUsers } from '@/lib/get-data-api'
+import NominationBox from '@/components/Combobox'
 
-async function DashboardContent() {
-  const users = await getAllUsers()
-
+async function DashboardContent({
+  assignedReviews,
+  users,
+  cycleId,
+  loggedUserId,
+  report,
+}) {
   return (
     <div className="mt-10 grid grid-cols-3 max-w-screen h-[34rem] gap-10">
       <div className="col-span-2 h-full grid grid-col-2 gap-10 max-w-screen">
         <div className="border-2 grid-rows-1 border-black">
+          <NominationBox
+            users={users}
+            loggedUserId={loggedUserId}
+            report={report}
+            cycleId={cycleId}
+          ></NominationBox>
           <Panel>
             <PanelHeader>NOMINATION PHASE</PanelHeader>
             <PanelContent>
@@ -16,7 +26,7 @@ async function DashboardContent() {
                 <Targets
                   assignedReviews={assignedReviews}
                   key={user.fullName}
-                  loggedUser={loggedUserFirstName}
+                  loggedUser={user.fullName}
                   user={user}
                   cycleId={cycleId}
                 />

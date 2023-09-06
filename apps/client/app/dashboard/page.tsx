@@ -52,12 +52,6 @@ export default async function Dashboard() {
         <Link href={'/'}>
           <Button>Log in</Button>
         </Link>
-        <NominationBox
-          users={users}
-          loggedUserId={loggedUserId}
-          report={report}
-          cycleId={cycleId}
-        ></NominationBox>
       </div>
       <DashboardTop
         firstName={loggedUserFirstName}
@@ -65,7 +59,13 @@ export default async function Dashboard() {
         title={user.title}
         photo={user.photo}
       />
-      <DashboardContent />
+      <DashboardContent
+        assignedReviews={assignedReviews}
+        users={users}
+        cycleId={cycleId}
+        loggedUserId={loggedUserId}
+        report={report}
+      />
     </div>
   )
 }
