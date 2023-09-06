@@ -16,7 +16,8 @@ import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
-import Targets from '@/components/table/Targets'
+import NavBar from '@/components/ui/Dashboard/Navbar'
+
 
 export const revalidate = 0
 
@@ -61,16 +62,17 @@ export default async function Dashboard() {
   const peers = await getAllUsers()
 
   return (
-    <div className="bg-neutral-100 p-20 h-screen">
-      <Link href={'/testpage'}>TESTPAGE</Link>
-      <DashboardTop
-        firstName={loggedUserFirstName}
-        lastName={loggedUserLastName}
-        title={loggedUser.title}
-        photo={loggedUser.photo}
-      />
-      <DashboardContent />
-    </div>
-
+    <>
+      <NavBar />
+      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">
+        <DashboardTop
+          firstName={loggedUserFirstName}
+          lastName={loggedUserLastName}
+          title={user.title}
+          photo={user.photo}
+        />
+        <DashboardContent />
+      </div>
+    </>
   )
 }
