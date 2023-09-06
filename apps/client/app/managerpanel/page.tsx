@@ -1,29 +1,7 @@
 import '@/app/global.css'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { apolloClient } from '@/lib/apollo-client'
-import { queries } from '@/lib/graphql-queries'
+import { UserItem } from '@/components/ui/UserItem'
+import { modelTypes } from '@/fistbump-types/'
 import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
-import { modelTypes } from '@/fistbump-types'
-
-export const dynamic = 'force-dynamic'
-
-function UserItem({ user, cycleId }) {
-  return (
-    <div className="grid grid-cols-8 gap-4 border-b p-2 bg-white items-center">
-      <p className="font-semibold col-span-2">{user.title}</p>
-      <p className='col-span-2'>{user.fullName}</p>
-      <p className='col-span-2'>{user.teamName}</p>
-      <Link href={`/employee/${user._id}/manager-report/${cycleId}`}>
-        <Button>View Full Report</Button>
-      </Link>
-      <Link href={`/employee/${user._id}/new-report`}>
-        <Button>Write Report</Button>
-      </Link>
-    </div >
-  )
-}
-
 export default async function ManagerPanel() {
   const cycle = await getCurrentCycle()
   const cycleId = cycle._id
@@ -31,8 +9,8 @@ export default async function ManagerPanel() {
   const users = await getAllUsers()
 
   return (
-    <div className="bg-slate-200 h-screen">
-      <div className="bg-pink-400 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
+    <div className="bg-stone-100 h-screen">
+      <div className="bg-pink-100 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold">List of the users</h2>
       </div>
       <div className="rounded-xl max-w-7xl mx-auto">
