@@ -19,7 +19,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         gray: {
@@ -33,6 +33,7 @@ module.exports = {
         },
         green: {
           light: 'hsl(var(--light-green))',
+          medium: 'hsl(var(--medium-green))',
           dark: 'hsl(var(--dark-green))',
           darker: 'hsl(var(--darker-green))',
         },

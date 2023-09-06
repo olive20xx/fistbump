@@ -1,5 +1,5 @@
 import { Header2 } from '@/components/typography/header2'
-import UserCard from '@/components/ui/user-card'
+import UserCard from '@/components/ui/UserCard'
 import { UserData } from '@/types/models'
 
 function SubjectOfReview({ targetUser }: { targetUser: UserData }) {

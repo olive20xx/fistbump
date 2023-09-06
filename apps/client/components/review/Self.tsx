@@ -1,10 +1,7 @@
-'use client'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { User } from '@/src/__generated__/graphql'
-import Link from 'next/link'
+import Link from "next/link";
+import { Button, buttonVariants } from "../ui/button";
 
-
-export default function Targets({ user }: { user: User }) {
+export default function SelfReview({ user }) {
   return (
     <div className="bg-white">
       <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">
@@ -18,7 +15,7 @@ export default function Targets({ user }: { user: User }) {
           Write a review
         </Button>
       </div>
-    </div >
-
+    </div>
   )
+
 }
