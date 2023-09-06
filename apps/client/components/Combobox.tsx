@@ -54,7 +54,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
     const mutationVars = {
       targetId: loggedUserId as string,
       cycleId: cycleId as string,
-      input: { newReviewerId: peerId } as ReportInput,
+      input: { reviews: { peers: { reviewerId: peerId } } } as ReportInput
     }
     const {
       data: {
