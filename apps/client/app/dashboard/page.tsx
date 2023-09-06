@@ -65,8 +65,8 @@ export default async function Dashboard() {
         <DashboardTop
           firstName={loggedUserFirstName}
           lastName={loggedUserLastName}
-          title={user.title}
-          photo={user.photo}
+          title={loggedUser.title}
+          photo={loggedUser.photo}
         />
         <DashboardContent />
       </div>
