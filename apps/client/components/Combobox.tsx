@@ -16,9 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { mutations, queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { Report, User } from '@/src/__generated__/graphql'
+import { mutations } from '@/lib/graphql-queries'
+import { useMutation } from '@apollo/client'
+import { Report, ReportInput, User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -31,6 +31,7 @@ interface NominationBoxProps {
 }
 
 export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
+
   const [open, setOpen] = React.useState(false)
   const [currentValue, setCurrentValue] = React.useState('')
   const [value, setValue] = React.useState('')
@@ -47,13 +48,13 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
       console.log('nominations===>', peers)
     }
     nominations()
-  }, [report.reviews.peers])
+  }, [report])
 
   async function handleNominatePeer() {
     const mutationVars = {
       targetId: loggedUserId as string,
       cycleId: cycleId as string,
-      input: { newReviewerId: peerId } as FullReportInput,
+      input: { newReviewerId: peerId } as ReportInput,
     }
     const {
       data: {
