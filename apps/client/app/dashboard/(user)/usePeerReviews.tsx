@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react'
 import { ReviewData, UserId } from '@/types/models'
 
 
-function usePeerReviews(peerReviews: Partial<ReviewData>[]) {
+type ReturnValues = [
+  toNominate: number,
+  nominatedIds: string[],
+  setPeerReview: (peerReviews: Partial<ReviewData>[]) => void
+]
 
-
+function usePeerReviews(initialValue: Partial<ReviewData>[]): ReturnValues {
   const [toNominate, setToNominate] = useState<number>()
   const [nominatedIds, setNominatedIds] = useState<UserId[]>()
 
@@ -21,8 +25,8 @@ function usePeerReviews(peerReviews: Partial<ReviewData>[]) {
   }
 
   useEffect(() => {
-    setPeerReviews(peerReviews)
-  }, [peerReviews])
+    setPeerReviews(initialValue)
+  }, [initialValue])
 
   return [toNominate, nominatedIds, setPeerReviews]
 }
