@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
-import { FullReportInput, ReportInput, ReviewInput } from '@/src/__generated__/graphql'
+import { FullReportInput } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'

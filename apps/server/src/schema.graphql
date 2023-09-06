@@ -16,11 +16,6 @@ type Mutation {
   updateUser(input: UserInput): User
   updateReport(targetId: String!, cycleId: String, input: FullReportInput): Report
   updateAssignedReview(targetId: String!, input: ReviewInput!): Report
-  updatePeerReviewerId(
-    targetId: String!
-    cycleId: String!
-    input: PeerUpdateInput!
-  ): Report
 }
 
 type Token {

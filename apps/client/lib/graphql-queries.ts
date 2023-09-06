@@ -222,16 +222,6 @@ export const mutations = {
       }
     }
   `),
-  UPDATE_PEER_REVIEWS: gql(`
-    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:PeerUpdateInput!) {
-      updatePeerReviewerId(targetId: $targetId, cycleId: $cycleId, input: $input) {
-        reviews {
-          peers {
-            reviewerId
-          }
-        }
-    }
-  }`),
   CREATE_USER: gql(`
     mutation createUser($input: UserInput!){
       createUser(input: $input){
