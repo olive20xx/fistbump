@@ -39,6 +39,11 @@ export default async function Dashboard() {
     ? loggedUserFullName.split(' ')[0]
     : ''
 
+
+  const loggedUserLastName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[1]
+    : ''
+
   const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
   const assignedUsers = await Promise.all(
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
@@ -54,13 +59,15 @@ export default async function Dashboard() {
 
   return (
     <div className="bg-neutral-100 p-20 h-screen">
+      <Link href={'/testpage'}>TESTPAGE</Link>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
-        title={user.title}
-        photo={user.photo}
+        title={loggedUser.title}
+        photo={loggedUser.photo}
       />
       <DashboardContent />
-    </div>
+    </div >
+
   )
 }
