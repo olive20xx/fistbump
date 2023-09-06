@@ -12,4 +12,5 @@ $ graphql-codegen --config codegen.yml
 [SUCCESS] Generate
 [SUCCESS] Generate to ./src/__generated__/resolvers-types.ts
 [SUCCESS] Generate outputs
-$ tsc -b
+$ tsc
+$ ncp ./src/schema.graphql ./dist/src/schema.graphql
