@@ -1,5 +1,7 @@
 import faker from './faker'
 import { modelTypes } from '@/fistbump-types'
+import generateMongoId from './generate-id'
+import { Types } from 'mongoose'
 
 const PASSWORD = '321'
 
@@ -35,7 +37,9 @@ export function generateSpecificUserModel(
   teamName: string,
   companyName: string
 ) {
-  const user: modelTypes.UserModel = {
+  const user: modelTypes.UserModel & { _id: Types.ObjectId } = {
+    // this generates consistent IDs that won't change every time we seed
+    _id: generateMongoId(),
     email: `${firstName.toLowerCase()}@${companyName.toLowerCase()}`,
     fullName: `${firstName} ${lastName}`,
     hashedPw: PASSWORD,

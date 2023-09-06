@@ -1,10 +1,9 @@
 import '@/app/global.css'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { cookies } from 'next/headers'
 import handleLogout from '@/components/Logout'
 import NominationBox from '@/components/Combobox'
-import Targets from '@/components/table/Targets'
 import {
   getAllUsers,
   getCurrentCycle,
@@ -15,6 +14,9 @@ import {
 import { redirect } from 'next/navigation'
 import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
+import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
+import DashboardContent from '@/components/ui/Dashboard/       '
+
 
 export const revalidate = 0
 
@@ -33,6 +35,7 @@ export default async function Dashboard() {
 
   const loggedUser = await getUserById(id.value)
 
+ 
   let loggedUserFullName = loggedUser.fullName
   let isLogged = true
   let loggedUserId = id.value
@@ -44,6 +47,7 @@ export default async function Dashboard() {
   const assignedUsers = await Promise.all(
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
   )
+ 
 
   const reportVars = {
     targetId: id.value,
@@ -87,6 +91,13 @@ export default async function Dashboard() {
           report={loggedUserReport}
           cycleId={cycleId}
         ></NominationBox>
+         <DashboardTop
+        firstName={loggedUserFirstName}
+        lastName={loggedUserLastName}
+        title={user.title}
+        photo={user.photo}
+      />
+      <DashboardContent />
       </div>
     </div>
   )
