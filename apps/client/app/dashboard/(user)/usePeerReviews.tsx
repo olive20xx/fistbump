@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
-import { ReviewData, UserId } from '@/types/models'
+import { UserId } from '@/types/models'
+import { Review } from '@/src/__generated__/graphql'
 
 
 type ReturnValues = [
   toNominate: number,
   nominatedIds: string[],
-  setPeerReview: (peerReviews: Partial<ReviewData>[]) => void
+  setPeerReview: (peerReviews: Partial<Review>[]) => void
 ]
 
-function usePeerReviews(initialValue: Partial<ReviewData>[]): ReturnValues {
+function usePeerReviews(initialValue: Partial<Review>[]): ReturnValues {
   const [toNominate, setToNominate] = useState<number>()
   const [nominatedIds, setNominatedIds] = useState<UserId[]>()
 
-  const setPeerReviews = (peerReviews: Partial<ReviewData>[]) => {
+  const setPeerReviews = (peerReviews: Partial<Review>[]) => {
     let toNominateCount = 0
     const assignedIds = []
     peerReviews.forEach((review) => {

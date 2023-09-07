@@ -19,17 +19,17 @@ import {
 import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
 import usePeerReviews from '@/app/dashboard/(user)/usePeerReviews'
-import { ReportData, UserData } from '@/types/models'
 import { capitalizeName } from '@/lib/utils'
+import { Report, User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
 
 export type NominationBoxProps = {
-  users: UserData[],
+  users: User[],
   loggedUserId: string,
   cycleId: string,
-  report: ReportData,
+  report: Report,
 }
 
 export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
@@ -40,18 +40,6 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
   const [peerId, setPeerId] = React.useState<string>()
 
   const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
-
-  React.useEffect(() => {
-    async function nominations() {
-      const peerReviews = report.reviews.peers
-      const reviewsWithoutReviewer = peerReviews.filter((peer) => peer.reviewerId === null)
-
-      console.log('open peer reviews ===> ', reviewsWithoutReviewer)
-      console.log('nominations (unfiltered peer reviews) ===>', peerReviews)
-    }
-    nominations()
-  }, [report.reviews.peers])
-
 
   async function handleNominatePeer() {
     const variables = {
