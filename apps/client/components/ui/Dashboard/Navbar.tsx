@@ -5,7 +5,7 @@ import { LogOutIcon, Home, UserCircle2, Trash } from 'lucide-react'
 
 import handleLogout from '@/components/Logout'
 
-async function NavBar() {
+async function Navbar() {
   return (
     <div className="pt-5 absolute w-[80px] top-0 left-0 h-screen bg-white shadow-slate-400 shadow-xl  border-black items-center  flex flex-col justify-between">
       <div>
@@ -32,4 +32,4 @@ async function NavBar() {
   )
 }
 
-export default NavBar
+export default Navbar
