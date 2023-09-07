@@ -125,7 +125,7 @@ const SignInForm = () => {
           />
         </div>
       )}
-      <p className="text-center text-sm text-darkturqouise mt-6">
+      <p className="text-center text-sm text-turquoise mt-6">
         If you don&apos;t have an account, please&nbsp;
         <Link className="text-gray-200 hover:underline" href="/signup">
           Sign up

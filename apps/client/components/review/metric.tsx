@@ -26,8 +26,8 @@ const Metric: FunctionComponent<IMetricProps> = ({
 }) => {
   const [selectedKey, setSelectedKey] = useState(rating)
 
-  const hover = 'hover:bg-green-dark/80 hover:text-gray-light'
-  const hoverSelected = 'hover:bg-green-dark hover:text-white'
+  const hover = 'hover:bg-turquoise/80 hover:text-gray-light'
+  const hoverSelected = 'hover:bg-turquoise hover:text-white'
 
   return (
     <div className="flex flex-col gap-6 mb-4 justify-center items-center">

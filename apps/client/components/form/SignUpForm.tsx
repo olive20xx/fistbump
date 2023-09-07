@@ -149,10 +149,10 @@ const SignUpForm = () => {
           Sign up
         </Button>
       </form>
-      <p className="text-center text-sm text-gray-600 mt-2">
+      <p className="text-center text-sm text-white mt-2">
         Already have an account, please&nbsp;
         <Link className="text-emerald-200 hover:underline" href="/">
-          Log in
+          Log In
         </Link>
       </p>
       {errorMessage &&

@@ -10,10 +10,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         //TODO hover colors need work
-        light: "bg-green-light text-green-dark hover:brightness-95",
-        heavy: "bg-green-dark text-white hover:bg-green-dark/80",
+        light: "bg-green-light text-turquoise hover:brightness-95",
+        heavy: "bg-turquoise text-white hover:bg-turquoise/80",
         write: "bg-black text-primary-foreground hover:bg-primary/90",
-        draft: "bg-yellow-light text-yellow-dark hover:bg-yellow-dark/40",
+        draft: "bg-yellow-light text-yellow hover:bg-yellow/40",
         gray: "bg-gray-light text-gray",
 
         // ⬇️ included for backwards compatibility, don't use these for anything new
