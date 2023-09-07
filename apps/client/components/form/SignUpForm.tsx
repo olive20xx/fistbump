@@ -1,3 +1,5 @@
+'use client'
+
 import '@/app/global.css'
 import { useForm } from 'react-hook-form'
 import {
@@ -16,7 +18,11 @@ import Link from 'next/link'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { mutations } from '@/lib/graphql-queries'
-import { useMutation } from '@apollo/client'
+import { useMutation, useLazyQuery } from '@apollo/client'
+import { queries } from '@/lib/graphql-queries'
+import { useState } from 'react'
+import ErrorHandler from '../ErrorHandler'
+
 
 const FormSchema = z
   .object({
@@ -37,8 +43,8 @@ const FormSchema = z
 
 const SignUpForm = () => {
   const [createUser] = useMutation(mutations.CREATE_USER)
-
   const { push } = useRouter()
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,7 +68,7 @@ const SignUpForm = () => {
 
     try {
       const response = await createUser({ variables })
-      console.log(response)
+      if (!response.data.createUser.email) setErrorMessage({ message: "Email already exists", code: "409" })
       setCookie('user', variables.input.fullName)
       push('/dashboard')
     } catch (error) {
@@ -149,6 +155,9 @@ const SignUpForm = () => {
           Log in
         </Link>
       </p>
+      {errorMessage &&
+        <div className="absolute top-0 right-100 mt-20 mr-4 p-2 bg-red-500 text-white rounded-lg shadow-md z-10"><ErrorHandler error={errorMessage} onClose={() => setErrorMessage(null)} /></div>
+      }
     </Form>
   )
 }
