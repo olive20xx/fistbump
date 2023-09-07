@@ -29,7 +29,8 @@ export async function resolveUpdateReport(
   })
 
   if (!report) throw new Error('No report found')
-  if (!context.user?.id || !context.user.email) throw new Error('Unauthorized')
+  if (!context.user?.id || !context.user.email)
+    throw new Error('Unauthorized - no userId or email')
 
   const isSelf = context.user?.id === targetId
   const isManager =
@@ -38,7 +39,8 @@ export async function resolveUpdateReport(
     (peer) => peer.reviewerId?.toString() === context.user?.id
   )
 
-  if (!isSelf && !isManager && !isReviewer) throw new Error('Unauthorized')
+  if (!isSelf && !isManager && !isReviewer)
+    throw new Error('Unauthorized - who tf are you')
 
   // //if myself -> i can mutate self review or nominate peers!
   if (isSelf) {

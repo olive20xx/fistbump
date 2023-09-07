@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import handleLogout from '@/components/Logout'
-import NominationBox from '@/components/Combobox'
+import NominationBox from '@/components/NominationBox'
 import {
   getAllUsers,
   getCurrentCycle,
@@ -16,6 +16,8 @@ import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
 
 import Targets from '@/components/table/Targets'
+import NominationPhase from '@/components/ui/Dashboard/NominationPhase'
+import UserNominationContent from '../dashboard/(user)/(nomination)/UserNominationContent'
 
 export const revalidate = 0
 
@@ -47,7 +49,7 @@ export default async function Dashboard() {
     ? loggedUserFullName.split(' ')[1]
     : ''
 
-  const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
+  const assignedReviews = await getAssignedReviews(loggedUserId)
   const assignedUsers = await Promise.all(
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
   )
@@ -89,13 +91,7 @@ export default async function Dashboard() {
           />
         ))}
         <SelfReview user={loggedUser}></SelfReview>
-        <NominationBox
-          users={peers}
-          loggedUserId={loggedUserId}
-          report={loggedUserReport}
-          cycleId={cycleId}
-        ></NominationBox>
-
+        <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
       </div>
     </div>
   )
