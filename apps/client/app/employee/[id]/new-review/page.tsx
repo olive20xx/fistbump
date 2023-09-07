@@ -1,12 +1,12 @@
-import Photo from '@/components/ui/photo'
 import '@/app/global.css'
 //to be deleted
 import UserCard from '@/components/ui/UserCard'
-import { Header2 } from '@/components/typography/header2'
 import MetricList from '@/components/review/MetricList'
 import { ReportData, ReviewData, UserData } from '@/types/models'
 import { getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
 import { cookies } from 'next/headers'
+import { Panel, PanelContent, PanelHeader } from '@/components/ui/Panel'
+import { Button } from '@/components/ui/button'
 
 // regular variables
 const panelPadding = 'p-4'
@@ -32,30 +32,45 @@ export default async function Review({ params }: { params: any }) {
     review = fullReport.reviews.self
   }
 
- 
+
   if (fullReport.reviews.peers && fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)) {
     review = fullReport.reviews.peers.find((peer) => peer.reviewerId === reviewerId)
   }
 
+
   return (
-    <div className="flex  mx-auto max-w-6xl h-screen ">
-      <div className={`w-1/4 border-2 ${panelPadding}`}>
-        <Header2>Subject of review</Header2>
-        <UserCard
-          photo={targetUser.photo}
-          fullName={`${targetUser.fullName}`}
-          title={targetUser.title}
-          team={targetUser.teamName}
-        />
+    <div className='bg-green-darker flex min-h-screen h-full py-10 flex-grow overflow-auto'>
+      <div className='w-[240px] px-5 flex justify-center'>
+        <Button className='bg-black rounded-sm w-32'>Back</Button>
       </div>
-      <MetricList
-        targetId={targetId}
-        reviewData={review}
-        targetName={targetName}
-      />
-      <div className={`w-1/4 border-2 ${panelPadding}`}>
-        <h1>PROFILE PICTURE</h1>
-        <Photo photo={targetUser.photo} alt="photo of the user" />
+      <Panel className='w-5/6 z-10 overflow-auto'>
+        <PanelHeader className='bg-gray text-white text-2xl font-bold'>
+          WRITE YOUR REVIEW
+        </PanelHeader>
+        <PanelContent>
+          <div className="h-full">
+            <MetricList
+              targetId={targetId}
+              reviewData={review}
+              targetName={targetName}
+            />
+          </div>
+        </PanelContent>
+      </Panel>
+      <div className='w-[240px] mx-5 flex-col justify-between'>
+        <div>
+          <UserCard
+            photo={targetUser.photo}
+            fullName={`${targetUser.fullName}`}
+            title={targetUser.title}
+            team={targetUser.teamName}
+          />
+        </div>
+        {/* <div className='flex-col'>
+          <Button className='bg-black rounded-sm w-32'>Save draft</Button>
+          <Button className='bg-black rounded-sm w-32'>Submit</Button>
+        </div> */}
+
       </div>
     </div>
   )

@@ -84,7 +84,7 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
   return isSubmitted ? (
     <Submitted isManagerReport={isManagerReport} />
   ) : (
-    <div className="p-4">
+    <div className="p-4 h-full">
       {error && <ErrorHandler error={error} onClose={() => setError(null)} />}
       {state.map((datum) => {
         return (

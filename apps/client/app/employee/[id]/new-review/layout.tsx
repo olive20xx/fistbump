@@ -8,7 +8,11 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">{children}</div>
+      {/* <div className="min-h-scren h-full">{children}</div> */}
+      <div className="ml-20 h-screen">{children}</div>
+
     </>
   )
 }
+
+
