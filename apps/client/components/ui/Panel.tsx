@@ -9,7 +9,7 @@ const panelVariants = cva(
   {
     variants: {
       size: {
-        horizontal: 'min-w-[400px]',
+        horizontal: 'min-w-[750px] min-h-[300px]',
         vertical: 'w-[416px]',
         page: 'w-[863px]',
       },

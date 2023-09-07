@@ -98,7 +98,7 @@ export default async function Dashboard() {
             <PanelTitle>Nominations</PanelTitle>
           </PanelHeader>
           <PanelContent className='p-5'>
-            <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
+            <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} />
           </PanelContent>
         </Panel>
       </div>
