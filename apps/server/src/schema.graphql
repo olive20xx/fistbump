@@ -34,8 +34,6 @@ input UserInput {
   companyName: String
 }
 
- 
-
 input ReportInput {
   _id: ReportIdInput
   summary: String
@@ -104,6 +102,7 @@ type Review {
   reviewerId: String
   isDeclined: Boolean
   submitted: Boolean
+  isDrafted: Boolean
   grades: [Grade]
   _id: String
 }
