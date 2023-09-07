@@ -19,7 +19,12 @@ type MetricListProps = {
   isManagerReport?: boolean
 }
 
-function MetricList({ targetId, targetName, reviewData, isManagerReport = false }: MetricListProps) {
+function MetricList({
+  targetId,
+  targetName,
+  reviewData,
+  isManagerReport = false,
+}: MetricListProps) {
   const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
   const { submitted, grades, reviewerId } = reviewData
   const [error, setError] = useState(null)
@@ -37,7 +42,9 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
 
   function handleRatingClick(rating: number, metricName: string) {
     const updatedState = [...state]
-    const grade = updatedState.find((gradeData) => gradeData.metric === metricName)
+    const grade = updatedState.find(
+      (gradeData) => gradeData.metric === metricName
+    )
 
     grade.rating = rating
     setState(updatedState)
@@ -48,13 +55,16 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
     const comment = event.target.value
 
     const updatedState = [...state]
-    const grade = updatedState.find((gradeData) => gradeData.metric === metricName)
+    const grade = updatedState.find(
+      (gradeData) => gradeData.metric === metricName
+    )
 
     grade.comment = comment
     setState(updatedState)
   }
 
   const handleSaveDraft = async () => {
+    variables.input.isDrafted = true
     variables.input.grades = state
     console.log(variables)
     const result = await updateAssignedReview({ variables })
@@ -63,9 +73,12 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
 
   async function handleSubmit() {
     for (let i = 0; i < state.length; i++) {
-      const gradeData = state[i];
+      const gradeData = state[i]
       if (gradeData.rating === 0 || gradeData.comment === '') {
-        setError({ message: 'Please fill out all ratings and comments.', code: 'Validation Error' })
+        setError({
+          message: 'Please fill out all ratings and comments.',
+          code: 'Validation Error',
+        })
         return
       }
     }
@@ -77,7 +90,10 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
       console.log('updated report ID', result)
       setIsSubmitted(true)
     } catch (error) {
-      setError({ message: 'An error occurred while submitting the review.', code: 'Submission Error' })
+      setError({
+        message: 'An error occurred while submitting the review.',
+        code: 'Submission Error',
+      })
     }
   }
 
@@ -90,7 +106,9 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
         return (
           <Metric
             key={datum.metric}
-            question={`How did ${isSelfReview ? 'you' : targetFirstName} do on ${datum.metric}?`}
+            question={`How did ${
+              isSelfReview ? 'you' : targetFirstName
+            } do on ${datum.metric}?`}
             name={datum.metric}
             value={datum.comment}
             rating={datum.rating}
@@ -111,8 +129,9 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
         </Button>
         <Button
           disabled={isSubmitted}
-          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
-            }`}
+          className={`w-36 ${
+            isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+          }`}
           onClick={handleSubmit}
           size="lg"
         >
