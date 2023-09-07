@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import handleLogout from '@/components/Logout'
-import NominationBox from '@/components/NominationBox'
+import NominationBox from '@/app/dashboard/(user)/(nomination)/NominationBox'
 import {
   getAllUsers,
   getCurrentCycle,

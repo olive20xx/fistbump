@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover'
 import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
-import usePeerReviews from '@/app/dashboard/(user)/usePeerReviews'
+import usePeerReviews from '@/app/dashboard/(user)/(nomination)/usePeerReviews'
 import { capitalizeName } from '@/lib/utils'
 import { Report, User } from '@/src/__generated__/graphql'
 

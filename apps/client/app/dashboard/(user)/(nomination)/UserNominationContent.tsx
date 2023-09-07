@@ -1,4 +1,4 @@
-import NominationBox from '@/components/NominationBox'
+import NominationBox from '@/app/dashboard/(user)/(nomination)/NominationBox'
 import CallToAction from '../CallToAction'
 import { Report, User } from '@/src/__generated__/graphql'
 
@@ -19,6 +19,7 @@ function UserNominationContent({ users, report, loggedUserId, cycleId }: UserNom
         <CallToAction action='nominate' numberOfPeers={numberOfPeers} />
         <NominationBox users={users} report={report} loggedUserId={loggedUserId} cycleId={cycleId} />
       </div>
+
     </div>
   )
 }
