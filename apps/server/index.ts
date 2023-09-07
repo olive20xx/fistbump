@@ -34,14 +34,18 @@ startServer()
     app.use(
       '/',
       cors<cors.CorsRequest>({
-        origin: ['http://localhost:3000'],
+        // TODO: Change this to the actual client URL + localhost
+        // origin: ['http://localhost:3000', 'https://fistbump-server.fly.dev/', 'https://fistbump.vercel.app/'],
+        origin: ['*'],
       }),
       bodyParser.json(),
       expressMiddleware(apolloServer, { context: jwtMiddleware })
     )
   })
   .then(() => {
-    new Promise<void>((resolve) => httpServer.listen({ port: 4000 }, resolve))
+    new Promise<void>((resolve) =>
+      httpServer.listen({ host: '0.0.0.0', port: 4000 }, resolve)
+    )
   })
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
