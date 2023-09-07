@@ -22,7 +22,7 @@ export default async function Dashboard() {
   if (token === undefined || !token.value || id === undefined || !id.value) {
     redirect('/')
   }
-
+  const loggedUserId = id.value
   const loggedUser = await getUserById(id.value)
 
   let loggedUserFullName = loggedUser.fullName
@@ -35,7 +35,7 @@ export default async function Dashboard() {
     ? loggedUserFullName.split(' ')[1]
     : ''
 
-  const assignedReviews = await getAssignedReviews(loggedUserId, cycleId)
+  const assignedReviews = await getAssignedReviews(loggedUserId)
   const assignedUsers = await Promise.all(
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
   )

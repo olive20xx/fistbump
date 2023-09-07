@@ -98,9 +98,9 @@ export async function getEmployeeReport(
   return report
 }
 
-export async function getAssignedReviews(reviewerId: string, cycleId: string) {
+export async function getAssignedReviews(reviewerId: string) {
   const query = queries.GET_REVIEWS_TO_WRITE
-  const variables = { reviewerId, cycleId }
+  const variables = { reviewerId }
   const result = await apolloClient.query({ query, variables })
   const assignedReviews = result.data.getAssignedReviews
   return assignedReviews
