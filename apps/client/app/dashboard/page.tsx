@@ -10,15 +10,11 @@ import {
 import { redirect } from 'next/navigation'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
-import NavBar from '@/components/ui/Dashboard/Navbar'
 
 export const revalidate = 0
 
 export default async function Dashboard() {
   const cookieStore = cookies()
-
-  const cycle = await getCurrentCycle()
-  const cycleId = cycle._id
 
   const token = cookieStore.get('token')
   const id = cookieStore.get('userId')
@@ -30,12 +26,10 @@ export default async function Dashboard() {
   const loggedUser = await getUserById(id.value)
 
   let loggedUserFullName = loggedUser.fullName
-  let isLogged = true
-  let loggedUserId = id.value
+
   const loggedUserFirstName = loggedUserFullName
     ? loggedUserFullName.split(' ')[0]
     : ''
-
 
   const loggedUserLastName = loggedUserFullName
     ? loggedUserFullName.split(' ')[1]
@@ -54,16 +48,13 @@ export default async function Dashboard() {
 
   return (
     <>
-      <NavBar />
-      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">
-        <DashboardTop
-          firstName={loggedUserFirstName}
-          lastName={loggedUserLastName}
-          title={loggedUser.title}
-          photo={loggedUser.photo}
-        />
-        <DashboardContent />
-      </div>
+      <DashboardTop
+        firstName={loggedUserFirstName}
+        lastName={loggedUserLastName}
+        title={loggedUser.title}
+        photo={loggedUser.photo}
+      />
+      <DashboardContent />
     </>
   )
 }
