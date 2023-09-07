@@ -4,8 +4,7 @@ import { cookies } from 'next/headers'
 import { getAllUsers, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import { UserItem } from '@/components/ui/UserItem'
-import { modelTypes } from '@/fistbump-types'
-
+import { modelTypes } from '@fistbump/fistbump-types'
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()

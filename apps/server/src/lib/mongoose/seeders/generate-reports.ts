@@ -1,5 +1,5 @@
 import faker from './faker'
-import { modelTypes } from '@/fistbump-types'
+import { modelTypes } from '@fistbump/fistbump-types'
 import { UserDoc, ObjectId } from './types'
 
 const NUMBER_OF_METRICS = 3

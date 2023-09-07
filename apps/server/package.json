@@ -4,15 +4,19 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "generate": "graphql-codegen --config codegen.yml",
+    "generate:prod": "graphql-codegen --config codegen.yml",
+    "generate:dev": "graphql-codegen --config codegen.dev.yml",
     "compile": "npm run generate && tsc",
     "start": "node .dist/apps/server/index.js",
     "dev": "nodemon index.ts & yarn run generate",
-    "seed": "ts-node src/seed.ts"
+    "seed": "ts-node src/seed.ts",
+    "prebuild": "yarn run generate:prod",
+    "build": "tsc",
+    "postbuild": "ncp ./src/schema.graphql ./dist/src/schema.graphql"
   },
   "dependencies": {
-    "@/fistbump-types": "*",
     "@apollo/server": "^4.9.2",
+    "@fistbump/fistbump-types": "*",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
@@ -38,6 +42,7 @@
     "@parcel/watcher": "^2.3.0",
     "@types/jsonwebtoken": "^9.0.2",
     "babel-eslint": "^10.1.0",
+    "ncp": "^2.0.0",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   }
