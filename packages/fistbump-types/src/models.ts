@@ -66,3 +66,5 @@ export type CycleModel = {
   reviewDeadline: Date
   reportDeadline: Date
 }
+
+export const ObjectId = mongoose.Types.ObjectId

@@ -18,7 +18,6 @@ import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 import NavBar from '@/components/ui/Dashboard/Navbar'
 
-
 export const revalidate = 0
 
 export default async function Dashboard() {
@@ -35,7 +34,6 @@ export default async function Dashboard() {
   }
 
   const loggedUser = await getUserById(id.value)
-
 
   let loggedUserFullName = loggedUser.fullName
   let isLogged = true
@@ -54,13 +52,12 @@ export default async function Dashboard() {
     assignedReviews.map(async (review) => await getUserById(review._id.targetId))
   )
 
-
   const reportVars = {
     targetId: id.value,
   }
   const loggedUserReport = await getFullReport(reportVars.targetId)
   const peers = await getAllUsers()
-
+ 
   return (
     <>
       <NavBar />

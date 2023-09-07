@@ -1,7 +1,8 @@
 import Photo from '@/components/ui/photo'
 import Link from 'next/link'
 import logo from '../../../../assets_to_test/logo.svg'
-import { LogOutIcon, Home, UserCircle2 } from 'lucide-react'
+import { LogOutIcon, Home, UserCircle2, Trash } from 'lucide-react'
+
 import handleLogout from '@/components/Logout'
 
 async function NavBar() {
@@ -11,6 +12,10 @@ async function NavBar() {
         <Photo photo={logo} alt="photo of the user" />
       </div>
       <div className="flex flex-col gap-6 items-center">
+        <Link href="/testpage">
+          <Trash size={30} />
+        </Link>
+
         <Link href="/">
           <Home size={30} />
         </Link>

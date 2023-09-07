@@ -16,13 +16,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { mutations, queries } from '@/lib/graphql-queries'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { Report, User } from '@/src/__generated__/graphql'
+import { mutations } from '@/lib/graphql-queries'
+import { useMutation } from '@apollo/client'
+import { Report, ReportInput, User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
- 
+
+
 interface NominationBoxProps {
   users: User[]
   loggedUserId: string
@@ -31,13 +32,15 @@ interface NominationBoxProps {
 }
 
 export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
- 
+
   const [open, setOpen] = React.useState(false)
   const [currentValue, setCurrentValue] = React.useState('')
   const [value, setValue] = React.useState('')
   const [peerId, setPeerId] = React.useState(null)
   const [peers, setPeers] = React.useState(null)
-  const [updatePeerReviews] = useMutation(mutations.UPDATE_PEER_REVIEWS)
+  const [updatePeerReviews] = useMutation(mutations.UPDATE_REPORT)
+
+
 
   React.useEffect(() => {
     async function nominations() {
@@ -47,19 +50,21 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
       console.log('nominations===>', peers)
     }
     nominations()
-  }, [report.reviews.peers])
+  }, [report])
 
   async function handleNominatePeer() {
     const mutationVars = {
-      targetId: loggedUserId,
-      cycleId: cycleId,
-      input: { newReviewerId: peerId },
+      targetId: loggedUserId as string,
+      cycleId: cycleId as string,
+      input: { reviews: { peers: { reviewerId: peerId } } } as ReportInput
     }
     const {
       data: {
-        updatePeerReviewerId: {
-          reviews: { peers },
-        },
+        updateReport: {
+          reviews: {
+            peers
+          }
+        }
       },
     } = await updatePeerReviews({ variables: mutationVars })
     const filteredPeers = peers.filter((peer) => peer.reviewerId === null)

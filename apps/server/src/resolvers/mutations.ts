@@ -2,14 +2,13 @@ import mongoose from 'mongoose'
 import { modelTypes } from '@/fistbump-types'
 import {
   MutationResolvers,
-  PeerUpdateInput,
-  ReportInput,
   ReviewInput,
   UserInput,
 } from '../__generated__/resolvers-types'
 import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
+import { resolveUpdateReport } from './updateReports'
 
 const mutations: MutationResolvers = {
   Mutation: {
@@ -37,28 +36,7 @@ const mutations: MutationResolvers = {
       }
     },
 
-    updateReport: async (
-      _: any,
-      {
-        targetId,
-        cycleId,
-        input,
-      }: {
-        targetId: String
-        cycleId: String
-        input: ReportInput
-      }
-    ) => {
-      try {
-        const filter = { '_id.targetId': targetId, '_id.cycleId': cycleId }
-        const updatedReport = await Report.findOneAndUpdate(filter, input, {
-          new: true,
-        })
-        return updatedReport
-      } catch (error) {
-        throw new Error('Error updating a report in the database')
-      }
-    },
+    updateReport: resolveUpdateReport,
     updateAssignedReview: async (
       _: any,
       {
@@ -111,47 +89,12 @@ const mutations: MutationResolvers = {
         if (input.submitted !== undefined && input.submitted !== null) {
           review.submitted = input.submitted
         }
-
         await report.save()
         console.log('updated report', report.reviews.manager)
         return report
       } catch (error: any) {
         console.log(error.message)
         throw new Error('Error updating a review in the database')
-      }
-    },
-    updatePeerReviewerId: async (
-      _: any,
-      {
-        targetId,
-        cycleId,
-        input,
-      }: { targetId: String; cycleId: String; input: PeerUpdateInput }
-    ) => {
-      try {
-        const filter = {
-          '_id.targetId': targetId,
-          '_id.cycleId': cycleId,
-          'reviews.peers': { $elemMatch: { reviewerId: null } },
-        }
-        const report = await Report.findOne(filter)
-        const ObjectId = mongoose.Types.ObjectId
-
-        if (report) {
-          const peerReviewToUpdate = report.reviews.peers.find(
-            (review) => review.reviewerId === null
-          )
-          if (peerReviewToUpdate) {
-            peerReviewToUpdate.reviewerId = new ObjectId(input.newReviewerId)
-          }
-          await report.save()
-          return report
-        } else {
-          throw new Error('Report not found')
-        }
-      } catch (error) {
-        console.error('Error updating report:', error)
-        throw new Error('Error updating a report in the database')
       }
     },
   },
