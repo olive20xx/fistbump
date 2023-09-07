@@ -14,6 +14,7 @@ import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 export const revalidate = 0
 
 export default async function Dashboard() {
+  const panel = 'Team member Panel'
   const cookieStore = cookies()
 
   const token = cookieStore.get('token')
@@ -37,7 +38,9 @@ export default async function Dashboard() {
 
   const assignedReviews = await getAssignedReviews(loggedUserId)
   const assignedUsers = await Promise.all(
-    assignedReviews.map(async (review) => await getUserById(review._id.targetId))
+    assignedReviews.map(
+      async (review) => await getUserById(review._id.targetId)
+    )
   )
 
   const reportVars = {
@@ -53,6 +56,7 @@ export default async function Dashboard() {
         lastName={loggedUserLastName}
         title={loggedUser.title}
         photo={loggedUser.photo}
+        panel={panel}
       />
       <DashboardContent />
     </>

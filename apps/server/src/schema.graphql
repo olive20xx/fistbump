@@ -34,8 +34,6 @@ input UserInput {
   companyName: String
 }
 
- 
-
 input ReportInput {
   _id: ReportIdInput
   summary: String
@@ -78,6 +76,7 @@ type User {
   photo: String
   teamName: String
   companyName: String
+  isManagerOf: [String]
 }
 
 type ReportID {

@@ -71,6 +71,7 @@ export const queries = {
       title
       fullName
       _id
+      isManagerOf
     }
   }`),
 
