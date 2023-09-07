@@ -23,25 +23,31 @@ module.exports = {
       },
       colors: {
         gray: {
-          DEFAULT: 'hsl(var(--normal-gray))',
+          DEFAULT: 'hsl(var(--gray))',
           light: 'hsl(var(--light-gray))',
           lighter: 'hsl(var(--lighter-gray))',
         },
         yellow: {
+          DEFAULT: 'hsl(var(--yellow))',
           light: 'hsl(var(--light-yellow))',
-          dark: 'hsl(var(--dark-yellow))',
+        },
+        red: {
+          DEFAULT: 'hsl(var(--red))',
+          light: 'hsl(var(--light-red))',
         },
         green: {
           light: 'hsl(var(--light-green))',
-          medium: 'hsl(var(--medium-green))',
-          dark: 'hsl(var(--dark-green))',
-          darker: 'hsl(var(--darker-green))',
+        },
+        turquoise: {
+          DEFAULT: 'hsl(var(--turquoise))',
+          light: 'hsl(var(--light-turquoise))',
+          dark: 'hsl(var(--dark-turquoise))',
+          darker: 'hsl(var(--darker-turquoise))',
+          darkest: 'hsl(var(--darkest-turquoise))',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        darkturqouise: 'hsl(var(--darkturqouise))',
-        backgroundlogin: 'hsl(var(--backgroundlogin))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
