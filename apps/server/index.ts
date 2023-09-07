@@ -39,6 +39,7 @@ startServer()
           'http://localhost:3000',
           'https://fistbump-server.fly.dev',
           'https://fistbumpers.vercel.app',
+          'https://fistbump360.vercel.app',
         ],
         // origin: ['*'],
       }),

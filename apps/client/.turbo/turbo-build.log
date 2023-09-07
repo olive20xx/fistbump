@@ -1,8 +1,20 @@
+$ yarn compile
+$ graphql-codegen
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to ./src/__generated__/
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to ./src/__generated__/
+[SUCCESS] Generate outputs
 $ next build
 - info Loaded env from /Users/arol/Developer/arol.dev/projects/fistbump/apps/client/.env.local
 - info Creating an optimized production build...
-Warning: For production Image Optimization with Next.js, the optional 'sharp' package is strongly recommended. Run 'npm i sharp', and Next.js will use it automatically for Image Optimization.
-Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
 - info Compiled successfully
 - info Linting and checking validity of types...
 - info Collecting page data...
@@ -15,7 +27,7 @@ Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
 
 Route (app)                                  Size     First Load JS
 ┌ ○ /                                        2.56 kB         129 kB
-├ λ /dashboard                               879 B           182 kB
+├ λ /dashboard                               876 B           182 kB
 ├ λ /employee/[id]/manager-report/[cycleId]  195 B           177 kB
 ├ λ /employee/[id]/new-report                2.29 kB         213 kB
 ├ λ /employee/[id]/new-review                2.29 kB         213 kB
