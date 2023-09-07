@@ -5,10 +5,10 @@ import http from 'http'
 import bodyParser from 'body-parser'
 import resolvers from './src/resolvers'
 import { readFileSync } from 'fs'
-import { MONGODB_URL } from './src/lib/constants'
+import { HOST, MONGODB_URL } from './src/lib/constants'
 import { ApolloServer } from '@apollo/server'
 import jwtMiddleware from './src/lib/middlewares/jwt'
-import { ApolloContext } from './src/types'
+import { ApolloContext } from './src/types/devops'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 const typeDefs = readFileSync('./src/schema.graphql', 'utf-8')
@@ -49,7 +49,7 @@ startServer()
   })
   .then(() => {
     new Promise<void>((resolve) =>
-      httpServer.listen({ host: '0.0.0.0', port: 4000 }, resolve)
+      httpServer.listen({ host: HOST, port: 4000 }, resolve)
     )
   })
 

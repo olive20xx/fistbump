@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 
 export type UserDoc = mongoose.MergeType<
   mongoose.Document<unknown, {}, modelTypes.UserModel> &

@@ -12,3 +12,4 @@ function ensureEnvVarExist(name: string) {
 }
 
 export const JWT_SECRET = ensureEnvVarExist('JWT_SECRET')
+export const HOST = process.env['HOST'] || '0.0.0.0'

@@ -1,4 +1,4 @@
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 import { addDays } from '../../utils'
 
 export default function generateCycle(startDate: Date, peersPerTarget: number) {

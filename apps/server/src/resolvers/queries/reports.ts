@@ -1,7 +1,7 @@
 import Report from '../../lib/mongoose/models/Report'
 import Cycle from '../../lib/mongoose/models/Cycle'
-import { ApolloContext } from '@/types'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { ApolloContext } from '@/types/devops'
+import { modelTypes } from '../../types/export'
 import User from '../../lib/mongoose/models/User'
 
 export async function resolveReport(

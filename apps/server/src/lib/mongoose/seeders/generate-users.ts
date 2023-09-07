@@ -1,5 +1,5 @@
 import faker from './faker'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 import generateMongoId from './generate-id'
 import { Types } from 'mongoose'
 

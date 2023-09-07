@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 
 const userSchema = new Schema<modelTypes.UserModel>({
   email: String,

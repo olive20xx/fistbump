@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../constants'
-import { ApolloContext, JWTPayload } from '@/types'
+import { ApolloContext, JWTPayload } from '@/types/devops'
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone'
 
 export default async function jwtMiddleware({

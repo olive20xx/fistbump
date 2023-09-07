@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 
 const teamSchema = new Schema<modelTypes.TeamModel>({
   name: { type: String, unique: true },
