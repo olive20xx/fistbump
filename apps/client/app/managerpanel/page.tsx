@@ -7,7 +7,7 @@ import { UserItem } from '@/components/ui/UserItem'
 import { modelTypes } from '@/fistbump-types'
 
 export default async function ManagerPanel() {
-  const panel = `Manager Panel`
+  const panelTitle = `Manager Panel`
   const cookieStore = cookies()
 
   const token = cookieStore.get('token')
@@ -41,7 +41,7 @@ export default async function ManagerPanel() {
         lastName={loggedUserLastName}
         title={loggedUser.title}
         photo={loggedUser.photo}
-        panel={panel}
+        panelTitle={panelTitle}
       />
       {users.map((user: modelTypes.UserModel) => (
         <UserItem key={user.fullName} user={user} cycleId={cycleId} />

@@ -14,7 +14,7 @@ import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 export const revalidate = 0
 
 export default async function Dashboard() {
-  const panel = 'Team member Panel'
+  const panelTitle = 'Team member Panel'
   const cookieStore = cookies()
 
   const token = cookieStore.get('token')
@@ -56,7 +56,7 @@ export default async function Dashboard() {
         lastName={loggedUserLastName}
         title={loggedUser.title}
         photo={loggedUser.photo}
-        panel={panel}
+        panelTitle={panelTitle}
       />
       <DashboardContent />
     </>
