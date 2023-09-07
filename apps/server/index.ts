@@ -35,8 +35,12 @@ startServer()
       '/',
       cors<cors.CorsRequest>({
         // TODO: Change this to the actual client URL + localhost
-        // origin: ['http://localhost:3000', 'https://fistbump-server.fly.dev/', 'https://fistbump.vercel.app/'],
-        origin: ['*'],
+        origin: [
+          'http://localhost:3000',
+          'https://fistbump-server.fly.dev',
+          'https://fistbumpers.vercel.app',
+        ],
+        // origin: ['*'],
       }),
       bodyParser.json(),
       expressMiddleware(apolloServer, { context: jwtMiddleware })

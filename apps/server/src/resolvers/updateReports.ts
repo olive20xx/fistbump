@@ -1,5 +1,5 @@
 import { ReportInput } from '@/__generated__/resolvers-types'
-import { modelTypes } from '@/fistbump-types'
+import { modelTypes } from '@fistbump/fistbump-types'
 import Cycle from '../lib/mongoose/models/Cycle'
 import Report from '..//lib/mongoose/models/Report'
 import { ApolloContext } from '@/types'
