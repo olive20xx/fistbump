@@ -1,6 +1,7 @@
 import NominationBox from '@/app/dashboard/(user)/(nomination)/NominationBox'
 import CallToAction from '../CallToAction'
 import { Report, User } from '@/src/__generated__/graphql'
+import UserNamePhotoCaption from '@/components/ui/UserNamePhotoCaption'
 
 type UserNominationContentProps = {
   className?: string,
@@ -11,8 +12,9 @@ type UserNominationContentProps = {
 }
 
 function UserNominationContent({ className, users, report, loggedUserId, cycleId }: UserNominationContentProps) {
-
-  const numberOfPeers = report.reviews.peers.length
+  const peerReviews = report.reviews.peers
+  const numberOfPeers = peerReviews.length
+  const reviewerIds: string[] = peerReviews.map(review => review.reviewerId)
 
   return (
     <div className={`flex justify-between ${className}`}>
@@ -20,10 +22,20 @@ function UserNominationContent({ className, users, report, loggedUserId, cycleId
         <CallToAction action='nominate' numberOfPeers={numberOfPeers} />
         <NominationBox users={users} report={report} loggedUserId={loggedUserId} cycleId={cycleId} />
       </div>
-      <div className='flex flex-col gap-4'>
-        <h4 className='bg-slate-100 font-bold text-green-darker'>Your nominations</h4>
-
+      <div className='flex flex-col gap-4 w-1/2'>
+        <h4 className='font-bold text-green-darker'>Your nominations</h4>
+        <NomineeList ids={reviewerIds} />
       </div>
+    </div>
+  )
+}
+
+function NomineeList({ ids }: { ids: string[] }) {
+  return (
+    <div className='gap-[10px] flex-col flex'>
+      {ids.map((id, i) => (
+        <UserNamePhotoCaption userId={id} caption='Was nominated by you' key={i} />
+      ))}
     </div>
   )
 }
