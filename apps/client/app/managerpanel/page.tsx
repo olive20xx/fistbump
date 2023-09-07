@@ -1,8 +1,34 @@
 import '@/app/global.css'
+import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
+import { cookies } from 'next/headers'
+import { getAllUsers, getCurrentCycle, getUserById } from '@/lib/get-data-api'
+import { redirect } from 'next/navigation'
 import { UserItem } from '@/components/ui/UserItem'
-import { modelTypes } from '@/fistbump-types/'
-import { getAllUsers, getCurrentCycle } from '@/lib/get-data-api'
+import { modelTypes } from '@/fistbump-types'
+
 export default async function ManagerPanel() {
+  const panelTitle = `Manager Panel`
+  const cookieStore = cookies()
+
+  const token = cookieStore.get('token')
+  const id = cookieStore.get('userId')
+
+  if (token === undefined || !token.value || id === undefined || !id.value) {
+    redirect('/')
+  }
+  const loggedUserId = id.value
+  const loggedUser = await getUserById(id.value)
+
+  let loggedUserFullName = loggedUser.fullName
+
+  const loggedUserFirstName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[0]
+    : ''
+
+  const loggedUserLastName = loggedUserFullName
+    ? loggedUserFullName.split(' ')[1]
+    : ''
+
   const cycle = await getCurrentCycle()
   const cycleId = cycle._id
 
@@ -10,19 +36,16 @@ export default async function ManagerPanel() {
 
   return (
     <div className="bg-stone-100 h-screen">
-      <div className="bg-pink-100 flex px-12 justify-between items-center h-24 text-center mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold">List of the users</h2>
-      </div>
-      <div className="rounded-xl max-w-7xl mx-auto">
-        <div className="grid grid-cols-8 gap-4 font-bold border-b p-2 bg-slate-400">
-          <p className="col-span-2">Title</p>
-          <p className="col-span-2">Full Name</p>
-          <p className="col-span-2">Team Name</p>
-        </div>
-        {users.map((user: modelTypes.UserModel) => (
-          <UserItem key={user.fullName} user={user} cycleId={cycleId} />
-        ))}
-      </div>
+      <DashboardTop
+        firstName={loggedUserFirstName}
+        lastName={loggedUserLastName}
+        title={loggedUser.title}
+        photo={loggedUser.photo}
+        panelTitle={panelTitle}
+      />
+      {users.map((user: modelTypes.UserModel) => (
+        <UserItem key={user.fullName} user={user} cycleId={cycleId} />
+      ))}
     </div>
   )
 }

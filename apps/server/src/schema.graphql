@@ -34,8 +34,6 @@ input UserInput {
   companyName: String
 }
 
- 
-
 input ReportInput {
   _id: ReportIdInput
   summary: String
