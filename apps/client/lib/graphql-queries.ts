@@ -7,6 +7,7 @@ export const queries = {
       fullName
       title
       teamName
+      email
     }
   }`),
 
@@ -144,7 +145,7 @@ export const queries = {
 
 export const mutations = {
   UPDATE_REPORT: gql(`
-    mutation updateReport($targetId:String!, $cycleId:String!, $input:ReportInput!) {
+    mutation updateReport($targetId:String!, $cycleId:String, $input:ReportInput) {
       updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
         summary
         reviews {
@@ -223,16 +224,6 @@ export const mutations = {
       }
     }
   `),
-  UPDATE_PEER_REVIEWS: gql(`
-    mutation updatePeerReviews($targetId:String!, $cycleId:String!, $input:PeerUpdateInput!) {
-      updatePeerReviewerId(targetId: $targetId, cycleId: $cycleId, input: $input) {
-        reviews {
-          peers {
-            reviewerId
-          }
-        }
-    }
-  }`),
   CREATE_USER: gql(`
     mutation createUser($input: UserInput!){
       createUser(input: $input){
