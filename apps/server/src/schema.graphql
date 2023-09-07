@@ -45,7 +45,7 @@ input ReportInput {
 
 input ReviewsInput {
   self: ReviewInput
-  peers: ReviewInput
+  peer: ReviewInput
   manager: ReviewInput
 }
 

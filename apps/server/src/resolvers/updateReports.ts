@@ -43,14 +43,14 @@ export async function resolveUpdateReport(
   // //if myself -> i can mutate self review or nominate peers!
   if (isSelf) {
     if (report.status === modelTypes.REPORT_STATUS.NOMINATION) {
-      if (input.reviews?.peers?.reviewerId) {
+      if (input.reviews?.peer?.reviewerId) {
         const peersToNominate = report.reviews.peers.find(
           (peer) => peer.reviewerId === null
         )
         if (peersToNominate) {
-          if (input.reviews.peers.reviewerId)
+          if (input.reviews.peer.reviewerId)
             peersToNominate.reviewerId = new modelTypes.ObjectId(
-              input.reviews.peers.reviewerId
+              input.reviews.peer.reviewerId
             )
         }
         await report.save()
@@ -96,17 +96,17 @@ export async function resolveUpdateReport(
     )
 
     if (review) {
-      if (input.reviews?.peers?.grades) {
-        review.grades = input.reviews.peers.grades as modelTypes.GradeModel[]
+      if (input.reviews?.peer?.grades) {
+        review.grades = input.reviews.peer.grades as modelTypes.GradeModel[]
       }
       if (
-        input.reviews?.peers?.isDeclined !== undefined &&
-        input.reviews?.peers?.isDeclined !== null
+        input.reviews?.peer?.isDeclined !== undefined &&
+        input.reviews?.peer?.isDeclined !== null
       ) {
-        review.isDeclined = input.reviews.peers.isDeclined
+        review.isDeclined = input.reviews.peer.isDeclined
       }
-      if (input.reviews?.peers?.submitted) {
-        review.submitted = input.reviews.peers.submitted
+      if (input.reviews?.peer?.submitted) {
+        review.submitted = input.reviews.peer.submitted
       }
     }
     await report.save()
