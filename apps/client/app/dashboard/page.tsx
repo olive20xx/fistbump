@@ -1,9 +1,5 @@
 import '@/app/global.css'
 import { cookies } from 'next/headers'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import handleLogout from '@/components/Logout'
-import NominationBox from '@/components/Combobox'
 import {
   getAllUsers,
   getCurrentCycle,
@@ -12,8 +8,6 @@ import {
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import SelfReview from '@/components/review/Self'
-import { User } from '@/src/__generated__/graphql'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
 import NavBar from '@/components/ui/Dashboard/Navbar'
@@ -57,7 +51,7 @@ export default async function Dashboard() {
   }
   const loggedUserReport = await getFullReport(reportVars.targetId)
   const peers = await getAllUsers()
- 
+
   return (
     <>
       <NavBar />
