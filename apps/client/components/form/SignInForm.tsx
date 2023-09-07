@@ -22,8 +22,6 @@ import { useLazyQuery } from '@apollo/client'
 import ErrorHandler from '../ErrorHandler'
 import { useEffect, useState } from 'react'
 
- 
-
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z
@@ -34,11 +32,8 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
-
   const [errorMessage, setErrorMessage] = useState(null)
-  const [loginUser] = useLazyQuery(queries.LOGIN, { fetchPolicy: "no-cache", })
- 
-
+  const [loginUser] = useLazyQuery(queries.LOGIN, { fetchPolicy: 'no-cache' })
 
   const { push } = useRouter()
 
@@ -65,18 +60,16 @@ const SignInForm = () => {
     const variables = { email, password }
 
     try {
-
       const { loading, data, error } = await loginUser({ variables })
 
       if (error) {
         setErrorMessage({ message: error.message, code: 'Not Found' })
 
         form.reset({ email: '', password: '' })
-        return `Error! ${error}`;
+        return `Error! ${error}`
       }
 
-
-      if (loading) return 'Loading...';
+      if (loading) return 'Loading...'
       const login = data.login
       if (login.token && login.id) {
         setCookie('token', login.token)
@@ -84,13 +77,10 @@ const SignInForm = () => {
       }
 
       push('/dashboard')
-
-    }
-    catch (error) {
-      console.error('An unexpected error occurred:', error);
+    } catch (error) {
+      console.error('An unexpected error occurred:', error)
       form.reset({ email: '', password: '' })
-      setErrorMessage({ message: 'An error occured. Please try again.' });
-
+      setErrorMessage({ message: 'An error occured. Please try again.' })
     }
   }
 
@@ -127,16 +117,17 @@ const SignInForm = () => {
           Log in
         </Button>
       </form>
-      {errorMessage &&
-        <div className="absolute top-0 right-100 mt-20 mr-4 p-2 bg-red-500 text-white rounded-lg shadow-md z-10"><ErrorHandler error={errorMessage} onClose={() => setErrorMessage(null)} /></div>
-      }
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
-      <p className="text-center text-sm text-gray-600 mt-2">
+      {errorMessage && (
+        <div className="absolute top-0 right-100 mt-20 mr-4 p-2 bg-red-500 text-white rounded-lg shadow-md z-10">
+          <ErrorHandler
+            error={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        </div>
+      )}
+      <p className="text-center text-sm text-darkturqouise mt-6">
         If you don&apos;t have an account, please&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/signup">
-
+        <Link className="text-gray-200 hover:underline" href="/signup">
           Sign up
         </Link>
       </p>
