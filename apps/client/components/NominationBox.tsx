@@ -54,9 +54,9 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
   }
 
   return (
-    (toNominate <= 0 ? <div className="pt-12">Nominations complete!</div> :
+    (toNominate <= 0 ? <div>Nominations complete!</div> :
 
-      <div className="pt-12 flex gap-2">
+      <div className="flex gap-2">
         <Popover open={open} onOpenChange={() => setOpen(!open)} >
           <PopoverTrigger asChild>
             <Button

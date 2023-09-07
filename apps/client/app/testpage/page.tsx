@@ -16,6 +16,8 @@ import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
 
 import Targets from '@/components/table/Targets'
+import NominationPhase from '@/components/ui/Dashboard/NominationPhase'
+import UserNominationContent from '../dashboard/(user)/(nomination)/UserNominationContent'
 
 export const revalidate = 0
 
@@ -89,13 +91,7 @@ export default async function Dashboard() {
           />
         ))}
         <SelfReview user={loggedUser}></SelfReview>
-        <NominationBox
-          users={peers}
-          loggedUserId={loggedUserId}
-          report={loggedUserReport}
-          cycleId={cycleId}
-        ></NominationBox>
-
+        <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
       </div>
     </div>
   )
