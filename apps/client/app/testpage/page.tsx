@@ -99,7 +99,6 @@ export default async function Dashboard() {
           </PanelHeader>
           <PanelContent className='p-5'>
             <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
-
           </PanelContent>
         </Panel>
       </div>

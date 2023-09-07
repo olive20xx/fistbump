@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { useRouter } from 'next/navigation'
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -33,6 +34,7 @@ export type NominationBoxProps = {
 }
 
 export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
+  const router = useRouter()
   const peerReviews = report.reviews.peers
   const [toNominate, nominatedIds, setPeerReviews] = usePeerReviews(peerReviews)
   const [open, setOpen] = React.useState<boolean>(false)
@@ -48,6 +50,7 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
       input: { reviews: { peer: { reviewerId: peerId } } },
     }
     const { data: { updateReport: { reviews: { peers } } } } = await updatePeerReviews({ variables })
+    router.refresh()
     setPeerReviews(peers)
     setPeerId('')
     setName('')
