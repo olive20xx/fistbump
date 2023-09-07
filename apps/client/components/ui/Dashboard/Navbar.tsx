@@ -15,7 +15,6 @@ async function Navbar() {
         <Link href="/testpage">
           <Trash size={30} />
         </Link>
-
         <Link href="/">
           <Home size={30} />
         </Link>
