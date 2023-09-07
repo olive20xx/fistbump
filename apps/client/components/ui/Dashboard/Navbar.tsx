@@ -19,7 +19,7 @@ async function Navbar() {
           <Home size={30} />
         </Link>
         <UserCircle2 size={30} />
-        <div className="bg-green-medium rounded-t-md w-[60px] h-[60px] flex items-center justify-center">
+        <div className="bg-turquoise rounded-t-md w-[60px] h-[60px] flex items-center justify-center">
           <Link href="/">
             <button onClick={handleLogout}>
               <LogOutIcon size={30} stroke="white" />

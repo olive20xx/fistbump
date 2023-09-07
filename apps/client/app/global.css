@@ -6,20 +6,23 @@
 @layer base {
   :root {
     /* custom FistBump palette */
+    --yellow: 46 98% 56%;
     --light-yellow: 46 100% 88%;
-    --dark-yellow: 46 98% 56%;
 
-    --light-green: 173 66% 91%;
-    --medium-green: 173, 96%, 33%;
-    --dark-green: 173 96% 33%;
-    --darker-green: 173 57% 23%;
+    --red: 5 94% 63%;
+    --light-red: 5 95% 84%;
 
-    --normal-gray: 192 3% 70%;
+    --light-green: 137 56% 86%;
+
+    --gray: 192 3% 70%;
     --light-gray: 0 0% 96%;
     --lighter-gray: 0 0% 96% 0.8;
 
-    --darkturqouise: 191, 54%, 38%, 1;
-    --backgroundlogin: 191, 55%, 16%, 1;
+    --turquoise: 173 96% 33%;
+    --light-turquoise: 173 66% 91%;
+    --dark-turquoise: 173 57% 23%;
+    --darker-turquoise: 191 54% 38%;
+    --darkest-turquoise: 191 55% 16%;
 
     /* shadcn defaults */
     --background: 0 0% 100%;
