@@ -29,11 +29,10 @@ export const fetchCache = 'force-no-cache'
 export type NominationBoxProps = {
   users: User[],
   loggedUserId: string,
-  cycleId: string,
   report: Report,
 }
 
-export default function NominationBox({ users, loggedUserId, cycleId, report }: NominationBoxProps) {
+export default function NominationBox({ users, loggedUserId, report }: NominationBoxProps) {
   const router = useRouter()
   const peerReviews = report.reviews.peers
   const [toNominate, nominatedIds, setPeerReviews] = usePeerReviews(peerReviews)
@@ -46,7 +45,6 @@ export default function NominationBox({ users, loggedUserId, cycleId, report }: 
   async function handleNominatePeer() {
     const variables = {
       targetId: loggedUserId,
-      cycleId: cycleId,
       input: { reviews: { peer: { reviewerId: peerId } } },
     }
     const { data: { updateReport: { reviews: { peers } } } } = await updatePeerReviews({ variables })
