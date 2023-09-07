@@ -8,10 +8,9 @@ type UserNominationContentProps = {
   users: User[],
   report: Report,
   loggedUserId: string,
-  cycleId: string,
 }
 
-function UserNominationContent({ className, users, report, loggedUserId, cycleId }: UserNominationContentProps) {
+function UserNominationContent({ className, users, report, loggedUserId }: UserNominationContentProps) {
   const peerReviews = report.reviews.peers
   const numberOfPeers = peerReviews.length
   const reviewerIds: string[] = peerReviews.map(review => review.reviewerId)
@@ -20,9 +19,9 @@ function UserNominationContent({ className, users, report, loggedUserId, cycleId
     <div className={`flex justify-between ${className}`}>
       <div className='flex flex-col gap-4'>
         <CallToAction action='nominate' numberOfPeers={numberOfPeers} />
-        <NominationBox users={users} report={report} loggedUserId={loggedUserId} cycleId={cycleId} />
+        <NominationBox users={users} report={report} loggedUserId={loggedUserId} />
       </div>
-      <div className='flex flex-col gap-4 w-1/2'>
+      <div className='flex flex-col gap-4 w-2/5'>
         <h4 className='font-bold text-green-darker'>Your nominations</h4>
         <NomineeList ids={reviewerIds} />
       </div>
