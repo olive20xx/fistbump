@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image'
 import React, { FunctionComponent } from 'react'
-import PlaceholderUser from '../../../assets_to_test/placeholder-user.png'
+import ProfilePicture from '../../../assets_to_test/placeholder-user.png'
 
 interface IPhoto {
   photo: string | StaticImageData
@@ -15,8 +15,7 @@ const Photo: FunctionComponent<IPhoto> = ({
   width = 50,
   height = 50,
 }) => {
-  //TODO replace this with the real image
-  if (!photo) photo = PlaceholderUser
+  if (!photo) photo = ProfilePicture
 
   return <Image width={width} height={height} src={photo} alt={alt} />
 }
