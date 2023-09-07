@@ -1,10 +1,10 @@
 import Photo from '../photo'
 
-function DashboardTop({ firstName, lastName, title, photo }) {
+function DashboardTop({ firstName, lastName, title, photo, panelTitle }) {
   return (
     <div className="bg-neutral-100 justify-between items-center h-24 grid grid-cols-6">
       <h1 className="text-3xl text-turquoise-dark font-extrabold col-span-4">
-        Team Member Dashboard
+        {panelTitle}
       </h1>
       <div className="flex col-span-2 justify-between">
         <div className="">

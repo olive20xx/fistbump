@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import handleLogout from '@/components/Logout'
-import NominationBox from '@/components/NominationBox'
+import NominationBox from '@/app/dashboard/(user)/(nomination)/NominationBox'
 import {
   getAllUsers,
   getCurrentCycle,
@@ -18,6 +18,7 @@ import { User } from '@/src/__generated__/graphql'
 import Targets from '@/components/table/Targets'
 import NominationPhase from '@/components/ui/Dashboard/NominationPhase'
 import UserNominationContent from '../dashboard/(user)/(nomination)/UserNominationContent'
+import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 
 export const revalidate = 0
 
@@ -91,7 +92,15 @@ export default async function Dashboard() {
           />
         ))}
         <SelfReview user={loggedUser}></SelfReview>
-        <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
+        <div className='my-12' />
+        <Panel>
+          <PanelHeader>
+            <PanelTitle>Nominations</PanelTitle>
+          </PanelHeader>
+          <PanelContent className='p-5'>
+            <UserNominationContent users={peers} report={loggedUserReport} loggedUserId={loggedUserId} cycleId={cycleId} />
+          </PanelContent>
+        </Panel>
       </div>
     </div>
   )
