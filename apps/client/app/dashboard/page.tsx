@@ -15,7 +15,7 @@ import UserReportsPanel from './(user)/(reports)/UserReportsPanel'
 export const revalidate = 0
 
 export default async function Dashboard() {
-  const panelTitle = 'Team member Panel'
+  const panelTitle = 'Team Member Dashboard'
   const cookieStore = cookies()
 
   const token = cookieStore.get('token')
@@ -51,7 +51,7 @@ export default async function Dashboard() {
   const peers = await getAllUsers()
 
   return (
-    <>
+    <div className='w-[1220px]'>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -59,7 +59,7 @@ export default async function Dashboard() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <div className='pt-9 gap-14 flex'>
+      <div className='pt-9 flex justify-between'>
         <div className='gap-6 flex-col flex' id='horizontal'>
           <UserNominationPanel users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
           <UserReviewPanel />
@@ -68,6 +68,6 @@ export default async function Dashboard() {
           <UserReportsPanel />
         </div>
       </div>
-    </>
+    </div>
   )
 }
