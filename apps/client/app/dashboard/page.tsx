@@ -2,14 +2,15 @@ import '@/app/global.css'
 import { cookies } from 'next/headers'
 import {
   getAllUsers,
-  getCurrentCycle,
   getAssignedReviews,
   getUserById,
   getFullReport,
 } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
-import DashboardContent from '@/components/ui/Dashboard/DashboardContent'
+import UserNominationPanel from './(user)/(nomination)/UserNominationPanel'
+import UserReviewPanel from './(user)/(review)/UserReviewPanel'
+import UserReportsPanel from './(user)/(reports)/UserReportsPanel'
 
 export const revalidate = 0
 
@@ -58,7 +59,15 @@ export default async function Dashboard() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <DashboardContent />
+      <div className='pt-9 gap-14 flex'>
+        <div className='gap-6 flex-col flex' id='horizontal'>
+          <UserNominationPanel users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
+          <UserReviewPanel />
+        </div>
+        <div id='vertical'>
+          <UserReportsPanel />
+        </div>
+      </div>
     </>
   )
 }
