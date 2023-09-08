@@ -21,12 +21,12 @@ export async function ManagerNominationContent({ report }: ManagerNominationCont
     nominations.map(async n => {
       if (n.reviewerId === null) {
         return (
-          <CirclePhoto src={ProfilePicture} alt={'profile picture'} toolTipContent={'Noone yet'}></CirclePhoto>
+          <CirclePhoto key={n._id} src={ProfilePicture} alt={'profile picture'} toolTipContent={'Noone yet'}></CirclePhoto>
         )
       } else {
         const nominee = await getUserById(n.reviewerId)
         return (
-          <CirclePhoto variant='green' src={nominee.photo} alt={'profile picture'} toolTipContent={nominee.fullName}></CirclePhoto>
+          <CirclePhoto key={nominee._id} variant='green' src={nominee.photo} alt={'profile picture'} toolTipContent={nominee.fullName}></CirclePhoto>
         )
       }
     })
