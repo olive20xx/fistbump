@@ -31,8 +31,8 @@ async function ManagerReportsPanel({ myManageesReports }) {
                 alt={'profile picture'}
               />
               <div className="col-span-3">
-                <PanelTitle>{user.fullName.split(' ')[0]}'s Report</PanelTitle>
-                <p>{user.teamName}'s Team</p>
+                <PanelTitle>{user.fullName.split(' ')[0]}&apos;s Report</PanelTitle>
+                <p>{user.teamName}</p>
               </div>
               <Button href={`/employee/${user._id}/new-report`} className="col-end-6">Write a report</Button>
             </div>
