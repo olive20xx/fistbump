@@ -35,7 +35,7 @@ export default async function ManagerPanel() {
   const myManageesReports = await getAllReports()
 
   return (
-    <div className="bg-stone-100">
+    <>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -43,12 +43,13 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <div className='pt-9 flex justify-between'>
-        <div className='gap-6 flex-col flex w-1/2' id='horizontal'>
+      <div className=' pt-9 flex h-4/5 justify-between'>
+        <div className=' flex-col w-1/2'>
           <ManagerNominationPanel reports={myManageesReports}  ></ManagerNominationPanel>
           <ManagerReviewPanel reports={myManageesReports}></ManagerReviewPanel>
         </div>
-      </div>
-    </div>
+      </div >
+
+    </>
   )
 }
