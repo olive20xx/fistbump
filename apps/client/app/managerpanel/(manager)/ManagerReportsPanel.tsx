@@ -22,7 +22,7 @@ async function ManagerReportsPanel({ myManageesReports }) {
         </PanelHeader>
         <PanelContent className="p-2 [&>*:nth-child(even)]:bg-gray-100">
           {users.map((user: any) => (
-            <div className="p-2 items-center grid grid-cols-6 gap-4">
+            <div key={user._id} className="p-2 items-center grid grid-cols-6 gap-4">
               <Image
                 className="rounded-full col-start-1"
                 src={user.photo}
@@ -34,7 +34,7 @@ async function ManagerReportsPanel({ myManageesReports }) {
                 <PanelTitle>{user.fullName.split(' ')[0]}'s Report</PanelTitle>
                 <p>{user.teamName}'s Team</p>
               </div>
-              <Button className="col-end-6">Write a report</Button>
+              <Button href={`/employee/${user._id}/new-report`} className="col-end-6">Write a report</Button>
             </div>
           ))}
         </PanelContent>
