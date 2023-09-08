@@ -1,13 +1,19 @@
+import SelfReview from '@/components/review/Self'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
+import { User } from '@/src/__generated__/graphql'
 
-function UserReviewPanel({ }) {
+type UserReviewPanelProps = {
+  loggedUser: User
+}
+
+function UserReviewPanel({ loggedUser }: UserReviewPanelProps) {
   return (
     <Panel size='horizontal'>
       <PanelHeader>
         <PanelTitle>Reviews</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-10'>
-        UserReviewContent will go here 🤗
+        <SelfReview user={loggedUser} />
       </PanelContent>
     </Panel>
   )
