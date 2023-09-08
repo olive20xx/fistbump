@@ -8,17 +8,18 @@ type UserReviewPanelProps = {
   loggedUser: User
   peersToReviewCount: number
   assignedUsers: User[]
+  className?: string
 }
 
-function UserReviewPanel({ loggedUser, peersToReviewCount, assignedUsers }: UserReviewPanelProps) {
+function UserReviewPanel({ loggedUser, peersToReviewCount, assignedUsers, className }: UserReviewPanelProps) {
   return (
-    <Panel size='horizontal'>
+    <Panel size='horizontal' className={className}>
       <PanelHeader>
         <PanelTitle>Reviews</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-4'>
-        <SelfReview user={loggedUser} />
-        <div className='mt-6 gap-4 flex-col flex'>
+        <SelfReview user={loggedUser} className='w-1/2' />
+        <div className='w-1/2 mt-6 gap-4 flex-col flex'>
           <CallToAction action='review' numberOfPeers={peersToReviewCount} />
           {assignedUsers?.map((user: User) => (
             <ReviewTarget
@@ -28,7 +29,7 @@ function UserReviewPanel({ loggedUser, peersToReviewCount, assignedUsers }: User
           ))}
         </div>
       </PanelContent>
-    </Panel>
+    </Panel >
   )
 }
 

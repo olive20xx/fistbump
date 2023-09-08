@@ -1,11 +1,17 @@
+import { User } from '@/src/__generated__/graphql'
 import { Button } from "../ui/button"
 import Photo from '../ui/photo'
 import UserNamePhotoCaption from '../ui/UserNamePhotoCaption'
 import IconWrite from 'static/icon-write.svg'
 
-export default function SelfReview({ user }) {
+type SelfReviewProps = {
+  user: User
+  className?: string
+}
+
+export default function SelfReview({ user, className }: SelfReviewProps) {
   return (
-    <div className="bg-white justify-between items-center flex">
+    <div className={`justify-between items-center flex ${className}`}>
       <UserNamePhotoCaption userId={user._id} caption="That's you!" />
 
       <Button
