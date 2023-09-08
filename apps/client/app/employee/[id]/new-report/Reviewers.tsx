@@ -1,23 +1,19 @@
 import { Header2 } from '@/components/typography/header2'
-import Photo from '@/components/ui/photo'
-import { getUserById } from '@/lib/get-data-api'
+import UserNamePhotoCaption from '@/components/ui/UserNamePhotoCaption'
 
 async function Reviewers({ reviewerIds }: { reviewerIds: string[] }) {
   return (
     <div className='p-4'>
       <Header2>Reviewers</Header2>
-      {reviewerIds.map(async (id, i) => <Reviewer id={id} key={i} />)}
-    </div>
-  )
-}
-
-async function Reviewer({ id }) {
-  const { fullName, photo } = await getUserById(id)
-
-  return (
-    <div className='flex'>
-      <Photo photo={photo} alt={`Picture of ${fullName}`} />
-      <div>{fullName}</div>
+      <div className='gap-2 flex-col flex'>
+        {reviewerIds.map(async (id, i) => (
+          <UserNamePhotoCaption
+            className='bg-white p-2 w-[250px] rounded-md border-2 border-gray-200 shadow-sm'
+            userId={id}
+            caption={''}
+            key={i} />
+        ))}
+      </div>
     </div>
   )
 }
