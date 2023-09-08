@@ -3,6 +3,20 @@ import React, { FunctionComponent, useState } from 'react'
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
 
+
+
+
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+
+
+
 interface IMetricProps {
   question: string
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
@@ -30,34 +44,37 @@ const Metric: FunctionComponent<IMetricProps> = ({
   const hoverSelected = 'hover:bg-turquoise hover:text-white'
 
   return (
-    <div className="flex flex-col gap-6 mb-4 justify-center items-center">
-      <h4 className="flex gap-2 justify-center items-center">{question}</h4>
-      <div className="flex gap-2 justify-center items-center">
-        {createArrayNumbers(maxRating).map((n) => (
-          <Button
-            key={n}
-            onClick={() => {
-              onClick(n, name)
-              setSelectedKey(n)
-            }}
-            variant={n === selectedKey ? 'heavy' : 'gray'}
-            size="metric"
-            className={n === selectedKey ? hoverSelected : hover}
-          >
-            {n}
-          </Button>
-        ))}
-      </div>
-      <div>
+    <Card className="w-11/12 h-[260px] mx-5  my-10 flex-col">
+      <CardHeader>
+        <CardTitle className='font-normal'>{question}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex justify-center'>
+          {createArrayNumbers(maxRating).map((n) => (
+            <Button
+              key={n}
+              onClick={() => {
+                onClick(n, name)
+                setSelectedKey(n)
+              }}
+              variant={n === selectedKey ? 'heavy' : 'gray'}
+              size="metric"
+              className='m-[30px] p-5 {n === selectedKey ? hoverSelected : hover}'
+            >
+              {n}
+            </Button>
+          ))}
+        </div>
         <Textarea
-          className="text-start w-96 h-28"
+          className="text-start rounded-sm bg-gray-light border-0 resize-none pb-5"
           placeholder={placeholder}
           name={name}
           value={value}
           onChange={onChange}
         />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 

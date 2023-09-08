@@ -11,6 +11,7 @@ import jwtMiddleware from './src/lib/middlewares/jwt'
 import { ApolloContext } from './src/types/devops'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import { hostname } from 'os'
 const typeDefs = readFileSync('./src/schema.graphql', 'utf-8')
 
 const app = express()
