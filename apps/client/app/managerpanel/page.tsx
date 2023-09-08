@@ -44,11 +44,9 @@ export default async function ManagerPanel() {
         panelTitle={panelTitle}
       />
       <ManagerReportPanel />
-
+      {users.map((user: modelTypes.UserModel) => (
+        <UserItem key={user.fullName} user={user} cycleId={cycleId} />
       ))}
     </div>
   )
 }
-
-// {users.map((user: modelTypes.UserModel) => (
-//   <UserItem key={user.fullName} user={user} cycleId={cycleId} />
