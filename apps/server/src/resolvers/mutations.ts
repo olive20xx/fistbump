@@ -1,11 +1,10 @@
-import mongoose from 'mongoose'
 import { modelTypes } from '../types/export'
 import {
   MutationResolvers,
   ReviewInput,
   UserInput,
 } from '../__generated__/resolvers-types'
-import Report from '../lib/mongoose/models/Report'
+import Report, { updateReportStatus } from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
 import { resolveUpdateReport } from './updateReports'
@@ -91,8 +90,9 @@ const mutations: MutationResolvers = {
         if (input.submitted !== undefined && input.submitted !== null) {
           review.submitted = input.submitted
         }
-        await report.save()
-        console.log('updated report', report.reviews.manager)
+
+        updateReportStatus(report)
+
         return report
       } catch (error: any) {
         console.log(error.message)
