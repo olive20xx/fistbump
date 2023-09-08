@@ -1,7 +1,7 @@
 import { ReportInput } from '@/__generated__/resolvers-types'
 import { modelTypes } from '../types/export'
 import Cycle from '../lib/mongoose/models/Cycle'
-import Report, { updateReportStatus } from '../lib/mongoose/models/Report'
+import Report from '../lib/mongoose/models/Report'
 import { ApolloContext } from '@/types/devops'
 
 export async function resolveUpdateReport(
@@ -141,8 +141,9 @@ export async function resolveUpdateReport(
     }
   }
 
-  updateReportStatus(report)
+  // updateReportStatus(report)
 
   await report.save()
+
   return report
 }

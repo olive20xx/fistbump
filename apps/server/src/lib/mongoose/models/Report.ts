@@ -38,27 +38,27 @@ const ReportSchema = new Schema<modelTypes.ReportModel>(
 )
 
 //TODO this should be a in ReportSchema.methods I think
-export async function updateReportStatus(report: ReportDoc) {
-  const reviews = report.reviews
+//TODO fix this
+// export async function updateReportStatus(report: ReportDoc) {
+//   const reviews = report.reviews
 
-  if (reviews.manager.submitted) report.status = 'Complete'
+//   console.log('manager.submitted ====== ', reviews.manager.submitted)
+//   if (reviews.manager.submitted) report.status = 'Complete'
 
-  const arePeerReviewsSubmitted = reviews.peers.every(
-    (review) => review.submitted
-  )
-  const isSelfReviewSubmitted = reviews.self.submitted
+//   const arePeerReviewsSubmitted = reviews.peers.every(
+//     (review) => review.submitted
+//   )
+//   const isSelfReviewSubmitted = reviews.self.submitted
 
-  if (
-    report.status !== 'Complete' &&
-    arePeerReviewsSubmitted &&
-    isSelfReviewSubmitted
-  )
-    report.status = 'Report'
-  else if (reviews.peers.every((review) => review.reviewerId !== null))
-    report.status = 'Review'
-
-  await report.save()
-}
+//   if (
+//     report.status !== 'Complete' &&
+//     arePeerReviewsSubmitted &&
+//     isSelfReviewSubmitted
+//   )
+//     report.status = 'Report'
+//   else if (reviews.peers.every((review) => review.reviewerId !== null))
+//     report.status = 'Review'
+// }
 
 const Report = model<modelTypes.ReportModel>('Report', ReportSchema)
 

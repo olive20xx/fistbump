@@ -4,7 +4,7 @@ import {
   ReviewInput,
   UserInput,
 } from '../__generated__/resolvers-types'
-import Report, { updateReportStatus } from '../lib/mongoose/models/Report'
+import Report from '../lib/mongoose/models/Report'
 import User from '../lib/mongoose/models/User'
 import Cycle from '../lib/mongoose/models/Cycle'
 import { resolveUpdateReport } from './updateReports'
@@ -91,7 +91,9 @@ const mutations: MutationResolvers = {
           review.submitted = input.submitted
         }
 
-        updateReportStatus(report)
+        // updateReportStatus(report)
+
+        await report.save()
 
         return report
       } catch (error: any) {
