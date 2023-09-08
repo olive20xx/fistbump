@@ -65,7 +65,7 @@ export default async function Dashboard() {
           <UserReviewPanel className='min-h-[380px]' loggedUser={loggedUser} peersToReviewCount={assignedUsers.length} assignedUsers={assignedUsers} />
         </div>
         <div id='vertical'>
-          <UserReportsPanel />
+          <UserReportsPanel loggedUserId={loggedUserId} loggedUserTeam={loggedUser.teamName} />
         </div>
       </div>
     </div>
