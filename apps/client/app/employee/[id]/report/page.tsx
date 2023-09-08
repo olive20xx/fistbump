@@ -10,14 +10,14 @@ async function ReportPage({ params }) {
 
   return (
     <div className='p-4'>
-      <h1 className="text-2xl">Your Report {fullName}</h1>
+      <h1 className="text-2xl">Your Report, {fullName}</h1>
       <div>
         <p>Submitted by {managerName}</p>
         {fullReport.reviews.manager.grades?.map((grade, i) => (
-          <div key={i}>
-            <p>{grade.metric}</p>
+          <div key={i} className='p-4'>
+            <p className='font-bold'>{grade.metric}</p>
             <p>{grade.rating} out of {grade.maxRating}</p>
-            <p>{grade.rating} out of {grade.comment}</p>
+            <p>Comment: {grade.comment}</p>
           </div>
         ))}
       </div>
