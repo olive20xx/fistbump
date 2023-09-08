@@ -27,7 +27,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        progress: "text-[12px]  w-[96px] h-[36px]",
+        progress: "text-[12px]  w-[120px] h-[36px]",
         tall: "   text-[10px]  w-[96px] h-[36px]",
         big: "    text-[13px] w-[112px] h-[32px] drop-shadow-lg",
         back: "    text-[12px] w-[128px] h-[40px] drop-shadow-lg",
