@@ -25,9 +25,6 @@ export const revalidate = 0
 export default async function Dashboard() {
   const cookieStore = cookies()
 
-  const cycle = await getCurrentCycle()
-  const cycleId = cycle._id
-
   const token = cookieStore.get('token')
   const id = cookieStore.get('userId')
 
@@ -61,6 +58,7 @@ export default async function Dashboard() {
   }
   const loggedUserReport = await getFullReport(reportVars.targetId)
   const peers = await getAllUsers()
+  console.log('==== peers', peers)
 
   return (
     <div className="bg-slate-200 h-screen">
