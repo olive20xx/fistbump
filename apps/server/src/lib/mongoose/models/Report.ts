@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { modelTypes } from '../../../types/export'
+import { ReportDoc } from '@/types/mongo-docs'
 
 const GradeSchema = new Schema<modelTypes.GradeModel>({
   metric: String,
@@ -35,6 +36,29 @@ const ReportSchema = new Schema<modelTypes.ReportModel>(
   //* timestamps automatically creates createdAt and updatedAt properties
   { timestamps: true }
 )
+
+//TODO this should be a in ReportSchema.methods I think
+//TODO fix this
+// export async function updateReportStatus(report: ReportDoc) {
+//   const reviews = report.reviews
+
+//   console.log('manager.submitted ====== ', reviews.manager.submitted)
+//   if (reviews.manager.submitted) report.status = 'Complete'
+
+//   const arePeerReviewsSubmitted = reviews.peers.every(
+//     (review) => review.submitted
+//   )
+//   const isSelfReviewSubmitted = reviews.self.submitted
+
+//   if (
+//     report.status !== 'Complete' &&
+//     arePeerReviewsSubmitted &&
+//     isSelfReviewSubmitted
+//   )
+//     report.status = 'Report'
+//   else if (reviews.peers.every((review) => review.reviewerId !== null))
+//     report.status = 'Review'
+// }
 
 const Report = model<modelTypes.ReportModel>('Report', ReportSchema)
 

@@ -67,8 +67,6 @@ export async function getFullReport(
   targetId: string,
   cycleId?: string
 ): Promise<Report> {
-  //! Clearing the entire cache until we figure out how to work better with cache
-  await apolloClient.clearStore()
   const query = queries.GET_FULL_REPORT
   const variables = { targetId, cycleId }
 

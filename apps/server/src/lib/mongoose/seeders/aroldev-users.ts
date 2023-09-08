@@ -40,7 +40,7 @@ const julia = generateSpecificUserModel(
 const nat = generateSpecificUserModel(
   'Natalie',
   'Barresi',
-  'Marketer',
+  'Content Creator',
   false,
   TEAMS.MKTING,
   COMPANY_NAME
@@ -67,7 +67,7 @@ const ruben = generateSpecificUserModel(
 const rita = generateSpecificUserModel(
   'Rita',
   'Varetckaia',
-  'Killer',
+  'Student',
   false,
   TEAMS.STUDS,
   COMPANY_NAME
@@ -75,7 +75,7 @@ const rita = generateSpecificUserModel(
 const craig = generateSpecificUserModel(
   'Craig',
   'Ostrin',
-  'Joker',
+  'Student',
   false,
   TEAMS.STUDS,
   COMPANY_NAME
@@ -83,7 +83,7 @@ const craig = generateSpecificUserModel(
 const hrvoje = generateSpecificUserModel(
   'Hrvoje',
   'Vincek',
-  'Jesus',
+  'Student',
   false,
   TEAMS.STUDS,
   COMPANY_NAME
@@ -91,7 +91,7 @@ const hrvoje = generateSpecificUserModel(
 const muto = generateSpecificUserModel(
   'Mutalip',
   'Aydemir',
-  'The Indian Scout',
+  'Student',
   false,
   TEAMS.STUDS,
   COMPANY_NAME

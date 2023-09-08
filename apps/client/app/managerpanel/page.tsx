@@ -7,7 +7,9 @@ import { Report } from '@/src/__generated__/graphql'
 import { UserNominations } from '@/components/ui/UserNominations'
 import { PanelHeader } from '@/components/ui/Panel'
 import ManagerReportsPanel from './(manager)/ManagerReportsPanel'
-
+import ManagerNominationPanel from './(manager)/(nomination)/ManagerNominationPanel'
+import ManagerReviewPanel from './(manager)/(review)/ManagerReviewPanel'
+ 
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -37,7 +39,7 @@ export default async function ManagerPanel() {
   const myManageesReports = await getAllReports()
 
   return (
-    <div className="bg-stone-100 h-screen">
+    <>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -45,20 +47,15 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <div className="pt-9 flex justify-around gap-x-10">
-        <div className="w-full" id="horizontal">
-          {myManageesReports.map((report: Report) => (
-            <UserNominations
-              key={report._id.targetId}
-              report={report}
-              cycleId={cycleId}
-            />
-          ))}
+      <div className=' pt-9 flex h-4/5 justify-between'>
+        <div className=' flex-col w-full'>
+          <ManagerNominationPanel reports={myManageesReports}  ></ManagerNominationPanel>
+          <ManagerReviewPanel reports={myManageesReports}></ManagerReviewPanel>
         </div>
-        <div id="vertical">
+         <div id="vertical">
           <ManagerReportsPanel myManageesReports={myManageesReports} />
         </div>
-      </div>
-    </div>
+      </div >
+    </>
   )
 }

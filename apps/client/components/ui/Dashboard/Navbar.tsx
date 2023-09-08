@@ -13,7 +13,7 @@ import handleLogout from '@/components/Logout'
 
 async function Navbar() {
   return (
-    <div className="pt-5 absolute w-[80px] top-0 left-0 h-screen bg-white shadow-slate-400 shadow-xl  border-black items-center  flex flex-col justify-between">
+    <div className="pt-5 fixed left-0 top-0 w-[80px] h-screen bg-white shadow-slate-400 shadow-xl  border-black items-center  flex flex-col justify-between">
       <div>
         <Photo photo={logo} alt="photo of the user" />
       </div>

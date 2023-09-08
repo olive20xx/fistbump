@@ -14,6 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.1",
     "@apollo/experimental-nextjs-app-support": "^0.4.1",
+    "@fistbump/fistbump-types": "*",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hookform/resolvers": "^3.3.0",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -21,6 +22,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.6",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tooltip": "^1.0.6",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -36,8 +38,7 @@
     "react-wavify": "^1.9.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
-    "zod": "^3.22.2",
-    "@fistbump/fistbump-types": "*"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

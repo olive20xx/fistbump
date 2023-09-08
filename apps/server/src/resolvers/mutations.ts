@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { modelTypes } from '../types/export'
 import {
   MutationResolvers,
@@ -91,8 +90,11 @@ const mutations: MutationResolvers = {
         if (input.submitted !== undefined && input.submitted !== null) {
           review.submitted = input.submitted
         }
+
+        // updateReportStatus(report)
+
         await report.save()
-        console.log('updated report', report.reviews.manager)
+
         return report
       } catch (error: any) {
         console.log(error.message)

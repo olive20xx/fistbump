@@ -13,7 +13,8 @@ export async function resolveUsers(_: any, __: any, context: ApolloContext) {
   const users = await User.find()
   if (!users) throw new Error('Error fetching users from database')
 
-  const isManager = await Team.find({ managerId: loggedUserId })
+  const managerOf = await Team.find({ managerId: loggedUserId })
+  let isManager = managerOf.length > 0
 
   /// for the manager to find managees
   if (isManager) {
