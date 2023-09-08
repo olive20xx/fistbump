@@ -101,19 +101,26 @@ async function formatTableDataArray(reviews: ReviewsData, targetName: string): P
   })
 
   const peerReviews = reviews.peers
-  peerReviews.forEach(async (review) => {
+  const peerReviewerNames = await Promise.all(
+    peerReviews.map(
+      async (review) => await getUserFullName(review.reviewerId)
+    )
+  )
+
+  peerReviews.forEach((review, i) => {
     const { reviewerId, grades } = review
     if (!reviewerId) return
-    const reviewerName = await getUserFullName(reviewerId)
+    const reviewerName = peerReviewerNames[i]
     grades.forEach((grade) => {
       const { rating, comment } = grade
-      const table = formatted.find((t) => t.metricName === grade.metric)
+      const tableIndex = formatted.findIndex((t) => t.metricName === grade.metric)
       const row: RowData = {
         reviewerName,
         rating,
         comment,
       }
-      table?.rows?.push(row)
+      formatted[tableIndex].rows.push(row)
+      formatted[tableIndex].rows
     })
   })
 
