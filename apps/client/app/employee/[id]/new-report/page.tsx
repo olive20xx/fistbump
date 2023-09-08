@@ -26,8 +26,8 @@ async function ReportPage({ params }) {
   const reviewerIds = reviewerIdsRaw.filter((id) => id !== null)
 
   return (
-    <div className="flex">
-      <div className='w-1/2 flex flex-col '>
+    <div className="flex h-screen">
+      <div className='w-1/2 flex flex-col'>
         <div className='flex'>
           <SubjectOfReview targetUser={targetUser as UserData} />
           <Reviewers reviewerIds={reviewerIds} />
