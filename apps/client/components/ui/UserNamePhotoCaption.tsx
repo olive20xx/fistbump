@@ -1,4 +1,3 @@
-import { User } from '@/src/__generated__/graphql'
 import Photo from './photo'
 import { getUserById } from '@/lib/get-data-api'
 
