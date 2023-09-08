@@ -14,7 +14,7 @@ async function UserNamePhotoCaption({ userId, caption }: UNPCProps) {
 
   return (
     <div className='flex'>
-      <Photo photo={photo} alt={`Picture of ${fullName}`} />
+      <Photo className='rounded-full' photo={photo} alt={`Picture of ${fullName}`} />
       <div className='ml-3 justify-center flex-col flex'>
         <h4 className='text-[16px]'>{fullName}</h4>
         <p className='text-gray text-[12px]'>{caption}</p>
