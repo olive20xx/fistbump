@@ -22,12 +22,12 @@ export async function ManagerReviewContent({ report }: ManagerReviewContentProps
     reviewers.map(async r => {
       if (r.reviewerId === null) {
         return (
-          <CirclePhoto src={ProfilePicture} alt={'profile picture'} toolTipContent={'Noone yet'}></CirclePhoto>
+          <CirclePhoto key={r._id} src={ProfilePicture} alt={'profile picture'} toolTipContent={'Noone yet'}></CirclePhoto>
         )
       } else {
         const nominee = await getUserById(r.reviewerId)
         return (
-          <CirclePhoto variant={r.submitted ? 'green' : 'gray'} src={nominee.photo} alt={'profile picture'} toolTipContent={nominee.fullName}></CirclePhoto>
+          <CirclePhoto key={nominee._id} variant={r.submitted ? 'green' : 'gray'} src={nominee.photo} alt={'profile picture'} toolTipContent={nominee.fullName}></CirclePhoto>
         )
       }
     })

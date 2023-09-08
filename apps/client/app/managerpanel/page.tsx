@@ -3,13 +3,10 @@ import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import { cookies } from 'next/headers'
 import { getAllReports, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { Report } from '@/src/__generated__/graphql'
-import { UserNominations } from '@/components/ui/UserNominations'
-import { PanelHeader } from '@/components/ui/Panel'
 import ManagerReportsPanel from './(manager)/ManagerReportsPanel'
 import ManagerNominationPanel from './(manager)/(nomination)/ManagerNominationPanel'
 import ManagerReviewPanel from './(manager)/(review)/ManagerReviewPanel'
- 
+
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -52,7 +49,7 @@ export default async function ManagerPanel() {
           <ManagerNominationPanel reports={myManageesReports}  ></ManagerNominationPanel>
           <ManagerReviewPanel reports={myManageesReports}></ManagerReviewPanel>
         </div>
-         <div id="vertical">
+        <div id="vertical">
           <ManagerReportsPanel myManageesReports={myManageesReports} />
         </div>
       </div >
