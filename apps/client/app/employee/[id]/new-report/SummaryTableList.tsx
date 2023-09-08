@@ -43,7 +43,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
   }, 0) / rows.length
 
   return (
-    <div className='mb-8'>
+    <div className='mb-4 bg-white p-4 border-2 border-gray-200 rounded-md shadow-md'>
       <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-pink-400'>{metricName}</span> ?</div>
       <Table>
         <TableHeader>
