@@ -1,12 +1,13 @@
 import '@/app/global.css'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import { cookies } from 'next/headers'
-import { getAllReports, getAllUsers, getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
+import { getAllReports, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { UserItem } from '@/components/ui/UserItem'
-import { modelTypes } from '@/app/fistbump-types'
 import { Report } from '@/src/__generated__/graphql'
 import { UserNominations } from '@/components/ui/UserNominations'
+import { PanelHeader } from '@/components/ui/Panel'
+import ManagerReportsPanel from './(manager)/ManagerReportsPanel'
+
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -44,9 +45,20 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      {myManageesReports.map((report: Report) => (
-        <UserNominations key={report._id.targetId} report={report} cycleId={cycleId} />
-      ))}
+      <div className="pt-9 flex justify-around gap-x-10">
+        <div className="w-full" id="horizontal">
+          {myManageesReports.map((report: Report) => (
+            <UserNominations
+              key={report._id.targetId}
+              report={report}
+              cycleId={cycleId}
+            />
+          ))}
+        </div>
+        <div id="vertical">
+          <ManagerReportsPanel myManageesReports={myManageesReports} />
+        </div>
+      </div>
     </div>
   )
 }
