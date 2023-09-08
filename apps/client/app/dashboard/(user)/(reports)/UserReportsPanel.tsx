@@ -1,19 +1,26 @@
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 import ViewReport from './ViewReport'
+import { getFullReport } from '@/lib/get-data-api'
 
 type UserReportsPanelProps = {
   loggedUserId: string
   loggedUserTeam: string
 }
 
-function UserReportsPanel({ loggedUserId, loggedUserTeam }: UserReportsPanelProps) {
+//TODO make this ready to work for multiple Cycles and past Reports
+async function UserReportsPanel({ loggedUserId, loggedUserTeam }: UserReportsPanelProps) {
+  const report = await getFullReport(loggedUserId)
+
   return (
     <Panel size='vertical'>
       <PanelHeader variant='highlight'>
         <PanelTitle>My Reports</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-10'>
-        <ViewReport loggedUserId={loggedUserId} loggedUserTeam={loggedUserTeam} />
+        {report.submitted ?
+          <ViewReport loggedUserId={loggedUserId} loggedUserTeam={loggedUserTeam} /> :
+          <></>
+        }
       </PanelContent>
     </Panel>
   )
