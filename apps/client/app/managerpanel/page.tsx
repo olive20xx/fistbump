@@ -1,10 +1,12 @@
 import '@/app/global.css'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import { cookies } from 'next/headers'
-import { getAllUsers, getCurrentCycle, getUserById } from '@/lib/get-data-api'
+import { getAllReports, getAllUsers, getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import { UserItem } from '@/components/ui/UserItem'
 import { modelTypes } from '@/app/fistbump-types'
+import { Report } from '@/src/__generated__/graphql'
+import { UserNominations } from '@/components/ui/UserNominations'
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -31,7 +33,7 @@ export default async function ManagerPanel() {
   const cycle = await getCurrentCycle()
   const cycleId = cycle._id
 
-  const users = await getAllUsers()
+  const myManageesReports = await getAllReports()
 
   return (
     <div className="bg-stone-100 h-screen">
@@ -42,8 +44,8 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      {users.map((user: modelTypes.UserModel) => (
-        <UserItem key={user.fullName} user={user} cycleId={cycleId} />
+      {myManageesReports.map((report: Report) => (
+        <UserNominations key={report._id.targetId} report={report} cycleId={cycleId} />
       ))}
     </div>
   )

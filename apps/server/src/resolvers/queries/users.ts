@@ -35,13 +35,9 @@ export async function resolveUsers(_: any, __: any, context: ApolloContext) {
     const usersIManage = allUsersReports.filter(
       (user) => user.reviews.manager.reviewerId?.toString() === loggedUserId
     )
-    console.log({ usersIManage })
 
     //usersIdsIManage =====> array of the targetId
     const usersIdsIManage = usersIManage.map((user) => user._id.targetId)
-    console.log({
-      usersIdsIManage,
-    })
 
     //array of the User that I manage
     const myManagees = await User.find({
