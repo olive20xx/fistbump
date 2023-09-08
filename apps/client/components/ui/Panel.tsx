@@ -3,13 +3,12 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
-// 'overflow-hidden' makes the children respect the 'rounded' property
 const panelVariants = cva(
-  'rounded-md shadow-md h-full bg-white overflow-hidden',
+  'rounded-md shadow-md h-full bg-white',
   {
     variants: {
       size: {
-        horizontal: 'min-w-[750px] min-h-[300px]',
+        horizontal: 'min-w-[750px] min-h-[250px]',
         vertical: 'w-[416px]',
         page: 'w-[863px]',
       },
@@ -40,7 +39,7 @@ const Panel = React.forwardRef<
 // This is for debugging. It's also required when you create a component using 'forwardRef()'
 Panel.displayName = 'Panel'
 
-const headerVariants = cva('py-[15px] px-[20px]',
+const headerVariants = cva('py-[15px] px-[20px] rounded-t-md',
   {
     variants: {
       variant: {
@@ -100,7 +99,6 @@ const PanelContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'bg-white',
       className
     )}
     {...props}

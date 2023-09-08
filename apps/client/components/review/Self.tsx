@@ -1,20 +1,22 @@
-import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { User } from '@/src/__generated__/graphql'
+import UserNamePhotoCaption from '../ui/UserNamePhotoCaption'
+import { ReviewButton } from '../ui/Dashboard/ReviewButton'
+import { ReviewStatus } from '@/types/review-status'
 
-export default function SelfReview({ user }) {
+type SelfReviewProps = {
+  user: User
+  reviewStatus?: ReviewStatus
+  className?: string
+}
+
+export default function SelfReview({ user, reviewStatus, className }: SelfReviewProps) {
+  if (!reviewStatus) reviewStatus = 'ready'
+
   return (
-    <div className="bg-white">
-      <div className="grid grid-cols-8 gap-4 border-b p-2 items-center">
-        <p className="font-semibold col-span-2">{user.title}</p>
-        <p className="col-span-2">{user.fullName}</p>
-        <p className="col-span-2">{user.teamName}</p>
-        <Button
-          href={`/employee/${user._id}/new-review`}
-          variant='outline'
-          className='bg-blue-500 text-white'>
-          Write a review
-        </Button>
-      </div>
+    <div className={`justify-between items-center flex ${className}`}>
+      <UserNamePhotoCaption userId={user._id} caption="That's you!" />
+
+      <ReviewButton userId={user._id} reviewStatus={reviewStatus} />
     </div>
   )
 

@@ -7,17 +7,19 @@ interface IPhoto {
   alt: string
   width?: number
   height?: number
+  className?: string
 }
 
 const Photo: FunctionComponent<IPhoto> = ({
   photo,
   alt,
+  className,
   width = 50,
   height = 50,
 }) => {
   if (!photo) photo = ProfilePicture
 
-  return <Image width={width} height={height} src={photo} alt={alt} />
+  return <Image className={className} width={width} height={height} src={photo} alt={alt} />
 }
 
 export default Photo

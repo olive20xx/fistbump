@@ -3,15 +3,16 @@ import UserNominationContent from './UserNominationContent'
 import { Report, User } from '@/src/__generated__/graphql'
 
 type UserNominationPanelProps = {
-  users: User[],
-  loggedUserReport: Report,
-  loggedUserId: string,
+  users: User[]
+  loggedUserReport: Report
+  loggedUserId: string
+  className?: string
 }
 
-function UserNominationPanel({ users: users, loggedUserReport, loggedUserId }: UserNominationPanelProps) {
+function UserNominationPanel({ users, loggedUserReport, loggedUserId, className }: UserNominationPanelProps) {
   return (
-    <Panel size='horizontal'>
-      <PanelHeader>
+    <Panel size='horizontal' className={`${className}`}>
+      <PanelHeader variant='highlight'>
         <PanelTitle>Nominations</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-5'>

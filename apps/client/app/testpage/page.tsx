@@ -15,7 +15,7 @@ import { redirect } from 'next/navigation'
 import SelfReview from '@/components/review/Self'
 import { User } from '@/src/__generated__/graphql'
 
-import Targets from '@/components/table/Targets'
+import ReviewTarget from '@/app/dashboard/(user)/(review)/ReviewTarget'
 import NominationPhase from '@/components/ui/Dashboard/NominationPhase'
 import UserNominationContent from '../dashboard/(user)/(nomination)/UserNominationContent'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
@@ -86,7 +86,7 @@ export default async function Dashboard() {
           <p className="col-span-2">Team Name</p>
         </div>
         {assignedUsers.map((user: User) => (
-          <Targets
+          <ReviewTarget
             key={user._id}
             user={user}
           />

@@ -61,8 +61,8 @@ export default async function Dashboard() {
       />
       <div className='pt-9 flex justify-between'>
         <div className='gap-6 flex-col flex' id='horizontal'>
-          <UserNominationPanel users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
-          <UserReviewPanel />
+          <UserNominationPanel className='min-h-[300px]' users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
+          <UserReviewPanel className='min-h-[380px]' loggedUser={loggedUser} peersToReviewCount={assignedUsers.length} assignedUsers={assignedUsers} />
         </div>
         <div id='vertical'>
           <UserReportsPanel />
