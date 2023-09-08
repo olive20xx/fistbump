@@ -21,9 +21,9 @@ function UserReviewPanel({ loggedUser, peersToReviewCount, assignedUsers, classN
         <SelfReview user={loggedUser} className='w-1/2' />
         <div className='w-1/2 mt-6 gap-4 flex-col flex'>
           <CallToAction action='review' numberOfPeers={peersToReviewCount} />
-          {assignedUsers?.map((user: User) => (
+          {assignedUsers?.map((user: User, i) => (
             <ReviewTarget
-              key={user._id}
+              key={i}
               user={user}
             />
           ))}

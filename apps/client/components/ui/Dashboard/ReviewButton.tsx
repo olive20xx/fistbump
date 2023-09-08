@@ -9,7 +9,7 @@ export function ReviewButton({ userId, reviewStatus }: { userId: string, reviewS
   let variant: any
   let icon: any
   let text: string
-  console.log(reviewStatus)
+
   switch (reviewStatus) {
     case 'ready':
       text = 'Write review'

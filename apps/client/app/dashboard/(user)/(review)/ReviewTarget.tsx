@@ -1,20 +1,18 @@
-import { Button } from '@/components/ui/button'
 import { User } from '@/src/__generated__/graphql'
-import IconWrite from 'static/icon-write.svg'
 import UserNamePhotoCaption from '@/components/ui/UserNamePhotoCaption'
-import Photo from '@/components/ui/photo'
+import { ReviewStatus } from '@/types/review-status'
+import { ReviewButton } from '@/components/ui/Dashboard/ReviewButton'
 
 
-function ReviewTarget({ user }: { user: User }) {
+function ReviewTarget({ user, reviewStatus }: { user: User, reviewStatus?: ReviewStatus }) {
+
+  // TODO fix this... need to add a GraphQL return value on server (doesn't need to be in DB)
+  if (!reviewStatus) reviewStatus = 'ready'
+
   return (
     <div className="justify-between flex items-center">
       <UserNamePhotoCaption userId={user._id} caption={user.teamName} />
-      <Button
-        href={`/employee/${user._id}/new-review`}
-        variant='heavy'
-      >
-        Write review <Photo className='ml-1' photo={IconWrite} alt='Write icon' width={12} />
-      </Button>
+      <ReviewButton userId={user._id} reviewStatus={reviewStatus} />
     </div>
   )
 }
