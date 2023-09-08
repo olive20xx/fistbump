@@ -67,9 +67,12 @@ const queries: QueryResolvers = {
     },
     getAssignedReviews: async (
       _: any,
-      { cycleId, reviewerId }: { cycleId: string; reviewerId: string }
+      { reviewerId }: { reviewerId: string }
     ) => {
       try {
+        const cycle = await Cycle.getCurrentCycle()
+        if (!cycle) throw new Error('Error finding current cycle')
+        const cycleId = cycle._id
         const reports = await Report.find({
           '_id.cycleId': cycleId,
           'reviews.peers': {
@@ -78,6 +81,7 @@ const queries: QueryResolvers = {
             },
           },
         })
+        console.log('server, reports found', reports)
         return reports
       } catch (error) {
         throw new Error('Error fetching report from the database')
