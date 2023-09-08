@@ -102,19 +102,20 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
         })}
         <div className="gap-6 flex justify-center">
           <Button
+            variant='draft'
             disabled={isSubmitted}
-            className="w-36"
             onClick={handleSaveDraft}
-            size="lg"
+            size="submit"
           >
             Save Draft
           </Button>
           <Button
+            variant='black'
             disabled={isSubmitted}
-            className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+            className={`${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
               }`}
             onClick={handleSubmit}
-            size="lg"
+            size="submit"
           >
             {isSubmitted ? 'Submitted' : 'Submit'}
           </Button>
@@ -141,19 +142,20 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
       })}
       <div className="gap-6 flex justify-center">
         <Button
+          variant='draft'
           disabled={isSubmitted}
-          className="w-36"
           onClick={handleSaveDraft}
-          size="lg"
+          size="submit"
         >
           Save Draft
         </Button>
         <Button
+          variant='black'
           disabled={isSubmitted}
-          className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+          className={`${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
             }`}
           onClick={handleSubmit}
-          size="lg"
+          size="submit"
         >
           {isSubmitted ? 'Submitted' : 'Submit'}
         </Button>

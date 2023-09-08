@@ -45,6 +45,7 @@ const headerVariants = cva('py-[15px] px-[20px] rounded-t-md',
       variant: {
         white: 'bg-white text-turquoise border-b-gray-light border-b-2',
         gray: 'bg-gray-light text-turquoise-dark',
+        darkgray: 'bg-gray text-white',
         highlight: 'bg-turquoise text-white',
       },
     },

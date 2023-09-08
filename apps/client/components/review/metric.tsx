@@ -36,7 +36,7 @@ const Metric: FunctionComponent<IMetricProps> = ({
   value,
   rating,
   maxRating,
-  placeholder = 'Comments',
+  placeholder = 'Write a comment...',
 }) => {
   const [selectedKey, setSelectedKey] = useState(rating)
 
@@ -44,13 +44,10 @@ const Metric: FunctionComponent<IMetricProps> = ({
   const hoverSelected = 'hover:bg-turquoise hover:text-white'
 
   return (
-    <Card className="w-11/12 h-[260px] mx-5  my-10 flex-col">
-      <CardHeader>
-        <CardTitle className='font-normal'>{question}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className='flex justify-center'>
+    <div className="py-2 px-4 border-2 border-gray-light rounded-lg shadow-sm w-11/12 mx-5 mb-5 flex-col">
+      <p>{question}</p>
+      <div className='p-4'>
+        <div className='flex gap-[30px] justify-center'>
           {createArrayNumbers(maxRating).map((n) => (
             <Button
               key={n}
@@ -60,7 +57,7 @@ const Metric: FunctionComponent<IMetricProps> = ({
               }}
               variant={n === selectedKey ? 'heavy' : 'gray'}
               size="metric"
-              className='m-[30px] p-5 {n === selectedKey ? hoverSelected : hover}'
+              className={`my-[15px] p-5 ${n === selectedKey ? hoverSelected : hover}`}
             >
               {n}
             </Button>
@@ -73,8 +70,8 @@ const Metric: FunctionComponent<IMetricProps> = ({
           value={value}
           onChange={onChange}
         />
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 
