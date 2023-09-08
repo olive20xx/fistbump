@@ -13,7 +13,6 @@ async function ManagerReportsPanel({ myManageesReports }) {
   const users = await Promise.all(
     manageereport.map(async (user) => await getUserById(user))
   )
-  console.log(users)
 
   return (
     <div>
@@ -21,21 +20,21 @@ async function ManagerReportsPanel({ myManageesReports }) {
         <PanelHeader variant="highlight">
           <PanelTitle>Reports</PanelTitle>
         </PanelHeader>
-        <PanelContent className="p-2 items-center">
+        <PanelContent className="p-2 [&>*:nth-child(even)]:bg-gray-100">
           {users.map((user: any) => (
-            <div className="border-2 flex">
+            <div className="p-2 items-center grid grid-cols-6 gap-4">
               <Image
-                className="rounded-full mx-2"
+                className="rounded-full col-start-1"
                 src={user.photo}
                 width={50}
                 height={50}
                 alt={'profile picture'}
               />
-              <div>
+              <div className="col-span-3">
                 <PanelTitle>{user.fullName.split(' ')[0]}'s Report</PanelTitle>
                 <p>{user.teamName}'s Team</p>
               </div>
-              <Button>Write a review</Button>
+              <Button className="col-end-6">Write a report</Button>
             </div>
           ))}
         </PanelContent>
