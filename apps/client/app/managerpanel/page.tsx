@@ -3,10 +3,9 @@ import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import { cookies } from 'next/headers'
 import { getAllReports, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { Report } from '@/src/__generated__/graphql'
-import { UserNominations } from '@/components/ui/UserNominations'
-import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
-import { Description } from '@radix-ui/react-dialog'
+
+import ManagerNominationPanel from './(manager)/(nomination)/ManagerNominationPanel'
+import ManagerReviewPanel from './(manager)/(review)/ManagerReviewPanel'
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -36,7 +35,7 @@ export default async function ManagerPanel() {
   const myManageesReports = await getAllReports()
 
   return (
-    <div className="bg-stone-100 h-screen">
+    <div className="bg-stone-100">
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -44,18 +43,12 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <Panel className='h-1/3' size='horizontal'>
-        <PanelHeader className='text-black'>
-          <PanelTitle>
-            Nomination phase
-          </PanelTitle>
-        </PanelHeader>
-        <PanelContent>
-          {myManageesReports.map((report: Report) => (
-            <UserNominations key={report._id.targetId} report={report} />
-          ))}
-        </PanelContent>
-      </Panel>
+      <div className='pt-9 flex justify-between'>
+        <div className='gap-6 flex-col flex w-1/2' id='horizontal'>
+          <ManagerNominationPanel reports={myManageesReports}  ></ManagerNominationPanel>
+          <ManagerReviewPanel reports={myManageesReports}></ManagerReviewPanel>
+        </div>
+      </div>
     </div>
   )
 }
