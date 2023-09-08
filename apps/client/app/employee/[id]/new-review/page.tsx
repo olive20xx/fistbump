@@ -41,7 +41,7 @@ export default async function Review({ params }: { params: any }) {
   return (
     <div className='bg-green-darker flex min-h-screen h-full py-10 flex-grow overflow-auto'>
       <div className='w-[240px] px-5 flex justify-center'>
-        <Button className='bg-black rounded-sm w-32'>Back</Button>
+        <Button href='/dashboard' className='bg-black rounded-sm w-32'>Back</Button>
       </div>
       <Panel className='w-5/6 z-10 overflow-auto'>
         <PanelHeader className='bg-gray text-white text-2xl font-bold'>

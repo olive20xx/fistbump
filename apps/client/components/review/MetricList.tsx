@@ -82,7 +82,46 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
   }
 
   return isSubmitted ? (
-    <Submitted isManagerReport={isManagerReport} />
+    <div className='w-full'>
+      <Submitted isManagerReport={isManagerReport} />
+      <div className="p-4 h-full blur-md">
+        {error && <ErrorHandler error={error} onClose={() => setError(null)} />}
+        {state.map((datum) => {
+          return (
+            <Metric
+              key={datum.metric}
+              question={`How did ${isSelfReview ? 'you' : targetFirstName} do on ${datum.metric}?`}
+              name={datum.metric}
+              value={datum.comment}
+              rating={datum.rating}
+              maxRating={datum.maxRating}
+              onChange={handleCommentChange}
+              onClick={handleRatingClick}
+            />
+          )
+        })}
+        <div className="gap-6 flex justify-center">
+          <Button
+            disabled={isSubmitted}
+            className="w-36"
+            onClick={handleSaveDraft}
+            size="lg"
+          >
+            Save Draft
+          </Button>
+          <Button
+            disabled={isSubmitted}
+            className={`w-36 ${isSubmitted ? 'bg-green-500 disabled:opacity-100' : ''
+              }`}
+            onClick={handleSubmit}
+            size="lg"
+          >
+            {isSubmitted ? 'Submitted' : 'Submit'}
+          </Button>
+        </div>
+      </div>
+    </div>
+
   ) : (
     <div className="p-4 h-full">
       {error && <ErrorHandler error={error} onClose={() => setError(null)} />}
