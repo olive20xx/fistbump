@@ -10,14 +10,13 @@ type UserReportsPanelProps = {
 //TODO make this ready to work for multiple Cycles and past Reports
 async function UserReportsPanel({ loggedUserId, loggedUserTeam }: UserReportsPanelProps) {
   const report = await getFullReport(loggedUserId)
-
   return (
     <Panel size='vertical'>
       <PanelHeader variant='highlight'>
         <PanelTitle>My Reports</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-10'>
-        {report.submitted ?
+        {report.reviews.manager.submitted ?
           <ViewReport loggedUserId={loggedUserId} loggedUserTeam={loggedUserTeam} /> :
           <></>
         }
