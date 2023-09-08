@@ -5,6 +5,7 @@ import { getAllUsers, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
 import { UserItem } from '@/components/ui/UserItem'
 import { modelTypes } from '@/app/fistbump-types'
+import ManagerReportPanel from './(manager)/(reports)/ManagerReportPanel'
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -42,6 +43,7 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
+      <ManagerReportPanel />
       {users.map((user: modelTypes.UserModel) => (
         <UserItem key={user.fullName} user={user} cycleId={cycleId} />
       ))}
