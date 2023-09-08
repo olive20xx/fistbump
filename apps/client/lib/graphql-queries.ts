@@ -141,6 +141,53 @@ export const queries = {
       status
     }
   }`),
+  GET_ALL_REPORTS: gql(` 
+  query getAllReports {
+    getAllReports {
+      _id {
+        targetId
+        cycleId
+      }
+      status
+      summary
+      reviews {
+        manager {
+          grades {
+            maxRating
+            comment
+            metric
+            rating
+          }
+          isDeclined
+          reviewerId
+          submitted
+        }
+        peers {
+          grades {
+            comment
+            maxRating
+            metric
+            rating
+          }
+          isDeclined
+          reviewerId
+          submitted
+        }
+        self {
+          grades {
+            comment
+            maxRating
+            metric
+            rating
+          }
+          isDeclined
+          reviewerId
+          submitted
+        }
+      }
+    }
+  }
+  `),
 }
 
 export const mutations = {

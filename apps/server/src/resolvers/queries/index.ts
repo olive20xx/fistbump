@@ -7,6 +7,7 @@ import { resolveUsers } from './users'
 
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../../lib/constants'
+import resolveAllReports from './allReports'
 
 const queries: QueryResolvers = {
   Query: {
@@ -14,6 +15,7 @@ const queries: QueryResolvers = {
       return 'Hello world!'
     },
     getUsers: resolveUsers,
+    getAllReports: resolveAllReports,
     getUser: async (_: any, { id }: { id: String }) => {
       try {
         const user = await User.findById(id)

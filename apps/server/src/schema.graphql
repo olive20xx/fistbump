@@ -9,6 +9,7 @@ type Query {
   getReport(targetId: String!, cycleId: String): Report
   getCurrentCycle: Cycle
   getAssignedReviews(cycleId: String, reviewerId: String): [Report]
+  getAllReports: [Report]
 }
 
 type Mutation {

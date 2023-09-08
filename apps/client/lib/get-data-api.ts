@@ -117,3 +117,14 @@ export async function getCurrentCycle(): Promise<Cycle> {
   const cycle = result.data.getCurrentCycle
   return cycle
 }
+
+export async function getAllReports(): Promise<Report[]> {
+  const query = queries.GET_ALL_REPORTS
+
+  const result = await apolloClient.query({ query })
+  if (!result.data.getAllReports)
+    throw new Error(`❌ Reports: reports are not found`)
+
+  const reports = result.data.getAllReports
+  return reports
+}
