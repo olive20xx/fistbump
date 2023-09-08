@@ -83,7 +83,7 @@ const queries: QueryResolvers = {
             },
           },
         })
-        console.log('server, reports found', reports)
+
         return reports
       } catch (error) {
         throw new Error('Error fetching report from the database')

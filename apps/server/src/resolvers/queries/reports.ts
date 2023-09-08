@@ -66,6 +66,12 @@ export async function resolveReport(
         reviews: {
           self: report.reviews.self,
           peers: peerIds,
+          //TODO this is temp because we're not currently updating Report.status
+          manager: {
+            reviewerId: report.reviews.manager.reviewerId,
+            grades: report.reviews.manager.grades,
+            submitted: report.reviews.manager.submitted,
+          },
         },
       }
     }

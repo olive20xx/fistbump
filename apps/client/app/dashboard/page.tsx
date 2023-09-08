@@ -51,7 +51,7 @@ export default async function Dashboard() {
   const peers = await getAllUsers()
 
   return (
-    <div className='w-[1220px]'>
+    <div className='w-[1220px] mx-auto'>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -65,7 +65,7 @@ export default async function Dashboard() {
           <UserReviewPanel className='min-h-[380px]' loggedUser={loggedUser} peersToReviewCount={assignedUsers.length} assignedUsers={assignedUsers} />
         </div>
         <div id='vertical'>
-          <UserReportsPanel />
+          <UserReportsPanel loggedUserId={loggedUserId} loggedUserTeam={loggedUser.teamName} />
         </div>
       </div>
     </div>

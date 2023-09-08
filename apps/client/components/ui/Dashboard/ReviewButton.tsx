@@ -32,7 +32,7 @@ export function ReviewButton({ userId, reviewStatus }: { userId: string, reviewS
       href={`/employee/${userId}/new-review`}
       className={buttonVariants({ variant })}
     >
-      {text} <Photo className='ml-1' photo={icon} alt='icon' width={12} />
+      {text} <Photo className='ml-2' photo={icon} alt='icon' width={12} />
     </Button>
   )
 }
