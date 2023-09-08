@@ -1,6 +1,6 @@
 import Navbar from '@/components/ui/Dashboard/Navbar'
 
-export default function RootLayout({
+export default function NewReviewLayout({
   children,
 }: {
   children: React.ReactNode
@@ -8,7 +8,6 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      {/* <div className="min-h-scren h-full">{children}</div> */}
       <div className="ml-20 h-screen">{children}</div>
 
     </>
