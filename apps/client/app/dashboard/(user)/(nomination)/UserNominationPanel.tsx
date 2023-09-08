@@ -12,7 +12,7 @@ type UserNominationPanelProps = {
 function UserNominationPanel({ users, loggedUserReport, loggedUserId, className }: UserNominationPanelProps) {
   return (
     <Panel size='horizontal' className={`${className}`}>
-      <PanelHeader>
+      <PanelHeader variant='highlight'>
         <PanelTitle>Nominations</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-5'>

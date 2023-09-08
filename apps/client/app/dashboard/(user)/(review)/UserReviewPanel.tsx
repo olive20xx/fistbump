@@ -14,7 +14,7 @@ type UserReviewPanelProps = {
 function UserReviewPanel({ loggedUser, peersToReviewCount, assignedUsers, className }: UserReviewPanelProps) {
   return (
     <Panel size='horizontal' className={className}>
-      <PanelHeader>
+      <PanelHeader variant='highlight'>
         <PanelTitle>Reviews</PanelTitle>
       </PanelHeader>
       <PanelContent className='p-4'>
