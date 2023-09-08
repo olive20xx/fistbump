@@ -5,7 +5,7 @@ import MetricList from '@/components/review/MetricList'
 import { ReportData, ReviewData, UserData } from '@/types/models'
 import { getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
 import { cookies } from 'next/headers'
-import { Panel, PanelContent, PanelHeader } from '@/components/ui/Panel'
+import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 import { Button } from '@/components/ui/button'
 
 // regular variables
@@ -39,13 +39,13 @@ export default async function Review({ params }: { params: any }) {
 
 
   return (
-    <div className='bg-green-darker flex min-h-screen h-full py-10 flex-grow overflow-auto'>
+    <div className='bg-turquoise-dark flex min-h-screen h-full py-10 flex-grow overflow-auto'>
       <div className='w-[240px] px-5 flex justify-center'>
         <Button href='/dashboard' className='bg-black rounded-sm w-32'>Back</Button>
       </div>
       <Panel className='w-5/6 z-10 overflow-auto'>
-        <PanelHeader className='bg-gray text-white text-2xl font-bold'>
-          WRITE YOUR REVIEW
+        <PanelHeader variant='darkgray' className='items-end flex gap-4'>
+          <PanelTitle className='text-2xl'>Write your review</PanelTitle>
         </PanelHeader>
         <PanelContent>
           <div className="h-full">
