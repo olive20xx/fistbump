@@ -1,17 +1,10 @@
-import { Report } from '@/src/__generated__/graphql'
-import '../../../../global.css'
 import { getFullReport, getUserFullName } from '@/lib/get-data-api'
 
-async function Report({ params }) {
+async function ReportPage({ params }) {
   const targetId = params.id
-  console.log(targetId)
+
   const fullName = await getUserFullName(targetId)
-  let fullReport: Report
-  if (params.cycleId) {
-    fullReport = await getFullReport(targetId, params.cycleId)
-  } else {
-    fullReport = await getFullReport(targetId)
-  }
+  let fullReport = await getFullReport(targetId)
 
   const managerName = await getUserFullName(fullReport?.reviews.manager.reviewerId)
 
@@ -20,7 +13,7 @@ async function Report({ params }) {
       <h1 className="text-2xl">Your Report {fullName}</h1>
       <div>
         <p>Submitted by {managerName}</p>
-        {fullReport.reviews.manager.grades.map((grade, i) => (
+        {fullReport.reviews.manager.grades?.map((grade, i) => (
           <div key={i}>
             <p>{grade.metric}</p>
             <p>{grade.rating} out of {grade.maxRating}</p>
@@ -32,4 +25,4 @@ async function Report({ params }) {
   )
 }
 
-export default Report
+export default ReportPage
