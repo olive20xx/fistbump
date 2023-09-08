@@ -1,12 +1,12 @@
 import '@/app/global.css'
 import DashboardTop from '@/components/ui/Dashboard/DashboardTop'
 import { cookies } from 'next/headers'
-import { getAllReports, getAllUsers, getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
+import { getAllReports, getCurrentCycle, getUserById } from '@/lib/get-data-api'
 import { redirect } from 'next/navigation'
-import { UserItem } from '@/components/ui/UserItem'
-import { modelTypes } from '@/app/fistbump-types'
 import { Report } from '@/src/__generated__/graphql'
 import { UserNominations } from '@/components/ui/UserNominations'
+import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
+import { Description } from '@radix-ui/react-dialog'
 export default async function ManagerPanel() {
   const panelTitle = `Manager Panel`
   const cookieStore = cookies()
@@ -44,9 +44,18 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      {myManageesReports.map((report: Report) => (
-        <UserNominations key={report._id.targetId} report={report} cycleId={cycleId} />
-      ))}
+      <Panel className='h-1/3' size='horizontal'>
+        <PanelHeader className='text-black'>
+          <PanelTitle>
+            Nomination phase
+          </PanelTitle>
+        </PanelHeader>
+        <PanelContent>
+          {myManageesReports.map((report: Report) => (
+            <UserNominations key={report._id.targetId} report={report} />
+          ))}
+        </PanelContent>
+      </Panel>
     </div>
   )
 }
