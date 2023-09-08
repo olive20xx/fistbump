@@ -66,6 +66,7 @@ export async function resolveReport(
         reviews: {
           self: report.reviews.self,
           peers: peerIds,
+          manager: { reviewerId: report.reviews.manager.reviewerId },
         },
       }
     }
