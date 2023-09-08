@@ -1,4 +1,4 @@
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 import { generateSpecificUserModel } from './generate-users'
 import { TEAMS } from './aroldev-teams'
 

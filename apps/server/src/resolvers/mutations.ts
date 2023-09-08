@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../types/export'
 import {
   MutationResolvers,
   ReviewInput,
@@ -15,7 +15,7 @@ const mutations: MutationResolvers = {
     createUser: async (_: any, { input }: { input: UserInput }) => {
       const user = await User.findOne({ email: input.email })
       try {
-        if (user) return { error: "Email already exists" }
+        if (user) return { error: 'Email already exists' }
         const newUser = new User(input)
         const savedUser = await newUser.save()
         return savedUser

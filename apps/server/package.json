@@ -6,9 +6,9 @@
   "scripts": {
     "generate:prod": "graphql-codegen --config codegen.yml",
     "generate:dev": "graphql-codegen --config codegen.dev.yml",
-    "compile": "npm run generate && tsc",
+    "compile": "yarn generate:dev && tsc",
     "start": "node .dist/apps/server/index.js",
-    "dev": "nodemon index.ts & yarn run generate",
+    "dev": "nodemon index.ts & yarn generate:dev",
     "seed": "ts-node src/seed.ts",
     "prebuild": "yarn run generate:prod",
     "build": "tsc",

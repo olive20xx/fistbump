@@ -1,4 +1,4 @@
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 import Cycle from '../models/Cycle'
 import User from '../models/User'
 import generateCycle from './generate-cycle'

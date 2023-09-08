@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 
 const GradeSchema = new Schema<modelTypes.GradeModel>({
   metric: String,

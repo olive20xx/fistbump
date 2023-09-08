@@ -1,6 +1,6 @@
 import User from '../../lib/mongoose/models/User'
-import { modelTypes } from '@fistbump/fistbump-types'
-import { ApolloContext } from '@/types'
+import { modelTypes } from '../../types/export'
+import { ApolloContext } from '@/types/devops'
 import { Types } from 'mongoose'
 
 export async function resolveUsers(_: any, __: any, context: ApolloContext) {

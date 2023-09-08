@@ -1,4 +1,4 @@
-import { modelTypes } from '@fistbump/fistbump-types'
+import { modelTypes } from '../../../types/export'
 import mongoose from 'mongoose'
 
 type ObjectId = mongoose.Types.ObjectId
