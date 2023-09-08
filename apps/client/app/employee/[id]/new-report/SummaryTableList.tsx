@@ -44,7 +44,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
 
   return (
     <div className='mb-4 bg-white p-4 border-2 border-gray-200 rounded-md shadow-md'>
-      <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-pink-400'>{metricName}</span> ?</div>
+      <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-turquoise'>{metricName}</span> ?</div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -58,7 +58,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
             return <MetricRow targetName={targetName} reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
           })}
         </TableBody>
-        <TableFooter className='bg-pink-200 text-black'>
+        <TableFooter className='bg-green-light text-black'>
           <TableRow>
             <TableCell>Average</TableCell>
             <TableCell className='text-center'>{averageRating.toFixed(1)}</TableCell>
@@ -72,7 +72,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
 
 function MetricRow({ targetName, reviewerName, rating, comment }) {
   return (
-    <TableRow className={targetName === reviewerName ? 'bg-pink-50' : ''}>
+    <TableRow className={targetName === reviewerName ? 'bg-turquoise-light' : ''}>
       <TableCell>{reviewerName}</TableCell>
       <TableCell className='text-center'>{rating}</TableCell>
       <TableCell>{comment}</TableCell>
