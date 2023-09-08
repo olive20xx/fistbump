@@ -51,7 +51,7 @@ export default async function Dashboard() {
   const peers = await getAllUsers()
 
   return (
-    <div className='w-[1220px]'>
+    <div className='w-[1220px] mx-auto'>
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
