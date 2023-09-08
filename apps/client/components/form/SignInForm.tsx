@@ -86,15 +86,15 @@ const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <div className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full items-center flex-col flex">
+        <div className="space-y-4 mb-12">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input className='w-[240px] rounded-md' placeholder="Email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -106,14 +106,14 @@ const SignInForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
+                  <Input className='w-[240px] rounded-md' type="password" placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button className="mx-auto block w-full mt-6" type="submit">
+        <Button variant='light' size='submit' type="submit">
           Log in
         </Button>
       </form>
@@ -125,7 +125,7 @@ const SignInForm = () => {
           />
         </div>
       )}
-      <p className="text-center text-sm text-turquoise mt-6">
+      <p className="text-center text-sm text-turquoise mt-12">
         If you don&apos;t have an account, please&nbsp;
         <Link className="text-gray-200 hover:underline" href="/signup">
           Sign up
