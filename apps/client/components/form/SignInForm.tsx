@@ -113,7 +113,7 @@ const SignInForm = () => {
             )}
           />
         </div>
-        <Button variant='light' size='submit' type="submit">
+        <Button variant='light' size='submit' className='w-[240px]' type="submit">
           Log in
         </Button>
       </form>
