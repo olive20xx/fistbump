@@ -3,16 +3,9 @@ import { Report } from '@/src/__generated__/graphql'
 import ProfilePicture from '../../../../../assets_to_test/profile-picture.png'
 import { CirclePhoto } from '@/components/ui/Managerpanel/CirclePhoto'
 
-
-
-
 interface ManagerNominationContentProps {
   report: Report
 }
-
-
-
-
 
 export async function ManagerNominationContent({ report }: ManagerNominationContentProps) {
   const user = await getUserById(report._id.targetId)
