@@ -59,10 +59,10 @@ export default async function Dashboard() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <div className='pt-9 flex justify-between'>
+      <div className='pt-9 flex justify-between h-[calc(100vh-8rem)]'>
         <div className='gap-6 flex-col flex' id='horizontal'>
-          <UserNominationPanel className='min-h-[300px]' users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
-          <UserReviewPanel className='min-h-[380px]' loggedUser={loggedUser} peersToReviewCount={assignedUsers.length} assignedUsers={assignedUsers} />
+          <UserNominationPanel className='h-1/5 overflow-auto' users={peers} loggedUserReport={loggedUserReport} loggedUserId={loggedUserId} />
+          <UserReviewPanel className='h-2/5' loggedUser={loggedUser} peersToReviewCount={assignedUsers.length} assignedUsers={assignedUsers} />
         </div>
         <div id='vertical'>
           <UserReportsPanel loggedUserId={loggedUserId} loggedUserTeam={loggedUser.teamName} />

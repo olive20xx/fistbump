@@ -36,7 +36,8 @@ export default async function ManagerPanel() {
   const myManageesReports = await getAllReports()
 
   return (
-    <>
+    <div className='w-[1220px] mx-auto'>
+
       <DashboardTop
         firstName={loggedUserFirstName}
         lastName={loggedUserLastName}
@@ -44,8 +45,8 @@ export default async function ManagerPanel() {
         photo={loggedUser.photo}
         panelTitle={panelTitle}
       />
-      <div className=' pt-9 flex h-4/5 justify-between'>
-        <div className=' flex-col w-full'>
+      <div className=' pt-9 flex justify-between h-[calc(100vh-8rem)]'>
+        <div className="gap-6 flex-col flex" id="horizontal">
           <ManagerNominationPanel reports={myManageesReports}  ></ManagerNominationPanel>
           <ManagerReviewPanel reports={myManageesReports}></ManagerReviewPanel>
         </div>
@@ -53,6 +54,6 @@ export default async function ManagerPanel() {
           <ManagerReportsPanel myManageesReports={myManageesReports} />
         </div>
       </div >
-    </>
+    </div>
   )
 }
