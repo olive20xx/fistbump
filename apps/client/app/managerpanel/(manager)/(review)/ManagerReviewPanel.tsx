@@ -9,7 +9,7 @@ type ManagerReviewPanelProps = {
 function ManagerReviewPanel({ reports }: ManagerReviewPanelProps) {
   return (
 
-    <Panel className='h-2/5 overflow-auto' size='horizontal' >
+    <Panel className='h-1/5 overflow-auto' size='horizontal' >
       <PanelHeader className='text-black'>
         <PanelTitle>
           Review phase

@@ -11,7 +11,7 @@ type UserReportsPanelProps = {
 async function UserReportsPanel({ loggedUserId, loggedUserTeam }: UserReportsPanelProps) {
   const report = await getFullReport(loggedUserId)
   return (
-    <Panel size='vertical'>
+    <Panel className='h-4/5' size='vertical'>
       <PanelHeader variant='highlight'>
         <PanelTitle>My Reports</PanelTitle>
       </PanelHeader>

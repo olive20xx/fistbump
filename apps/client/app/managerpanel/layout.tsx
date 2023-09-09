@@ -6,9 +6,9 @@ export default function ManagerPanelLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className='h-[100vh]'>
       <Navbar />
-      <div className="bg-neutral-100 ml-20 pt-10 p-20 h-screen">{children}</div>
-    </>
+      <div className=" h-screen bg-neutral-100 ml-20 pt-10 p-20">{children}</div>
+    </div>
   )
 }
