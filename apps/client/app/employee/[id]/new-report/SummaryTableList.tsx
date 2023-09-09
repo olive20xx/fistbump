@@ -43,8 +43,8 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
   }, 0) / rows.length
 
   return (
-    <div className='mb-8'>
-      <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-pink-400'>{metricName}</span> ?</div>
+    <div className='mb-4 bg-white p-4 border-2 border-gray-200 rounded-md shadow-md'>
+      <div className='pl-4 font-bold'>How did {targetFirstName} do on <span className='text-turquoise'>{metricName}</span> ?</div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -58,7 +58,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
             return <MetricRow targetName={targetName} reviewerName={row.reviewerName} rating={row.rating} comment={row.comment} key={i} />
           })}
         </TableBody>
-        <TableFooter className='bg-pink-200 text-black'>
+        <TableFooter className='bg-green-light text-black'>
           <TableRow>
             <TableCell>Average</TableCell>
             <TableCell className='text-center'>{averageRating.toFixed(1)}</TableCell>
@@ -72,7 +72,7 @@ function SummaryTable({ targetName, data }: SummaryTableProps) {
 
 function MetricRow({ targetName, reviewerName, rating, comment }) {
   return (
-    <TableRow className={targetName === reviewerName ? 'bg-pink-50' : ''}>
+    <TableRow className={targetName === reviewerName ? 'bg-turquoise-light' : ''}>
       <TableCell>{reviewerName}</TableCell>
       <TableCell className='text-center'>{rating}</TableCell>
       <TableCell>{comment}</TableCell>
@@ -101,19 +101,26 @@ async function formatTableDataArray(reviews: ReviewsData, targetName: string): P
   })
 
   const peerReviews = reviews.peers
-  peerReviews.forEach(async (review) => {
+  const peerReviewerNames = await Promise.all(
+    peerReviews.map(
+      async (review) => await getUserFullName(review.reviewerId)
+    )
+  )
+
+  peerReviews.forEach((review, i) => {
     const { reviewerId, grades } = review
     if (!reviewerId) return
-    const reviewerName = await getUserFullName(reviewerId)
+    const reviewerName = peerReviewerNames[i]
     grades.forEach((grade) => {
       const { rating, comment } = grade
-      const table = formatted.find((t) => t.metricName === grade.metric)
+      const tableIndex = formatted.findIndex((t) => t.metricName === grade.metric)
       const row: RowData = {
         reviewerName,
         rating,
         comment,
       }
-      table?.rows?.push(row)
+      formatted[tableIndex].rows.push(row)
+      formatted[tableIndex].rows
     })
   })
 
