@@ -7,8 +7,8 @@ import Submitted from './Submitted'
 import Metric from '@/components/review/metric'
 import { Button } from '@/components/ui/button'
 import ErrorHandler from '../ErrorHandler'
+import { ReviewInput } from '@/src/__generated__/graphql'
 
-import { ReviewInput } from '../../../server/src/__generated__/resolvers-types'
 
 
 export const revalidate = 0
