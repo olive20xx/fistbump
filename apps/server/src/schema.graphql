@@ -4,7 +4,6 @@ type Query {
   hello: String
   getUsers: [User]
   getUser(id: String): User
-  getUserByName(fullName: String): User
   login(email: String, password: String): Token
   getReport(targetId: String!, cycleId: String): Report
   getCurrentCycle: Cycle

@@ -1,7 +1,6 @@
 'use client'
 
 import { mutations } from '@/lib/graphql-queries'
-import { ReviewData } from '@/types/models'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import Submitted from './Submitted'

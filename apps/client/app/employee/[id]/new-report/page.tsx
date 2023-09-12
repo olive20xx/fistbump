@@ -4,7 +4,6 @@ import SubjectOfReview from './SubjectOfReview'
 import Reviewers from './Reviewers'
 import SummaryTableList from './SummaryTableList'
 import MetricList from '../../../../components/review/MetricList'
-import { Header2 } from '@/components/typography/header2'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 
 export const revalidate = 0

@@ -26,7 +26,6 @@ export async function resolveReport(
     '_id.targetId': targetId,
     '_id.cycleId': cycleId,
   })
-  const target = await User.findOne({ _id: targetId })
   if (!report) throw new Error('No report found')
 
   if (!context.user?.id || !context.user.email) throw new Error('Unauthorized')

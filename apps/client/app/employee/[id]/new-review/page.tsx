@@ -7,10 +7,7 @@ import { getCurrentCycle, getFullReport, getUserById } from '@/lib/get-data-api'
 import { cookies } from 'next/headers'
 import { Panel, PanelContent, PanelHeader, PanelTitle } from '@/components/ui/Panel'
 import { Button } from '@/components/ui/button'
-import { ArrowLeftSquareIcon } from 'lucide-react'
 
-// regular variables
-const panelPadding = 'p-4'
 
 export default async function Review({ params }: { params: any }) {
   const targetId = params.id
@@ -64,11 +61,6 @@ export default async function Review({ params }: { params: any }) {
             team={targetUser.teamName}
           />
         </div>
-        {/* <div className='flex-col'>
-          <Button className='bg-black rounded-sm w-32'>Save draft</Button>
-          <Button className='bg-black rounded-sm w-32'>Submit</Button>
-        </div> */}
-
       </div>
     </div>
   )

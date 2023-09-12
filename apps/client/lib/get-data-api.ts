@@ -55,13 +55,6 @@ export async function getUserFullName(id: string): Promise<string> {
   return fullName
 }
 
-export async function getUserByName(fullName: string): Promise<string> {
-  const query = queries.GET_USER_BY_NAME
-  const variables = { fullName }
-  const result = await apolloClient.query({ query, variables })
-  const userId = result.data.getUserByName._id
-  return userId
-}
 // *** reports ***
 export async function getFullReport(
   targetId: string,
