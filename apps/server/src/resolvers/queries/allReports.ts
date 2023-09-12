@@ -6,7 +6,8 @@ export default async function resolveAllReports(
   __: any,
   context: ApolloContext
 ) {
-  //maybe should be protected later?
+  if (!context.user?.id || !context.user.email) throw new Error('Unauthorized')
+
   const reports = await Report.find()
 
   const managerId = context.user?.id
