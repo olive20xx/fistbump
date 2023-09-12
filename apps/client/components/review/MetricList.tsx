@@ -9,18 +9,21 @@ import Metric from '@/components/review/metric'
 import { Button } from '@/components/ui/button'
 import ErrorHandler from '../ErrorHandler'
 
+import { ReviewInput } from '../../../server/src/__generated__/resolvers-types'
+
+
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
 
 type MetricListProps = {
   targetId: string
   targetName: string
-  reviewData: ReviewData
+  reviewData: ReviewInput
   isManagerReport?: boolean
 }
 
 function MetricList({ targetId, targetName, reviewData, isManagerReport = false }: MetricListProps) {
-  const [updateAssignedReview] = useMutation(mutations.UPDATE_ASSIGNED_REVIEW)
+  const [updateAssignedReview] = useMutation(mutations.UPDATE_REPORT)
   const { submitted, grades, reviewerId } = reviewData
   const [error, setError] = useState(null)
 
@@ -29,8 +32,12 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
 
   const variables = {
     targetId,
-    input: reviewData,
+    input:
+    {
+      reviewInput: reviewData as ReviewInput
+    }
   }
+
 
   const [targetFirstName] = targetName.split(' ')
   const isSelfReview = targetId === reviewerId
@@ -55,8 +62,7 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
   }
 
   const handleSaveDraft = async () => {
-    variables.input.grades = state
-    console.log(variables)
+    variables.input.reviewInput.grades = state
     const result = await updateAssignedReview({ variables })
     console.log('updated report ID', result)
   }
@@ -69,10 +75,9 @@ function MetricList({ targetId, targetName, reviewData, isManagerReport = false 
         return
       }
     }
-
     try {
-      variables.input.grades = state
-      variables.input.submitted = true
+      variables.input.reviewInput.grades = state
+      variables.input.reviewInput.submitted = true
       const result = await updateAssignedReview({ variables })
       console.log('updated report ID', result)
       setIsSubmitted(true)
