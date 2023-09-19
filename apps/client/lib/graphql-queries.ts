@@ -104,11 +104,7 @@ export const queries = {
       reportDeadline
     }
   }`),
-  GET_USER_BY_NAME: gql(`query getUserByName($fullName: String!) {
-    getUserByName(fullName: $fullName) {
-      _id
-    }
-  }`),
+
   GET_PEER_REVIEWS:
     gql(` query getPeerReviews($targetId: String!, $cycleId: String!) {
     getReport(targetId: $targetId, cycleId: $cycleId) {
@@ -192,7 +188,7 @@ export const queries = {
 
 export const mutations = {
   UPDATE_REPORT: gql(`
-    mutation updateReport($targetId:String!, $cycleId:String, $input:ReportInput) {
+    mutation updateReport($targetId:String!, $cycleId:String, $input:UpdateReport) {
       updateReport(targetId:$targetId, cycleId:$cycleId, input:$input){
         summary
         reviews {
@@ -229,48 +225,7 @@ export const mutations = {
       }
     }
   }`),
-  UPDATE_ASSIGNED_REVIEW: gql(`
-    mutation updateAssignedReview($targetId:String!, $input:ReviewInput!) {
-      updateAssignedReview(targetId:$targetId, input:$input){
-        _id {
-          cycleId
-          targetId
-        }
-        reviews {
-          peers {
-            submitted
-            reviewerId
-            grades {
-              metric
-              rating
-              maxRating
-              comment
-            }
-          }
-          manager {
-            submitted
-            reviewerId
-            grades {
-              metric
-              rating
-              maxRating
-              comment
-            }
-          }
-          self {
-            submitted
-            reviewerId
-            grades {
-              metric
-              rating
-              maxRating
-              comment
-            }
-          }
-        }
-      }
-    }
-  `),
+
   CREATE_USER: gql(`
     mutation createUser($input: UserInput!){
       createUser(input: $input){

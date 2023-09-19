@@ -48,11 +48,48 @@ export async function resolveUsers(_: any, __: any, context: ApolloContext) {
     return myManagees
     ///
   } else {
+    // const allUsersExceptSelf = users.filter(
+    //   (user) => user._id.toString() !== loggedUserId
+    // )
+
+    // const filteredUserData = allUsersExceptSelf.map((user) => {
+    //   const data: Partial<modelTypes.UserModel> & { _id: Types.ObjectId } = {
+    //     _id: user._id,
+    //     email: user.email,
+    //     fullName: user.fullName,
+    //     title: user.title,
+    //     photo: user.photo,
+    //     teamName: user.teamName,
+    //   }
+    //   return data
+    // })
+
+    // return filteredUserData
+
     const allUsersExceptSelf = users.filter(
       (user) => user._id.toString() !== loggedUserId
     )
 
-    const filteredUserData = allUsersExceptSelf.map((user) => {
+    let cycleId = ''
+
+    if (cycleId === '') {
+      const cycle = await Cycle.getCurrentCycle()
+      if (cycle === null) throw new Error('No current cycle found')
+      cycleId = cycle._id.toString()
+    }
+
+    const myReport = await Report.findOne({
+      '_id.cycleId': cycleId,
+      '_id.targetId': loggedUserId,
+    })
+
+    const myManagerId = myReport?.reviews.manager.reviewerId
+
+    const allUsersExceptSelfAndManager = allUsersExceptSelf.filter(
+      (user) => user._id.toString() !== myManagerId?.toString()
+    )
+
+    const filteredUserData = allUsersExceptSelfAndManager.map((user) => {
       const data: Partial<modelTypes.UserModel> & { _id: Types.ObjectId } = {
         _id: user._id,
         email: user.email,

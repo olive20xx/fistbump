@@ -21,7 +21,7 @@ import { mutations } from '@/lib/graphql-queries'
 import { useMutation } from '@apollo/client'
 import usePeerReviews from '@/app/dashboard/(user)/(nomination)/usePeerReviews'
 import { capitalizeName } from '@/lib/utils'
-import { Report, User } from '@/src/__generated__/graphql'
+import { Report, ReviewInput, User } from '@/src/__generated__/graphql'
 
 export const revalidate = 0
 export const fetchCache = 'force-no-cache'
@@ -43,10 +43,17 @@ export default function NominationBox({ users, loggedUserId, report }: Nominatio
   const [updatePeerReviews] = useMutation(mutations.UPDATE_REPORT, { fetchPolicy: "no-cache" })
 
   async function handleNominatePeer() {
+
+    const reviewData = {
+      reviewerId: peerId
+    }
     const variables = {
       targetId: loggedUserId,
-      input: { reviews: { peer: { reviewerId: peerId } } },
+      input: {
+        reviewInput: reviewData as ReviewInput
+      }
     }
+
     const { data: { updateReport: { reviews: { peers } } } } = await updatePeerReviews({ variables })
     router.refresh()
     setPeerReviews(peers)

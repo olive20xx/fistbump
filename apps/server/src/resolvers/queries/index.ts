@@ -59,14 +59,7 @@ const queries: QueryResolvers = {
     getCurrentCycle: async (_: any) => {
       return await Cycle.getCurrentCycle()
     },
-    getUserByName: async (_: any, { fullName }: { fullName: string }) => {
-      try {
-        const user = await User.findOne({ fullName })
-        return user
-      } catch (error) {
-        throw new Error('Error fetching users from the database')
-      }
-    },
+
     getAssignedReviews: async (
       _: any,
       { reviewerId }: { reviewerId: string }

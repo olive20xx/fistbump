@@ -1,4 +1,4 @@
-import { ReportInput } from '@/__generated__/resolvers-types'
+import { ReportInput, ReviewInput } from '@/__generated__/resolvers-types'
 import { modelTypes } from '../types/export'
 import Cycle from '../lib/mongoose/models/Cycle'
 import Report from '../lib/mongoose/models/Report'
@@ -13,7 +13,10 @@ export async function resolveUpdateReport(
   }: {
     targetId: String
     cycleId: String
-    input: ReportInput
+    input: {
+      reportInput?: ReportInput
+      reviewInput?: ReviewInput
+    }
   },
   context: ApolloContext
 ) {
@@ -45,14 +48,14 @@ export async function resolveUpdateReport(
   // //if myself -> i can mutate self review or nominate peers!
   if (isSelf) {
     if (report.status === modelTypes.REPORT_STATUS.NOMINATION) {
-      if (input.reviews?.peer?.reviewerId) {
+      if (input.reviewInput?.reviewerId) {
         const peersToNominate = report.reviews.peers.find(
           (peer) => peer.reviewerId === null
         )
         if (peersToNominate) {
-          if (input.reviews.peer.reviewerId)
+          if (input.reviewInput.reviewerId)
             peersToNominate.reviewerId = new modelTypes.ObjectId(
-              input.reviews.peer.reviewerId
+              input.reviewInput.reviewerId
             )
         }
         await report.save()
@@ -71,15 +74,15 @@ export async function resolveUpdateReport(
       } else {
         //WRITE SELF REVIEW
         //this should be changed to check if report.status === review
-        if (input.reviews?.self?.grades) {
-          report.reviews.self.grades = input.reviews?.self
+        if (input.reviewInput?.grades) {
+          report.reviews.self.grades = input.reviewInput
             ?.grades as modelTypes.GradeModel[]
         }
         if (
-          input.reviews?.self?.submitted !== undefined &&
-          input.reviews?.self?.submitted !== null
+          input.reviewInput?.submitted !== undefined &&
+          input.reviewInput?.submitted !== null
         ) {
-          report.reviews.self.submitted = input.reviews?.self?.submitted
+          report.reviews.self.submitted = input.reviewInput?.submitted
         }
         await report.save()
         return {
@@ -98,19 +101,20 @@ export async function resolveUpdateReport(
     )
 
     if (review) {
-      if (input.reviews?.peer?.grades) {
-        review.grades = input.reviews.peer.grades as modelTypes.GradeModel[]
+      if (input.reviewInput?.grades) {
+        review.grades = input.reviewInput?.grades as modelTypes.GradeModel[]
       }
       if (
-        input.reviews?.peer?.isDeclined !== undefined &&
-        input.reviews?.peer?.isDeclined !== null
+        input.reviewInput?.isDeclined !== undefined &&
+        input.reviewInput?.isDeclined !== null
       ) {
-        review.isDeclined = input.reviews.peer.isDeclined
+        review.isDeclined = input.reviewInput?.isDeclined
       }
-      if (input.reviews?.peer?.submitted) {
-        review.submitted = input.reviews.peer.submitted
+      if (input.reviewInput?.submitted) {
+        review.submitted = input.reviewInput?.submitted
       }
     }
+
     await report.save()
 
     const peerReview = report.reviews.peers.find((peer) => {
@@ -127,17 +131,17 @@ export async function resolveUpdateReport(
     let review: modelTypes.ReviewModel | undefined
     review = report.reviews.manager
 
-    if (input.reviews?.manager?.grades) {
-      review.grades = input.reviews.manager.grades as modelTypes.GradeModel[]
+    if (input.reviewInput?.grades) {
+      review.grades = input.reviewInput?.grades as modelTypes.GradeModel[]
     }
     if (
-      input.reviews?.manager?.isDeclined !== undefined &&
-      input.reviews?.manager?.isDeclined !== null
+      input.reviewInput?.isDeclined !== undefined &&
+      input.reviewInput?.isDeclined !== null
     ) {
-      review.isDeclined = input.reviews.manager.isDeclined
+      review.isDeclined = input.reviewInput?.isDeclined
     }
-    if (input.reviews?.manager?.submitted) {
-      review.submitted = input.reviews.manager.submitted
+    if (input.reviewInput?.submitted) {
+      review.submitted = input.reviewInput?.submitted
     }
   }
 
